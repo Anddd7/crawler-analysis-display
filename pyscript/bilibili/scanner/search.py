@@ -34,7 +34,7 @@ def insert(cate_id, year, month):
     for video in req.nextpage().result:
       print '插入视频信息: ' + str(video.id) + ' 到集合 ' + title
       collection.insert(video.json())
-    print '当前页已加载 ,防扒等待...'
+    #print '当前页已加载 ,防扒等待...'
     time.sleep(0.5)
 
 
