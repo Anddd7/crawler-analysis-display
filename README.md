@@ -22,3 +22,5 @@
 * 学习hadoop ,搭建hadoop ,使用hadoop (从入门到放弃- -)
 * 数据清洗/分析/建模/展示
 * Tensorflow ... 
+
+
