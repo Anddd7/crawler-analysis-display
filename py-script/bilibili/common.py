@@ -1,12 +1,12 @@
 # coding=utf-8
-import urllib2
+import calendar
+import datetime
 import gzip
 import time
-import datetime
-import calendar
+import urllib2
+from StringIO import StringIO
 
 from bs4 import BeautifulSoup
-from StringIO import StringIO
 
 HEADER = {
   'User-Agent': 'Mozilla/5.0 (Windows U Windows NT 6.1 en-US rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
@@ -35,6 +35,7 @@ def soap(url):
 def yyyyMM(year, month):
   today = datetime.date(year=year, month=month, day=1)
   return today.strftime('%Y%m')
+
 
 def monthrange_yyyyMMdd(year, month):
   today = datetime.date(year=year, month=month, day=1)

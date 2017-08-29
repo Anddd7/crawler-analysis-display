@@ -24,6 +24,7 @@
     <mybatis-spring-boot>1.1.1</mybatis-spring-boot>
     <dbcp.v>1.4</dbcp.v>
 
+    <beeltsql.v>2.9.5</beeltsql.v>
     <okhtto.v>3.8.1</okhtto.v>
     <junit.v>4.12</junit.v>
     <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>

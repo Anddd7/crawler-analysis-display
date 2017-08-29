@@ -23,7 +23,7 @@ public class HtmlTools {
     return sb.toString()
         .replaceAll("&nbsp;", " ")
         .replaceAll("\n", " ")
-        .replaceAll("\\s+"," ")
+        .replaceAll("\\s+", " ")
         .trim();
   }
 

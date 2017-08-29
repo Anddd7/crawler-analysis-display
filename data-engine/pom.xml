@@ -11,5 +11,16 @@
 
   <artifactId>data-engine</artifactId>
 
-
+  <dependencies>
+    <dependency>
+      <groupId>com.ibeetl</groupId>
+      <artifactId>beetlsql</artifactId>
+      <version>${beeltsql.v}</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql-jdbc.v}</version>
+    </dependency>
+  </dependencies>
 </project>

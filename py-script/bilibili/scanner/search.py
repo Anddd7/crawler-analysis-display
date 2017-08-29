@@ -4,24 +4,6 @@ import pymongo
 from bilibili.common import *
 from bilibili.model.SearchModel import *
 
-
-def scancateid():
-  cate_list = []
-  cate_num = []
-  for cateid in range(200):
-    try:
-      req = SearchRequest(cateid, '20170501', '20170801', 1, 1)
-      res = req.get()
-      if res.numResults is not 0:
-        cate_list.append(cateid)
-        cate_num.append(res.numResults)
-    except Exception, Argument:
-      print (Argument, ': ' + str(cateid) + '无效或无有效数据')
-
-  print (cate_list)
-  print (cate_num)
-
-
 # 获取指定 类别 年月 的 视频信息
 def insert(cate_id, year, month):
   tablename = 'search_source_' + yyyyMM(year, month)
@@ -36,8 +18,6 @@ def insert(cate_id, year, month):
 
 
 if __name__ == '__main__':
-  # scancateid()
-
   db = pymongo.MongoClient("localhost", 27017)
   cursor = db['bilibili']
 

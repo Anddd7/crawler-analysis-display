@@ -98,9 +98,31 @@ catename = {'1': '全部',
             '34': '完结剧集',
             '86': '特摄'}
 
+
+def scancateid():
+  cate_list = []
+  cate_num = []
+  for cateid in range(200):
+    try:
+      req = SearchRequest(cateid, '20170501', '20170801', 1, 1)
+      res = req.get()
+      if res.numResults is not 0:
+        cate_list.append(cateid)
+        cate_num.append(res.numResults)
+    except Exception, Argument:
+      print (Argument, ': ' + str(cateid) + '无效或无有效数据')
+
+  print (cate_list)
+  print (cate_num)
+
+
+# scancateid()
+
 result = ''
-for id in cateid:
+for index in range(len(cateid)):
+  id = cateid[index]
   if str(id) in catename:
-    print " categoryNames.put(" + str(id) + "," + catename[str(id)] + ");"
+    print " categoryNames.put(" + str(id) + ",\"" + catename[
+      str(id)] + "\""");//" + str(videonum[index])
   else:
     print " categoryNames.put(" + str(id) + ",\"\");"

@@ -1,6 +1,16 @@
 package github.eddy.bigdata.bilibili.crawler.api.messages;
 
+import com.alibaba.fastjson.JSON;
+import github.eddy.bigdata.core.CheckException;
+import github.eddy.bigdata.core.UnCheckException;
+import github.eddy.bigdata.utils.HttpTools;
+import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SearchRequest {
+
+  public static final String API_URL = "https://s.search.bilibili.com/cate/search";
 
   public static final String ORDER_CLICK = "click";// 点击
   public static final String ORDER_STOW = "stow";// 收藏
@@ -12,15 +22,84 @@ public class SearchRequest {
   public static final Integer COPYRIGHT_OWN = 1;// 原创
 
 
-  String main_ver = "v3";
-  String search_type = "video";
+  final String main_ver = "v3";
+  final String search_type = "video";
   String view_type = "hot_rank";
-  String pic_size = "160x100";
+  final String pic_size = "160x100";
+
   String order = ORDER_CLICK;
   Integer copy_right = COPYRIGHT_ALL;
-  String cate_id;
+
   Integer page = 0;
   Integer pagesize = 100;
+
+  Integer cate_id;
   String time_from;
   String time_to;
+
+  private Boolean nextFlag = true;
+
+  /*---------------------------------------------------------------------------------*/
+
+  public SearchRequest(Integer cate_id, String time_from, String time_to) {
+    this.cate_id = cate_id;
+    this.time_from = time_from;
+    this.time_to = time_to;
+  }
+
+  /*---------------------------------------------------------------------------------*/
+
+  public Boolean hasNext() {
+    return nextFlag;
+  }
+
+  public SearchResponse next() throws CheckException {
+    SearchResponse res = get(this.page + 1);
+    if (res.numPages == 0 || res.numPages.equals(page)) {
+      nextFlag = false;
+    }
+    return res;
+  }
+
+  public SearchResponse get(Integer page) throws CheckException {
+    if (page < 1) {
+      throw new UnCheckException("page must > 0");
+    }
+    this.page = page;
+    return response(get());
+  }
+
+  private String get() throws CheckException {
+    try {
+      return HttpTools.getInstance().get(API_URL + "?" + getParam4URL());
+    } catch (IOException e) {
+      throw new CheckException(e);
+    }
+  }
+
+  private String getParam4URL() {
+    return new StringBuilder()
+        .append("main_ver").append("=").append(main_ver).append("&")
+        .append("search_type").append("=").append(search_type).append("&")
+        .append("view_type").append("=").append(view_type).append("&")
+        .append("pic_size").append("=").append(pic_size).append("&")
+        .append("order").append("=").append(order).append("&")
+        .append("copy_right").append("=").append(copy_right).append("&")
+        .append("cate_id").append("=").append(cate_id).append("&")
+        .append("page").append("=").append(page).append("&")
+        .append("pagesize").append("=").append(pagesize).append("&")
+        .append("time_from").append("=").append(time_from).append("&")
+        .append("time_to").append("=").append(time_to)
+        .toString();
+  }
+
+  private SearchResponse response(String json) throws CheckException {
+    SearchResponse searchResponse = JSON.parseObject(json, SearchResponse.class);
+    if (searchResponse.code != 0) {
+      throw new CheckException("返回Code错误:" + searchResponse.code);
+    }
+    searchResponse.setJson(json);
+    searchResponse.getResult().forEach(searchSourceSample -> searchSourceSample.setCateid(cate_id));
+    return searchResponse;
+  }
 }

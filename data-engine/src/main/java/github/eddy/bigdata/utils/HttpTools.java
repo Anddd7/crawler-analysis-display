@@ -17,6 +17,17 @@ public class HttpTools {
   private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
   private final OkHttpClient httpClient;
 
+  /*---------------------------------------------------------------------------------*/
+  private static HttpTools instance;
+
+  public static HttpTools getInstance() {
+    if (instance == null) {
+      instance = new HttpTools();
+    }
+    return instance;
+  }
+
+  /*---------------------------------------------------------------------------------*/
   public HttpTools() {
     httpClient = new OkHttpClient.Builder()
         .connectTimeout(60, TimeUnit.SECONDS)

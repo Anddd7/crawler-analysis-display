@@ -1,9 +1,9 @@
 # coding=utf-8
 import calendar
 import datetime
-from bson import json_util
 
 import requests
+from bson import json_util
 
 SEARCH_API = 'https://s.search.bilibili.com/cate/search'
 

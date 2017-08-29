@@ -1,10 +1,11 @@
 # coding=utf-8
-import urllib2
 import os
-import requests
-from bs4 import BeautifulSoup
 import re
 import sys
+import urllib2
+
+import requests
+from bs4 import BeautifulSoup
 
 # 基本配置
 _host = 'http://linux.linuxidc.com/'
@@ -77,6 +78,7 @@ def save_files(fileURL, path):
     sys.stderr.write('dir is existed :' + file_path[0:index] + '\n')
   with open(file_path, "wb") as file:
     file.write(r.content)
+
 
 # main
 if __name__ == '__main__':
