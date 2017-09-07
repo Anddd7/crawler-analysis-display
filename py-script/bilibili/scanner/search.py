@@ -1,6 +1,5 @@
 # coding=utf-8
 import pymongo
-
 from bilibili.common import *
 from bilibili.model.SearchModel import *
 
@@ -14,7 +13,7 @@ def insert(cate_id, year, month):
       print ('插入视频信息: ' + str(video.id) + ' 到集合 ' + tablename)
       cursor[tablename].insert(video.json())
     # print '当前页已加载 ,防扒等待...'
-    time.sleep(0.5)
+    time.sleep(0.1)
 
 
 if __name__ == '__main__':
@@ -23,6 +22,6 @@ if __name__ == '__main__':
 
   for cateid in CATE_ID_LIST:
     for year in range(2017, 2018):
-      for month in range(7, 8):
+      for month in range(7, 9):
         print(str(cateid) + '-' + str(year) + '-' + str(month))
         insert(cateid, year, month)
