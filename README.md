@@ -27,3 +27,9 @@
 * 使用Java+Mysql重写了数据获取和存储 ,后期处理主要在Java上 ,Python+mongodb在数据获取上没有问题 ,但后面总归还是要各种转型到Java .
 * 启用了beeltSQL作为持久化框架 ,之前使用过他核心的模板引擎 ,国产精品 ,支持学习一下 .
 * -- 如何使用beeltSQL分表 ; beeltSQL其他操作 ...
+
+## 20170907
+* beeltSQL支持动态sql来进行分表 ,但没有一个总体的解决方案 (作者推荐当当网的shared-jdbc)
+* 使用mysql直接存放爬取的数据并不是很好的考虑 (json数据会经过多次转换)
+* python 爬取 - mongodb 存储 - hadoop 抽取分析 - hbase 存储中间数据 - mysql 结果数据 - web 展示
+

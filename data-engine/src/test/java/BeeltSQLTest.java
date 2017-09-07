@@ -56,7 +56,4 @@ public class BeeltSQLTest {
     sqlManager.insert(result.get(0));
   }
 
-  @Test
-  public void test2() {
-  }
 }

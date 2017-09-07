@@ -75,4 +75,3 @@ condition
 	@if(!isEmpty(id)){
 	 and `id`=#id#
 	@}
-	
