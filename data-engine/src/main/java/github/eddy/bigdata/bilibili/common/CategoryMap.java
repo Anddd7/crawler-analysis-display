@@ -1,9 +1,10 @@
-package github.eddy.bigdata.bilibili.crawler.common;
+package github.eddy.bigdata.bilibili.common;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import lombok.Getter;
+import lombok.experimental.UtilityClass;
 
 /**
  * 记录所有类别编号 ,忽略全部类别(投稿量少 但是有投稿 未知原因)
@@ -11,9 +12,9 @@ import lombok.Getter;
  * @link py-script/bilibili/category.py
  * @apiNote 使用python脚本遍历0-200的编号 抓取投稿数>0的类别编号;同页面的标题栏tid比对 得出类别名称
  */
+@UtilityClass
 public class CategoryMap {
 
-  @Getter
   private static final Map<Integer, String> categoryNames = new HashMap<>();
 
   static {
@@ -98,11 +99,14 @@ public class CategoryMap {
     categoryNames.put(174, "其他");//48520
   }
 
-  public String getCategoryName(Integer cateId) {
+  public static String getCategoryName(Integer cateId) {
     return categoryNames.get(cateId);
   }
 
-  public Set<Integer> getCategoryIds() {
-    return categoryNames.keySet();
+  public static Set<Integer> getCategoryIds() {
+    //return categoryNames.keySet();
+    Set<Integer> set = new HashSet<>();
+    set.add(173);
+    return set;
   }
 }

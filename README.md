@@ -28,8 +28,15 @@
 * 启用了beeltSQL作为持久化框架 ,之前使用过他核心的模板引擎 ,国产精品 ,支持学习一下 .
 * -- 如何使用beeltSQL分表 ; beeltSQL其他操作 ...
 
-## 20170907
+## 20170906
 * beeltSQL支持动态sql来进行分表 ,但没有一个总体的解决方案 (作者推荐当当网的shared-jdbc)
 * 使用mysql直接存放爬取的数据并不是很好的考虑 (json数据会经过多次转换)
 * python 爬取 - mongodb 存储 - hadoop 抽取分析 - hbase 存储中间数据 - mysql 结果数据 - web 展示
 
+## 20170907
+### Hadoop 开发环境安装和搭建
+> [教你Windows平台安装配置Hadoop](http://blog.csdn.net/antgan/article/details/52067441)选用Hadoop 2.7.4 + [hadooponwindows](https://github.com/sardetushar/hadooponwindows) 就可以在Windows上*单机运行*Hadoop程序了 .
+
+* 单机运行 : maven 添加相应依赖 ,运行时会寻找Path的 HADOOP_HOME ,配置好环境变量即可
+  * hadoop-core 是 1.x 时代的包 ,2.x已经拆成各个子模块
+* 伪集群运行 : 直接start-all.cmd ,但nodemanager启动失败 ,内存设置太小 ,待解决

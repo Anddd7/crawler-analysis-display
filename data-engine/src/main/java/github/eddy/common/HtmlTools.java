@@ -1,4 +1,4 @@
-package github.eddy.crawler.utils;
+package github.eddy.common;
 
 import lombok.experimental.UtilityClass;
 

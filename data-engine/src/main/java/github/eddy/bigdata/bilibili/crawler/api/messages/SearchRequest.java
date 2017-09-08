@@ -1,10 +1,10 @@
 package github.eddy.bigdata.bilibili.crawler.api.messages;
 
 import com.alibaba.fastjson.JSON;
-import github.eddy.bigdata.core.CheckException;
-import github.eddy.bigdata.core.UnCheckException;
-import github.eddy.bigdata.utils.HttpTools;
+import github.eddy.bigdata.bilibili.beans.UnCheckException;
+import github.eddy.common.HttpTools;
 import java.io.IOException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,7 +20,6 @@ public class SearchRequest {
 
   public static final Integer COPYRIGHT_ALL = -1;// 全部
   public static final Integer COPYRIGHT_OWN = 1;// 原创
-
 
   final String main_ver = "v3";
   final String search_type = "video";
@@ -38,7 +37,7 @@ public class SearchRequest {
   String time_to;
 
   private Boolean nextFlag = true;
-
+  @Getter private String longURL;
   /*---------------------------------------------------------------------------------*/
 
   public SearchRequest(Integer cate_id, String time_from, String time_to) {
@@ -53,7 +52,7 @@ public class SearchRequest {
     return nextFlag;
   }
 
-  public SearchResponse next() throws CheckException {
+  public SearchResponse next() throws IOException {
     SearchResponse res = get(this.page + 1);
     if (res.numPages == 0 || res.numPages.equals(page)) {
       nextFlag = false;
@@ -61,7 +60,7 @@ public class SearchRequest {
     return res;
   }
 
-  public SearchResponse get(Integer page) throws CheckException {
+  public SearchResponse get(Integer page) throws IOException {
     if (page < 1) {
       throw new UnCheckException("page must > 0");
     }
@@ -69,12 +68,9 @@ public class SearchRequest {
     return response(get());
   }
 
-  private String get() throws CheckException {
-    try {
-      return HttpTools.getInstance().get(API_URL + "?" + getParam4URL());
-    } catch (IOException e) {
-      throw new CheckException(e);
-    }
+  private String get() throws IOException {
+    longURL = API_URL + "?" + getParam4URL();
+    return HttpTools.getInstance().get(longURL);
   }
 
   private String getParam4URL() {
@@ -93,13 +89,13 @@ public class SearchRequest {
         .toString();
   }
 
-  private SearchResponse response(String json) throws CheckException {
+  private SearchResponse response(String json) {
     SearchResponse searchResponse = JSON.parseObject(json, SearchResponse.class);
     if (searchResponse.code != 0) {
-      throw new CheckException("返回Code错误:" + searchResponse.code);
+      throw new UnCheckException("返回Code错误:" + searchResponse.code);
     }
     searchResponse.setJson(json);
-    searchResponse.getResult().forEach(searchSourceSample -> searchSourceSample.setCateid(cate_id));
+    searchResponse.getResult().forEach(map -> map.put("cateid", cate_id));
     return searchResponse;
   }
 }

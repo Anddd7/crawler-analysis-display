@@ -22,18 +22,26 @@
     <mybatis.version>3.4.2</mybatis.version>
     <mybatis-spring.version>1.3.1</mybatis-spring.version>
     <mybatis-spring-boot>1.1.1</mybatis-spring-boot>
-    <dbcp.v>1.4</dbcp.v>
 
+    <snakeyaml.v>1.18</snakeyaml.v>
+    <beetl.v>2.7.16</beetl.v>
     <beeltsql.v>2.9.5</beeltsql.v>
-    <okhtto.v>3.8.1</okhtto.v>
-    <junit.v>4.12</junit.v>
-    <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
+
+    <dbcp.v>1.4</dbcp.v>
+    <guava.v>22.0</guava.v>
     <lombok.v>1.16.18</lombok.v>
     <fastjson.v>1.2.33</fastjson.v>
+    <okhtto.v>3.8.1</okhtto.v>
+
+    <junit.v>4.12</junit.v>
+
+    <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
+
     <mysql-jdbc.v>6.0.6</mysql-jdbc.v>
-    <guava.v>22.0</guava.v>
-    <beetl.v>2.7.16</beetl.v>
-    <snakeyaml.v>1.18</snakeyaml.v>
+    <mongodb-jdbc.v>3.5.0</mongodb-jdbc.v>
+    <mongodb-hadoop.v>2.0.2</mongodb-hadoop.v>
+
+    <hadoop.v>2.7.4</hadoop.v>
   </properties>
 
   <dependencies>

@@ -1,7 +1,9 @@
 # coding=utf-8
 import pymongo
+
 from bilibili.common import *
 from bilibili.model.SearchModel import *
+
 
 # 获取指定 类别 年月 的 视频信息
 def insert(cate_id, year, month):
@@ -16,12 +18,17 @@ def insert(cate_id, year, month):
     time.sleep(0.1)
 
 
-if __name__ == '__main__':
-  db = pymongo.MongoClient("localhost", 27017)
-  cursor = db['bilibili']
+db = pymongo.MongoClient("localhost", 27017)
+cursor = db['bilibili']
 
+
+def run(sy, ey, sm, em):
   for cateid in CATE_ID_LIST:
-    for year in range(2017, 2018):
-      for month in range(7, 9):
+    for year in range(sy, ey):
+      for month in range(sm, em):
         print(str(cateid) + '-' + str(year) + '-' + str(month))
         insert(cateid, year, month)
+
+
+if __name__ == '__main__':
+  run(2017, 2018, 7, 9)

@@ -17,10 +17,42 @@
       <artifactId>beetlsql</artifactId>
       <version>${beeltsql.v}</version>
     </dependency>
+
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql-jdbc.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>${mongodb-jdbc.v}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>${hadoop.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-mapreduce-client-common</artifactId>
+      <version>${hadoop.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.janeluo</groupId>
+      <artifactId>ikanalyzer</artifactId>
+      <version>2012_u6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mongodb.mongo-hadoop</groupId>
+      <artifactId>mongo-hadoop-core</artifactId>
+      <version>${mongodb-hadoop.v}</version>
     </dependency>
   </dependencies>
 </project>

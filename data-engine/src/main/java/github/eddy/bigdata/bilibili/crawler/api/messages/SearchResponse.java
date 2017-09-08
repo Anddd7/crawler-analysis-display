@@ -1,11 +1,12 @@
 package github.eddy.bigdata.bilibili.crawler.api.messages;
 
-import github.eddy.bigdata.bilibili.model.SearchSourceSample;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter @Getter
+@Setter
+@Getter
 public class SearchResponse {
 
   private String json;
@@ -20,5 +21,5 @@ public class SearchResponse {
   String msg;
   Integer egg_hit;
   Integer page;
-  List<SearchSourceSample> result;
+  List<Map> result;
 }

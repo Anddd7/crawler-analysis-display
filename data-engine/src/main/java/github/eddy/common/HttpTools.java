@@ -1,4 +1,4 @@
-package github.eddy.bigdata.utils;
+package github.eddy.common;
 
 import java.io.IOException;
 import java.time.Duration;
