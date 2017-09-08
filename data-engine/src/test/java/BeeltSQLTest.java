@@ -1,6 +1,6 @@
 import com.mongodb.client.MongoCollection;
-import github.eddy.bigdata.bilibili.configuration.MongoManager;
-import github.eddy.bigdata.bilibili.configuration.MysqlManager;
+import github.eddy.bigdata.core.configuration.MongoManager;
+import github.eddy.bigdata.core.configuration.MysqlManager;
 import java.io.IOException;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.ext.gen.GenConfig;

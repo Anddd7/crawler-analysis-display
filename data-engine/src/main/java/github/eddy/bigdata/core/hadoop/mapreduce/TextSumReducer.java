@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.analysis.mapreduce;
+package github.eddy.bigdata.core.hadoop.mapreduce;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;

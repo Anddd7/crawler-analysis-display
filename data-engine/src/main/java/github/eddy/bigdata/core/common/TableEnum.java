@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.common;
+package github.eddy.bigdata.core.common;
 
 public enum TableEnum {
   source,

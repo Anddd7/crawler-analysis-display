@@ -1,6 +1,6 @@
-package github.eddy.bigdata.bilibili.dao;
+package github.eddy.bigdata.core.dao;
 
-import static github.eddy.bigdata.bilibili.configuration.MongoManager.getCollection;
+import static github.eddy.bigdata.core.configuration.MongoManager.getCollection;
 
 import java.util.ArrayList;
 import java.util.List;

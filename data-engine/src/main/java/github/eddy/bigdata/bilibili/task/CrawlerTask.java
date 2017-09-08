@@ -1,19 +1,22 @@
-package github.eddy.bigdata.bilibili.crawler;
+package github.eddy.bigdata.bilibili.task;
 
-import static github.eddy.bigdata.bilibili.common.TableEnum.source;
+import static github.eddy.bigdata.core.common.TableEnum.source;
 import static github.eddy.common.DateTools.getDateRangeYYYYMMDD;
 import static github.eddy.common.DateTools.getYYYYMM;
 
 import github.eddy.bigdata.bilibili.common.CategoryMap;
-import github.eddy.bigdata.bilibili.crawler.api.messages.SearchRequest;
-import github.eddy.bigdata.bilibili.crawler.api.messages.SearchResponse;
-import github.eddy.bigdata.bilibili.dao.MongodbDao;
+import github.eddy.bigdata.bilibili.task.crawler.messages.SearchRequest;
+import github.eddy.bigdata.bilibili.task.crawler.messages.SearchResponse;
+import github.eddy.bigdata.core.dao.MongodbDao;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 数据抓取
+ */
 @Slf4j
 @UtilityClass
 public class CrawlerTask {
@@ -21,6 +24,7 @@ public class CrawlerTask {
   public static void search(int year, int month) {
     String sourceTable = source.getTableName("search", getYYYYMM(year, month));
     MongodbDao.drop(sourceTable);
+    log.info("清空元数据");
 
     String[] dateRange = getDateRangeYYYYMMDD(year, month);
     CategoryMap.getCategoryIds().forEach(cateId -> {

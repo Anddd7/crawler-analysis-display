@@ -1,7 +1,7 @@
-package github.eddy.bigdata.bilibili.crawler.api.messages;
+package github.eddy.bigdata.bilibili.task.crawler.messages;
 
 import com.alibaba.fastjson.JSON;
-import github.eddy.bigdata.bilibili.beans.UnCheckException;
+import github.eddy.bigdata.core.beans.KnownException;
 import github.eddy.common.HttpTools;
 import java.io.IOException;
 import lombok.Getter;
@@ -62,7 +62,7 @@ public class SearchRequest {
 
   public SearchResponse get(Integer page) throws IOException {
     if (page < 1) {
-      throw new UnCheckException("page must > 0");
+      throw new KnownException("page must > 0");
     }
     this.page = page;
     return response(get());
@@ -92,7 +92,7 @@ public class SearchRequest {
   private SearchResponse response(String json) {
     SearchResponse searchResponse = JSON.parseObject(json, SearchResponse.class);
     if (searchResponse.code != 0) {
-      throw new UnCheckException("返回Code错误:" + searchResponse.code);
+      throw new KnownException("返回Code错误:" + searchResponse.code);
     }
     searchResponse.setJson(json);
     searchResponse.getResult().forEach(map -> map.put("cateid", cate_id));

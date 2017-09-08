@@ -1,6 +1,6 @@
-package github.eddy.bigdata.bilibili.crawler.api;
+package github.eddy.bigdata.bilibili.task.crawler;
 
-import github.eddy.bigdata.bilibili.crawler.api.messages.SearchRequest;
+import github.eddy.bigdata.bilibili.task.crawler.messages.SearchRequest;
 import github.eddy.common.DateTools;
 import java.util.Map;
 import java.util.function.Consumer;

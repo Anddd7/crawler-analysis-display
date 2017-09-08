@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.configuration;
+package github.eddy.bigdata.core.configuration;
 
 import lombok.Getter;
 import lombok.experimental.UtilityClass;

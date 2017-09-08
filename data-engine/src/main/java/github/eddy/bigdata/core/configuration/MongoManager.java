@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.configuration;
+package github.eddy.bigdata.core.configuration;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;

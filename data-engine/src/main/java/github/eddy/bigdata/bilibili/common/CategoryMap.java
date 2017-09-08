@@ -104,9 +104,6 @@ public class CategoryMap {
   }
 
   public static Set<Integer> getCategoryIds() {
-    //return categoryNames.keySet();
-    Set<Integer> set = new HashSet<>();
-    set.add(173);
-    return set;
+    return categoryNames.keySet();
   }
 }
