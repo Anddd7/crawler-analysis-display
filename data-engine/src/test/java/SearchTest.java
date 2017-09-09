@@ -3,7 +3,6 @@ import static github.eddy.common.DateTools.getYYYYMM;
 import static java.util.stream.Collectors.toList;
 
 import github.eddy.bigdata.bilibili.task.AnalysisTask;
-import github.eddy.bigdata.bilibili.task.CrawlerTask;
 import github.eddy.bigdata.bilibili.task.analysis.TagSplit.SpliterMapper;
 import github.eddy.bigdata.bilibili.task.crawler.messages.SearchRequest;
 import github.eddy.bigdata.bilibili.task.crawler.messages.SearchResponse;
@@ -21,7 +20,7 @@ public class SearchTest {
 
   @Test
   public void test() throws IOException {
-    String sourceTable = source.getTableName("search", getYYYYMM(2017, 9));
+    String sourceTable = source.table("search", getYYYYMM(2017, 9));
 
     SearchRequest request = new SearchRequest(19, "20170901", "20170930");
     while (request.hasNext()) {
