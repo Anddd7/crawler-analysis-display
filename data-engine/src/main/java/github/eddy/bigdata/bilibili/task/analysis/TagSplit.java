@@ -1,5 +1,6 @@
 package github.eddy.bigdata.bilibili.task.analysis;
 
+import github.eddy.bigdata.core.hadoop.AbstractMongoAnalysis;
 import github.eddy.bigdata.core.hadoop.HadoopJobBuilder;
 import github.eddy.bigdata.core.hadoop.mapreduce.TextSumReducer;
 import lombok.extern.slf4j.Slf4j;
@@ -10,23 +11,13 @@ import org.bson.BSONObject;
 
 import java.io.IOException;
 
-import static github.eddy.bigdata.core.common.TableEnum.analysis;
-import static github.eddy.bigdata.core.common.TableEnum.source;
-import static github.eddy.common.DateTools.getYYYYMM;
-
 @Slf4j
 public class TagSplit extends AbstractMongoAnalysis {
-
-    public TagSplit(Integer year, Integer month) {
-        String yyyyMM = getYYYYMM(year, month);
-        in = source.table("search", yyyyMM);
-        out = analysis.table("tagcount", yyyyMM);
-    }
 
     @Override
     public void configMapperReducer(HadoopJobBuilder builder) throws IOException {
         builder.addMapper(SpliterMapper.class)
-               .setReducer(TextSumReducer.class);
+                .setReducer(TextSumReducer.class);
     }
 
     public static class SpliterMapper extends Mapper<Object, BSONObject, Text, IntWritable> {
@@ -35,7 +26,8 @@ public class TagSplit extends AbstractMongoAnalysis {
         private Text word = new Text();
 
         @Override
-        public void map(Object key, BSONObject value, Context context) throws IOException, InterruptedException {
+        public void map(Object key, BSONObject value, Context context)
+                throws IOException, InterruptedException {
             String tags = (String) value.get("tag");
             for (String s : tags.split(",")) {
                 word.set(s);

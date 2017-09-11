@@ -1,7 +1,4 @@
-import com.mongodb.client.MongoCollection;
-import github.eddy.bigdata.core.configuration.MongoManager;
 import github.eddy.bigdata.core.configuration.MysqlManager;
-import java.io.IOException;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.ext.gen.GenConfig;
 import org.beetl.sql.ext.gen.MapperCodeGen;
@@ -20,11 +17,6 @@ public class BeeltSQLTest {
 
     sqlManager.genSQLFile("search_source_sample");
     sqlManager.genPojoCode("search_source_sample", "github.eddy.bigdata.bilibili.model", config);
-  }
-
-  @Test
-  public void test1() throws IOException {
-    MongoCollection bilibili = MongoManager.getCollection("");
   }
 
 }

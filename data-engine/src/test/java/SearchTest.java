@@ -1,19 +1,15 @@
 import static github.eddy.bigdata.core.common.TableEnum.source;
 import static github.eddy.common.DateTools.getYYYYMM;
-import static java.util.stream.Collectors.toList;
 
 import github.eddy.bigdata.bilibili.task.AnalysisTask;
-import github.eddy.bigdata.bilibili.task.analysis.TagSplit.SpliterMapper;
-import github.eddy.bigdata.bilibili.task.crawler.messages.SearchRequest;
-import github.eddy.bigdata.bilibili.task.crawler.messages.SearchResponse;
+import github.eddy.bigdata.bilibili.task.CrawlerTask;
+import github.eddy.bigdata.bilibili.task.crawler.SearchRequest;
+import github.eddy.bigdata.bilibili.task.crawler.SearchResponse;
 import github.eddy.bigdata.core.dao.MongodbDao;
 import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.Test;
 
 public class SearchTest {
@@ -46,21 +42,19 @@ public class SearchTest {
     /**
      * 抓取数据 : 抓取指定年月的数据
      */
-    //CrawlerTask.search(2017, 8);
-    /**
-     * hadoop任务处理数据
-     */
-   //AnalysisTask.tagCount(2017, 9);
-    AnalysisTask.categoryData(2017, 9);
+    CrawlerTask.search(2017, 7);
   }
 
   @Test
   public void test3() {
-    Type type = SpliterMapper.class.getGenericSuperclass();
-    ParameterizedType type1 = (ParameterizedType) type;
-    Stream.of(type1.getActualTypeArguments()).map(type2 -> (Class) type2).collect(toList())
-        .forEach(aClass -> {
-          System.out.println(aClass.getName());
-        });
+    /**
+     * hadoop任务处理数据
+     */
+    //AnalysisTask.tagCount(2017, 8);
+    AnalysisTask.categoryData(2017, 9);
+  }
+
+  public static void main(String[] a) {
+    CrawlerTask.search(2017, 7);
   }
 }

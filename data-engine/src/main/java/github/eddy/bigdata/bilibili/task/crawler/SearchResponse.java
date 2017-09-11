@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.task.crawler.messages;
+package github.eddy.bigdata.bilibili.task.crawler;
 
 import java.util.List;
 import java.util.Map;

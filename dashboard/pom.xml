@@ -10,6 +10,24 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>dashboard</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>com.ibeetl</groupId>
+      <artifactId>beetlsql</artifactId>
+      <version>${beeltsql.v}</version>
+    </dependency>
 
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql-jdbc.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>${mongodb-jdbc.v}</version>
+    </dependency>
+  </dependencies>
 
 </project>
