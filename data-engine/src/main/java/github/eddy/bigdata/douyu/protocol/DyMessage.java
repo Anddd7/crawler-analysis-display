@@ -1,6 +1,5 @@
-package github.eddy.bigdata.douyu.msg;
+package github.eddy.bigdata.douyu.protocol;
 
-import github.eddy.bigdata.douyu.utils.FormatTransfer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayOutputStream;

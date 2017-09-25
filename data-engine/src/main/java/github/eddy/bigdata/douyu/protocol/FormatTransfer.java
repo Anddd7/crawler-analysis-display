@@ -10,7 +10,7 @@
  *
  *  Revision Notes :
 */
-package github.eddy.bigdata.douyu.utils;
+package github.eddy.bigdata.douyu.protocol;
 
 public   class  FormatTransfer
 {

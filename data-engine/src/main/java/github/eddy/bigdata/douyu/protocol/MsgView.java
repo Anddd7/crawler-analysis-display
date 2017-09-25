@@ -1,4 +1,4 @@
-package github.eddy.bigdata.douyu.msg;
+package github.eddy.bigdata.douyu.protocol;
 
 import java.util.HashMap;
 import java.util.Map;

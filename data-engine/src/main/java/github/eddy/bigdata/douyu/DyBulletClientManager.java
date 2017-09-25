@@ -1,8 +1,8 @@
 package github.eddy.bigdata.douyu;
 
 import github.eddy.bigdata.douyu.client.DyBulletScreenClient;
-import github.eddy.bigdata.douyu.utils.KeepAlive;
-import github.eddy.bigdata.douyu.utils.KeepGetMsg;
+import github.eddy.bigdata.douyu.thread.KeepAlive;
+import github.eddy.bigdata.douyu.thread.KeepGetMsg;
 import lombok.Getter;
 
 import java.util.Map;
@@ -44,6 +44,5 @@ public class DyBulletClientManager {
         Thread.sleep(5 * 1000);
 
         DyBulletScreenClient client1 = manager.connectRoom(635099);
-        DyBulletScreenClient client2 = manager.connectRoom(97590);
     }
 }

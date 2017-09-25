@@ -1,4 +1,4 @@
-package github.eddy.bigdata.douyu.msg;
+package github.eddy.bigdata.douyu.protocol;
 
 /**
  * @Summary: 弹幕协议格式化类
