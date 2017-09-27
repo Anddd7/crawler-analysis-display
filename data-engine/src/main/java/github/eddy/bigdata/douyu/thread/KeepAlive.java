@@ -1,4 +1,4 @@
-package github.eddy.bigdata.douyu.utils;
+package github.eddy.bigdata.douyu.thread;
 
 import github.eddy.bigdata.douyu.DyBulletClientManager;
 import github.eddy.bigdata.douyu.client.DyBulletScreenClient;
@@ -6,24 +6,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.Duration;
-import java.time.Instant;
-
-import static java.time.Instant.now;
-
-
 /**
  * @author edliao
  * @author FerroD
- * @implNote 获取服务器弹幕信息线程
+ * @implNote 服务器心跳保持线程
  * @implNote 单例变为注入
  */
 @Slf4j
-public class KeepGetMsg extends Thread {
+public class KeepAlive extends Thread {
+
     DyBulletClientManager manager;
 
-    public KeepGetMsg(DyBulletClientManager manager) {
-        super("弹幕消息监听Thread");
+    public KeepAlive(DyBulletClientManager manager) {
+        super("心跳连接守护Thread");
         this.manager = manager;
     }
 
@@ -33,14 +28,19 @@ public class KeepGetMsg extends Thread {
 
     @Override
     public void run() {
-        log.debug("Get message start->");
+        log.debug("Keep alive start->");
         while (running) {
             for (DyBulletScreenClient client : manager.getClientPool().values()) {
                 if (client.getReadyFlag()) {
-                    Instant start = now();
-                    client.getServerMsg();
-                    log.debug("获取弹幕耗时:{} ms", Duration.between(start, now()).toMillis());
+                    //发送心跳保持协议给服务器端
+                    client.keepAlive();
                 }
+            }
+            try {
+                //设置间隔45秒再发送心跳协议
+                Thread.sleep(45000);//keep live at least once per minute
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

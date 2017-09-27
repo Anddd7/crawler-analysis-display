@@ -1,7 +1,8 @@
 package github.eddy.bigdata.douyu.client;
 
-import github.eddy.bigdata.douyu.msg.DyMessage;
-import github.eddy.bigdata.douyu.msg.MsgView;
+import github.eddy.bigdata.douyu.crawler.MessageHandler;
+import github.eddy.bigdata.douyu.protocol.DyMessage;
+import github.eddy.bigdata.douyu.protocol.MsgView;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +11,11 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Map;
+
+import static java.time.Instant.now;
 
 /**
  * @version V1.0
@@ -45,13 +50,16 @@ public class DyBulletScreenClient {
     @Getter
     private int groupId;
 
+    private MessageHandler messageHandler;
+
     //获取弹幕线程及心跳线程运行和停止标记
     private boolean readyFlag = false;
 
     /**
      * 快速构造运行
      */
-    public DyBulletScreenClient(int roomId, int groupId) {
+    public DyBulletScreenClient(MessageHandler messageHandler, int roomId, int groupId) {
+        this.messageHandler = messageHandler;
         this.roomId = roomId;
         this.groupId = groupId;
         init();
@@ -173,6 +181,8 @@ public class DyBulletScreenClient {
      * 获取服务器返回信息
      */
     public void getServerMsg() {
+        Instant start = now();
+
         //初始化获取弹幕服务器返回信息包大小
         byte[] recvByte = new byte[MAX_BUFFER_LENGTH];
         //定义服务器返回信息的字符串
@@ -180,6 +190,8 @@ public class DyBulletScreenClient {
         try {
             //读取服务器返回信息，并获取返回信息的整体字节长度
             int recvLen = bis.read(recvByte, 0, recvByte.length);
+
+            log.debug("当前消息读取时间: {} ms", Duration.between(start, now()).toMillis());
 
             //根据实际获取的字节数初始化返回信息内容长度
             byte[] realBuf = new byte[recvLen];
@@ -201,10 +213,11 @@ public class DyBulletScreenClient {
             MsgView msgView = new MsgView(StringUtils.substring(dataStr, dataStr.lastIndexOf("type@=")));
             //分析该包的数据类型，以及根据需要进行业务操作
             parseServerMsg(msgView.getMessageList());
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("", e);
         }
+
+        log.info("当前消息处理时间: {} ms", Duration.between(start, now()).toMillis());
     }
 
     /**
@@ -214,7 +227,6 @@ public class DyBulletScreenClient {
      */
     private void parseServerMsg(Map<String, Object> msg) {
         if (msg.get("type") != null) {
-
             //服务器反馈错误信息
             if (msg.get("type").equals("error")) {
                 log.debug(msg.toString());
@@ -222,20 +234,8 @@ public class DyBulletScreenClient {
                 this.readyFlag = false;
             }
 
-            /***@TODO 根据业务需求来处理获取到的所有弹幕及礼物信息***********/
-
-            //判断消息类型
-            if (msg.get("type").equals("chatmsg")) {//弹幕消息
-                log.debug("弹幕消息===>[" + roomId + "]\n" + msg.toString());
-            } else if (msg.get("type").equals("dgb")) {//赠送礼物信息
-                log.debug("礼物消息===>[" + roomId + "]\n" + msg.toString());
-            } else {
-                log.debug("其他消息===>[" + roomId + "]\n" + msg.toString());
-            }
-
-            //@TODO 其他业务信息根据需要进行添加
-
-            /*************************************************************/
+            msg.put("roomId", roomId);
+            messageHandler.next(msg);
         }
     }
 }
