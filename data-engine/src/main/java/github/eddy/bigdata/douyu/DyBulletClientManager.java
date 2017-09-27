@@ -1,6 +1,10 @@
 package github.eddy.bigdata.douyu;
 
 import github.eddy.bigdata.douyu.client.DyBulletScreenClient;
+import github.eddy.bigdata.douyu.crawler.BulletMessageHandler;
+import github.eddy.bigdata.douyu.crawler.GiftMessageHandler;
+import github.eddy.bigdata.douyu.crawler.MessageHandler;
+import github.eddy.bigdata.douyu.crawler.OtherMessageHandler;
 import github.eddy.bigdata.douyu.thread.KeepAlive;
 import github.eddy.bigdata.douyu.thread.KeepGetMsg;
 import lombok.Getter;
@@ -21,13 +25,15 @@ public class DyBulletClientManager {
     KeepGetMsg keepGetMsg = new KeepGetMsg(this);
     KeepAlive keepAlive = new KeepAlive(this);
 
-    public DyBulletScreenClient connectRoom(int roomId, int groupId) {
-        return connectRoom(roomId, groupId);
+    public DyBulletClientManager connectRoom(MessageHandler messageHandler, int... roomIds) {
+        for (int roomId : roomIds) {
+            connectRoom(messageHandler, roomId);
+        }
+        return this;
     }
 
-    public DyBulletScreenClient connectRoom(int roomId) {
-        DyBulletScreenClient client = new DyBulletScreenClient(roomId, HUGE_GROUP_ID);
-
+    public DyBulletScreenClient connectRoom(MessageHandler messageHandler, int roomId) {
+        DyBulletScreenClient client = new DyBulletScreenClient(messageHandler, roomId, HUGE_GROUP_ID);
         clientPool.put(roomId, client);
         return client;
     }
@@ -37,12 +43,21 @@ public class DyBulletClientManager {
         keepGetMsg.start();
     }
 
+    public void shutdown() {
+        keepAlive.setRunning(false);
+        keepGetMsg.setRunning(false);
+        clientPool.clear();
+    }
+
     public static void main(String[] s) throws InterruptedException {
+        MessageHandler rootHandler = new BulletMessageHandler();
+        rootHandler.appendHandler(new GiftMessageHandler())
+                .appendHandler(new OtherMessageHandler());
+
         DyBulletClientManager manager = new DyBulletClientManager();
         manager.start();
 
-        Thread.sleep(5 * 1000);
-
-        DyBulletScreenClient client1 = manager.connectRoom(635099);
+        manager.connectRoom(rootHandler, 635099);
+        manager.connectRoom(rootHandler, 7911);
     }
 }

@@ -58,7 +58,8 @@ public class DyBulletScreenClient {
     /**
      * 快速构造运行
      */
-    public DyBulletScreenClient(int roomId, int groupId) {
+    public DyBulletScreenClient(MessageHandler messageHandler, int roomId, int groupId) {
+        this.messageHandler = messageHandler;
         this.roomId = roomId;
         this.groupId = groupId;
         init();
@@ -190,6 +191,8 @@ public class DyBulletScreenClient {
             //读取服务器返回信息，并获取返回信息的整体字节长度
             int recvLen = bis.read(recvByte, 0, recvByte.length);
 
+            log.debug("当前消息读取时间: {} ms", Duration.between(start, now()).toMillis());
+
             //根据实际获取的字节数初始化返回信息内容长度
             byte[] realBuf = new byte[recvLen];
             //按照实际获取的字节长度读取返回信息
@@ -231,15 +234,7 @@ public class DyBulletScreenClient {
                 this.readyFlag = false;
             }
 
-//            //判断消息类型
-//            if (msg.get("type").equals("chatmsg")) {//弹幕消息
-//                log.debug("收到弹幕消息[{}]:\n{}", roomId, JSON.toJSONString(msg));
-//            } else if (msg.get("type").equals("dgb")) {//赠送礼物信息
-//                log.debug("收到礼物消息[{}]:\n{}", roomId, JSON.toJSONString(msg));
-//            } else {
-//                log.debug("收到其他消息[{}]:\n{}", roomId, JSON.toJSONString(msg));
-//            }
-
+            msg.put("roomId", roomId);
             messageHandler.next(msg);
         }
     }

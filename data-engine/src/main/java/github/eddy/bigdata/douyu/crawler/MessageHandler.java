@@ -16,8 +16,13 @@ public abstract class MessageHandler {
      */
     public void next(Map<String, Object> msg) {
         Map<String, Object> retMsg = handle(msg);
-        if (nextHandler != null) {
-            next(retMsg);
+        if (retMsg != null && nextHandler != null) {
+            nextHandler.next(retMsg);
         }
+    }
+
+    public MessageHandler appendHandler(MessageHandler messageHandler) {
+        this.nextHandler = messageHandler;
+        return this.nextHandler;
     }
 }
