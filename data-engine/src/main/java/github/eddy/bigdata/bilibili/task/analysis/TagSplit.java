@@ -11,6 +11,9 @@ import org.bson.BSONObject;
 
 import java.io.IOException;
 
+/**
+ * 切分tag并计算tag的出现频率
+ */
 @Slf4j
 public class TagSplit extends AbstractMongoAnalysis {
 

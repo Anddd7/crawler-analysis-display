@@ -11,7 +11,6 @@ import java.io.IOException;
 
 @Slf4j
 public class SearchRequest {
-
     public static final String API_URL = "https://s.search.bilibili.com/cate/search";
 
     public static final String ORDER_CLICK = "click";// 点击
@@ -41,6 +40,7 @@ public class SearchRequest {
     private Boolean nextFlag = true;
     @Getter
     private String longURL;
+
   /*---------------------------------------------------------------------------------*/
 
     public SearchRequest(Integer cate_id, String time_from, String time_to) {
@@ -55,8 +55,6 @@ public class SearchRequest {
         this.time_from = dateRange[0];
         this.time_to = dateRange[1];
     }
-
-
 
   /*---------------------------------------------------------------------------------*/
 
