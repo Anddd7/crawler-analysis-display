@@ -15,10 +15,9 @@ import org.bson.BasicBSONObject;
 import java.io.IOException;
 import java.util.List;
 
-import static github.eddy.bigdata.core.common.TableEnum.analysis;
-import static github.eddy.bigdata.core.common.TableEnum.source;
-import static github.eddy.common.DateTools.getYYYYMM;
-
+/**
+ * 计算各分区的数据
+ */
 @Slf4j
 public class CategoryData extends AbstractMongoAnalysis {
 
@@ -28,8 +27,7 @@ public class CategoryData extends AbstractMongoAnalysis {
                 .setReducer(CategoryReducer.class);
     }
 
-    public static class CategoryMapper extends
-            Mapper<Object, BSONObject, IntWritable, LongArrayWritable> {
+    public static class CategoryMapper extends Mapper<Object, BSONObject, IntWritable, LongArrayWritable> {
 
         private static final IntWritable cateId = new IntWritable();
         private static final LongArrayWritable result = new LongArrayWritable();
@@ -49,21 +47,21 @@ public class CategoryData extends AbstractMongoAnalysis {
         }
     }
 
-    public static class CategoryReducer extends
-            Reducer<IntWritable, LongArrayWritable, IntWritable, BSONWritable> {
+    public static class CategoryReducer extends Reducer<IntWritable, LongArrayWritable, IntWritable, BSONWritable> {
 
         private static final BSONWritable bsonWritableon = new BSONWritable();
 
         @Override
-        protected void reduce(IntWritable key, Iterable<LongArrayWritable> values,
-                              Context context) throws IOException, InterruptedException {
-
+        protected void reduce(IntWritable key, Iterable<LongArrayWritable> values, Context context) throws IOException, InterruptedException {
+            Long videoNum = 0L;
             Long play = 0L;
             Long favorites = 0L;
             Long review = 0L;
             Long videoReview = 0L;
+
             for (LongArrayWritable value : values) {
                 List<LongWritable> writables = value.getLongWritable();
+                videoNum++;
                 play += writables.get(0).get();
                 favorites += writables.get(1).get();
                 review += writables.get(2).get();
@@ -71,6 +69,7 @@ public class CategoryData extends AbstractMongoAnalysis {
             }
 
             BSONObject bson = new BasicBSONObject();
+            bson.put("videoNum", videoNum);
             bson.put("play", play);
             bson.put("favorites", favorites);
             bson.put("review", review);

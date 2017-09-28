@@ -7,18 +7,19 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static github.eddy.bigdata.bilibili.common.CategoryMap.getCategoryName;
-import static github.eddy.bigdata.core.common.TableEnum.source;
+import static github.eddy.bigdata.bilibili.common.DBTableEnum.source_search;
 import static github.eddy.common.DateTools.getYYYYMM;
 
 @Slf4j
-public class CrawlerApi {
+public class BilibiliCrawler {
     /**
      * 多线程抓取search接口数据
      */
-    public static void search(int year, int month) {
-        String out = source.table("search", getYYYYMM(year, month));
+    public void search(int year, int month) {
+        String out = source_search.table(getYYYYMM(year, month));
         MongodbDao.drop(out);
 
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
@@ -36,7 +37,13 @@ public class CrawlerApi {
             });
         }
         fixedThreadPool.shutdown();
-        log.info("{}-{}视频数据已全部插入到{}", year, month, out);
+
+        try {
+            fixedThreadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+            log.info("{}-{}视频数据已全部插入到{}", year, month, out);
+        } catch (InterruptedException e) {
+            log.error("", e);
+        }
     }
     //https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn=2&type=1&oid=14237108&sort=0
     //https://api.bilibili.com/archive_rank/getarchiverankbypartion?&type=jsonp&tid=19&pn=2

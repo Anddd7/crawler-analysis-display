@@ -4,9 +4,13 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import github.eddy.bigdata.core.configuration.MongoCodecProvider.InstantCodec;
+import github.eddy.bigdata.core.configuration.MongoCodecProvider.TaskStatusEnumCodec;
 import lombok.experimental.UtilityClass;
 import org.apache.hadoop.conf.Configuration;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 
 @UtilityClass
 public class MongoManager {
@@ -15,7 +19,14 @@ public class MongoManager {
     private static final MongoDatabase mongoDB;
 
     static {
+        CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
+                CodecRegistries.fromCodecs(new InstantCodec(), new TaskStatusEnumCodec()),
+                CodecRegistries.fromProviders(new MongoCodecProvider()),
+                MongoClient.getDefaultCodecRegistry()
+        );
+
         MongoClientOptions.Builder build = new MongoClientOptions.Builder();
+        build.codecRegistry(codecRegistry);
         build.connectionsPerHost(10);   //与目标数据库能够建立的最大connection数量为50
         build.threadsAllowedToBlockForConnectionMultiplier(10); //如果当前所有的connection都在使用中，则每个connection上可以有50个线程排队等待
             /*

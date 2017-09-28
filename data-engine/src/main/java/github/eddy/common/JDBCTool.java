@@ -11,20 +11,17 @@ import java.util.List;
  */
 public class JDBCTool {
 
-  private JDBCTool() {
-
-  }
-
-  /**
-   * 获取Table的字段
-   */
-  public static List<String> getColumnNames(ResultSetMetaData metaData) throws SQLException {
-    List<String> columns = new ArrayList<>();
-    for (int i = 0; i < metaData.getColumnCount(); i++) {
-      columns.add(metaData.getColumnName(i));
+    private JDBCTool() {
     }
-    return columns;
-  }
 
-
+    /**
+     * 获取Table的字段
+     */
+    public static List<String> getColumnNames(ResultSetMetaData metaData) throws SQLException {
+        List<String> columns = new ArrayList<>();
+        for (int i = 0; i < metaData.getColumnCount(); i++) {
+            columns.add(metaData.getColumnName(i));
+        }
+        return columns;
+    }
 }
