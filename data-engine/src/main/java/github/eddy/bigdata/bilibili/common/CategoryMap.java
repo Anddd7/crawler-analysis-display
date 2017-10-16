@@ -1,5 +1,7 @@
 package github.eddy.bigdata.bilibili.common;
 
+import github.eddy.bigdata.core.dao.MongodbDao;
+import github.eddy.common.CollectionTool;
 import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
@@ -105,5 +107,15 @@ public class CategoryMap {
 
     public static Set<Integer> getCategoryIds() {
         return categoryNames.keySet();
+    }
+
+    public static void main(String[] a) {
+        categoryNames.forEach((integer, s) ->
+                        MongodbDao.insert("category_type",
+                                new CollectionTool.MapBuilder()
+                                        .put("_id", integer)
+                                        .put("cateName", s)
+                                        .build()
+                        ));
     }
 }

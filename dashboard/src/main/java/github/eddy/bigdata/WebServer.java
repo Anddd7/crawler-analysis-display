@@ -46,12 +46,12 @@ public class WebServer {
     }
 
     private void mongoRoute(Router router) {
-        router.get("/api/analysis/bilibili/categorydata/:date").handler(ctx -> {
+        router.get("/api/mongodb/:collectionName").handler(ctx -> {
             //capturing param in url
-            String date = ctx.request().getParam("date");
+            String collectionName = ctx.request().getParam("collectionName");
 
             //find in mongo
-            mongo.find("analysis_categorydata_" + date, new JsonObject(), lookup -> {
+            mongo.find(collectionName, new JsonObject(), lookup -> {
                 if (lookup.failed()) {
                     ctx.fail(lookup.cause());
                     return;

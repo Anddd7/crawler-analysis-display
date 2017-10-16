@@ -102,4 +102,25 @@ public class CollectionTool {
         }
         return map;
     }
+
+    public static class MapBuilder {
+
+        Map map = new HashMap();
+
+        public MapBuilder put(Object key, Object val) {
+            map.put(key, val);
+            return this;
+        }
+
+        public MapBuilder putSubMap(Object key, Consumer<MapBuilder> consumer) {
+            MapBuilder subBuilder = new MapBuilder();
+            consumer.accept(subBuilder);
+            map.put(key, subBuilder.build());
+            return this;
+        }
+
+        public Map build() {
+            return map;
+        }
+    }
 }

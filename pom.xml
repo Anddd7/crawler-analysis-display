@@ -12,6 +12,7 @@
     <modules>
         <module>data-engine</module>
         <module>dashboard</module>
+        <module>common</module>
     </modules>
 
     <properties>
