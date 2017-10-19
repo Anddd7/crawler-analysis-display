@@ -11,6 +11,9 @@ import org.bson.codecs.configuration.CodecRegistry;
 
 import java.time.Instant;
 
+/**
+ * @author edliao
+ */
 public class MongoCodecProvider implements CodecProvider {
 
     @Override

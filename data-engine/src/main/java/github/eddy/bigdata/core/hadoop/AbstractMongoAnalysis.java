@@ -10,10 +10,16 @@ import java.io.IOException;
 
 import static github.eddy.bigdata.core.configuration.MongoManager.mongoConfig;
 
+/**
+ * @author edliao
+ */
 @Slf4j
 public abstract class AbstractMongoAnalysis {
     /**
-     * 任务实现类配置Mapper和Reducer的入口
+     * 自动加载Job配置的方法
+     *
+     * @param builder Job配置
+     * @throws IOException 添加mapper/reducer时可能抛出的异常
      */
     abstract public void configMapperReducer(HadoopJobBuilder builder) throws IOException;
 
@@ -22,12 +28,16 @@ public abstract class AbstractMongoAnalysis {
      */
     public void execute(String in, String out) {
         Preconditions.checkNotNull(in, out);
-        MongodbDao.drop(out);//删除之前的结果表
+        //删除之前的结果表
+        MongodbDao.drop(out);
         try {
             HadoopJobBuilder builder = new HadoopJobBuilder();
-            builder.config(mongoConfig(in, out), JobEnum.mongodb);//自动注入mongo+hadoop相关配置
-            configMapperReducer(builder);//注入mapper/reducer
-            builder.build().waitForCompletion(true);//运行
+            //自动注入mongo+hadoop相关配置
+            builder.config(mongoConfig(in, out), JobEnum.mongodb);
+            //注入mapper/reducer
+            configMapperReducer(builder);
+            //运行
+            builder.build().waitForCompletion(true);
         } catch (IOException e) {
             log.error("", e);
             throw new KnownException("任务创建失败:", e);

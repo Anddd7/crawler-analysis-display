@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author FerroD
  * @version V1.0
- * @Summary: 弹幕协议解析类
- * @author: FerroD
- * @date: 2016-3-12
+ * @apiNote 弹幕协议解析类
+ * @since 2016-3-12
  */
 public class MsgView {
 
@@ -21,8 +21,6 @@ public class MsgView {
 
     /**
      * 获取弹幕信息对象
-     *
-     * @return
      */
     public Map<String, Object> getMessageList() {
         return messageList;
@@ -30,8 +28,6 @@ public class MsgView {
 
     /**
      * 设置弹幕信息对象
-     *
-     * @param messageList
      */
     public void setMessageList(Map<String, Object> messageList) {
         this.messageList = messageList;
@@ -39,9 +35,6 @@ public class MsgView {
 
     /**
      * 解析弹幕服务器接收到的协议数据
-     *
-     * @param data
-     * @return
      */
     public Map<String, Object> parseRespond(String data) {
         Map<String, Object> rtnMsg = new HashMap<String, Object>();
@@ -75,8 +68,6 @@ public class MsgView {
 
     /**
      * 调试信息输出
-     *
-     * @return
      */
     public String printStr() {
         return messageList.toString();

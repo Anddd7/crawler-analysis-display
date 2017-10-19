@@ -23,16 +23,17 @@ import static github.eddy.bigdata.bilibili.common.TaskStatusEnum.*;
 import static java.time.Instant.now;
 
 /**
+ * @author edliao
  * bilibili相关任务的启动和管理
  */
 @Slf4j
 public class BilibiliTaskManager {
 
-    BilibiliCrawler bilibiliCrawler = new BilibiliCrawler();
-    BilibiliAnalysis bilibiliAnalysis = new BilibiliAnalysis();
-    ExecutorService executorService = Executors.newFixedThreadPool(5);
+    private BilibiliCrawler bilibiliCrawler = new BilibiliCrawler();
+    private BilibiliAnalysis bilibiliAnalysis = new BilibiliAnalysis();
+    private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-    public void execute(String module, String taskName, List<Object> params) {
+    private void execute(String module, String taskName, List<Object> params) {
         BasicDBObject searchQuery = new BasicDBObject()
                 .append("module", module)
                 .append("taskName", taskName)
@@ -87,6 +88,7 @@ public class BilibiliTaskManager {
             case "analysis":
                 routerAnalysis(taskName, params);
                 break;
+            default:
         }
     }
 
@@ -95,6 +97,7 @@ public class BilibiliTaskManager {
             case "search":
                 bilibiliCrawler.search((Integer) params.get(0), (Integer) params.get(1));
                 break;
+            default:
         }
     }
 
@@ -106,6 +109,7 @@ public class BilibiliTaskManager {
             case "categorydata":
                 bilibiliAnalysis.categoryData((Integer) params.get(0), (Integer) params.get(1));
                 break;
+            default:
         }
     }
 

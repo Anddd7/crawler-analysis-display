@@ -14,6 +14,9 @@ import java.util.Map;
 
 import static github.eddy.bigdata.core.configuration.MongoManager.getCollection;
 
+/**
+ * @author edliao
+ */
 @Slf4j
 @UtilityClass
 public class MongodbDao {

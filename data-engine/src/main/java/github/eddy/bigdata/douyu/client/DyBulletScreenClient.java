@@ -1,6 +1,6 @@
 package github.eddy.bigdata.douyu.client;
 
-import github.eddy.bigdata.douyu.crawler.MessageHandler;
+import github.eddy.bigdata.douyu.crawler.AbstractMessageHandler;
 import github.eddy.bigdata.douyu.protocol.DyMessage;
 import github.eddy.bigdata.douyu.protocol.MsgView;
 import lombok.Getter;
@@ -31,16 +31,24 @@ import static java.time.Instant.now;
  */
 @Slf4j
 public class DyBulletScreenClient {
-    //第三方弹幕协议服务器地址
-    private static final String hostName = "openbarrage.douyutv.com";
+    /**
+     * 第三方弹幕协议服务器地址
+     */
+    private static final String HOST_NAME = "openbarrage.douyutv.com";
 
-    //第三方弹幕协议服务器端口
-    private static final int port = 8601;
+    /**
+     * 第三方弹幕协议服务器端口
+     */
+    private static final int PORT = 8601;
 
-    //设置字节获取buffer的最大值
+    /**
+     * 设置字节获取buffer的最大值
+     */
     private static final int MAX_BUFFER_LENGTH = 4096;
 
-    //socket相关配置
+    /**
+     * socket相关配置
+     */
     private Socket sock;
     private BufferedOutputStream bos;
     private BufferedInputStream bis;
@@ -50,15 +58,17 @@ public class DyBulletScreenClient {
     @Getter
     private int groupId;
 
-    private MessageHandler messageHandler;
+    private AbstractMessageHandler messageHandler;
 
-    //获取弹幕线程及心跳线程运行和停止标记
+    /**
+     * 获取弹幕线程及心跳线程运行和停止标记
+     */
     private boolean readyFlag = false;
 
     /**
      * 快速构造运行
      */
-    public DyBulletScreenClient(MessageHandler messageHandler, int roomId, int groupId) {
+    public DyBulletScreenClient(AbstractMessageHandler messageHandler, int roomId, int groupId) {
         this.messageHandler = messageHandler;
         this.roomId = roomId;
         this.groupId = groupId;
@@ -81,8 +91,6 @@ public class DyBulletScreenClient {
 
     /**
      * 获取弹幕客户端就绪标记
-     *
-     * @return
      */
     public boolean getReadyFlag() {
         return readyFlag;
@@ -94,9 +102,9 @@ public class DyBulletScreenClient {
     private void connectServer() {
         try {
             //获取弹幕服务器访问host
-            String host = InetAddress.getByName(hostName).getHostAddress();
-            //建立socke连接
-            sock = new Socket(host, port);
+            String host = InetAddress.getByName(HOST_NAME).getHostAddress();
+            //建立socket连接
+            sock = new Socket(host, PORT);
             //设置socket输入及输出
             bos = new BufferedOutputStream(sock.getOutputStream());
             bis = new BufferedInputStream(sock.getInputStream());
@@ -108,8 +116,6 @@ public class DyBulletScreenClient {
 
     /**
      * 登录指定房间
-     *
-     * @param roomId
      */
     private void loginRoom(int roomId) {
         //获取弹幕服务器登陆请求数据包
@@ -138,9 +144,6 @@ public class DyBulletScreenClient {
 
     /**
      * 加入弹幕分组池
-     *
-     * @param roomId
-     * @param groupId
      */
     private void joinGroup(int roomId, int groupId) {
         //获取弹幕服务器加弹幕池请求数据包
@@ -151,7 +154,6 @@ public class DyBulletScreenClient {
             bos.write(joinGroupRequest, 0, joinGroupRequest.length);
             bos.flush();
             log.debug("Send join group request successfully!");
-
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Send join group request failed!");
@@ -164,7 +166,6 @@ public class DyBulletScreenClient {
     public void keepAlive() {
         //获取与弹幕服务器保持心跳的请求数据包
         byte[] keepAliveRequest = DyMessage.getKeepAliveData((int) (System.currentTimeMillis() / 1000));
-
         try {
             //向弹幕服务器发送心跳请求数据包
             bos.write(keepAliveRequest, 0, keepAliveRequest.length);
@@ -222,20 +223,19 @@ public class DyBulletScreenClient {
 
     /**
      * 解析从服务器接受的协议，并根据需要订制业务需求
-     *
-     * @param msg
      */
     private void parseServerMsg(Map<String, Object> msg) {
-        if (msg.get("type") != null) {
+        MessageWrapper messageWrapper = MessageWrapper.wrapper(msg);
+
+        if (messageWrapper.getType() != null) {
             //服务器反馈错误信息
-            if (msg.get("type").equals("error")) {
-                log.debug(msg.toString());
+            if (messageWrapper.getType().equals("error")) {
+                log.debug(messageWrapper.toString());
                 //结束心跳和获取弹幕线程
                 this.readyFlag = false;
             }
-
             msg.put("roomId", roomId);
-            messageHandler.next(msg);
+            messageHandler.next(messageWrapper);
         }
     }
 }

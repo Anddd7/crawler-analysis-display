@@ -14,13 +14,21 @@ import java.io.IOException;
 
 import static org.apache.hadoop.mapreduce.Job.getInstance;
 
+/**
+ * @author edliao
+ */
 @Slf4j
 public class HadoopJobBuilder {
+    /**
+     * hadoop任务
+     */
+    private Job job;
+    /**
+     * 当前任务的配置
+     */
+    private Configuration conf;
 
-    private Job job;//hadoop任务
-    private Configuration conf;//当前任务的配置
-
-    public HadoopJobBuilder config(Configuration conf, JobEnum jobEnum) throws IOException {
+    HadoopJobBuilder config(Configuration conf, JobEnum jobEnum) throws IOException {
         this.conf = conf;
         this.job = getInstance(conf, jobEnum.name());
         job.setJarByClass(this.getClass());
@@ -32,8 +40,10 @@ public class HadoopJobBuilder {
         }
     }
 
-    //如果是mongodb
-    private HadoopJobBuilder initMongo() throws IOException {
+    /**
+     * 如果是mongodb 自动设置序列化模式
+     */
+    private HadoopJobBuilder initMongo() {
         job.setInputFormatClass(MongoInputFormat.class);
         job.setOutputFormatClass(MongoOutputFormat.class);
         return this;
@@ -44,9 +54,9 @@ public class HadoopJobBuilder {
         return this;
     }
 
+
     public HadoopJobBuilder setReducer(Class<? extends Reducer> reducerClass) {
         HadoopTools.setReducer(job, reducerClass, conf);
-        //job.setCombinerClass(reducerClass);
         return this;
     }
 
@@ -55,7 +65,7 @@ public class HadoopJobBuilder {
         return this;
     }
 
-    public Job build() {
+    Job build() {
         return job;
     }
 }
