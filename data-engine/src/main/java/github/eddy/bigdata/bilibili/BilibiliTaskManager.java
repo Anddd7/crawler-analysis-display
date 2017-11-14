@@ -7,7 +7,7 @@ import github.eddy.bigdata.bilibili.common.TaskStatusEnum;
 import github.eddy.bigdata.bilibili.task.BilibiliAnalysis;
 import github.eddy.bigdata.bilibili.task.BilibiliCrawler;
 import github.eddy.bigdata.core.beans.KnownException;
-import github.eddy.bigdata.core.dao.MongodbDao;
+import github.eddy.bigdata.core.dao.BilibiliDao;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 
@@ -23,15 +23,18 @@ import static github.eddy.bigdata.bilibili.common.TaskStatusEnum.*;
 import static java.time.Instant.now;
 
 /**
- * @author edliao
  * bilibili相关任务的启动和管理
+ *
+ * @author edliao
+ * @implNote 把所有分析和抓取(需要耗时的)的操作都作为一个一个任务 ,每个任务的执行都有相应的记录来避免重复执行和查错redo
  */
 @Slf4j
 public class BilibiliTaskManager {
 
     private BilibiliCrawler bilibiliCrawler = new BilibiliCrawler();
     private BilibiliAnalysis bilibiliAnalysis = new BilibiliAnalysis();
-    private ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+    private ExecutorService executorService = Executors.newCachedThreadPool();
 
     private void execute(String module, String taskName, List<Object> params) {
         BasicDBObject searchQuery = new BasicDBObject()
@@ -41,25 +44,22 @@ public class BilibiliTaskManager {
 
         log.debug("开始执行任务:\n{}", searchQuery.toString());
 
-        try (MongoCursor<Document> result = MongodbDao.find(TASK_RECORD, searchQuery)) {
-            if (result.hasNext()) {
-                Document taskRecord = result.next();
-
-                log.debug("查询到任务历史记录:\n{}", taskRecord.toString());
-
-                TaskStatusEnum taskStatus = TaskStatusEnum.valueOf(taskRecord.getString("taskStatus"));
-                if (taskStatus.equals(running)) {
-                    throw new KnownException(taskRecord.toString() + "任务正在执行中 ,请勿重复执行");
-                } else if (taskStatus.equals(TaskStatusEnum.finished)) {
-                    throw new KnownException(taskRecord.toString() + "任务已执行完毕 ,请到结果页面进行查看");
-                }
+        MongoCursor<Document> history = BilibiliDao.find(TASK_RECORD, searchQuery);
+        if (history.hasNext()) {
+            Document taskRecord = history.next();
+            log.debug("查询到任务历史记录:\n{}", taskRecord.toString());
+            TaskStatusEnum taskStatus = TaskStatusEnum.valueOf(taskRecord.getString("taskStatus"));
+            if (taskStatus.equals(running)) {
+                throw new KnownException(taskRecord.toString() + "任务正在执行中 ,请勿重复执行");
+            } else if (taskStatus.equals(TaskStatusEnum.finished)) {
+                throw new KnownException(taskRecord.toString() + "任务已执行完毕 ,请到结果页面进行查看");
             }
         }
 
         Instant start = now();
         searchQuery.append("taskStatus", running);
         searchQuery.append("startTime", start);
-        MongodbDao.insert(TASK_RECORD, searchQuery);
+        BilibiliDao.insert(TASK_RECORD, searchQuery);
 
         executorService.execute(() -> {
             TaskStatusEnum endStatus = finished;
@@ -69,18 +69,17 @@ public class BilibiliTaskManager {
                 endStatus = stop;
                 log.error("{}任务执行异常中止", String.join(module, taskName), e);
             }
-
-            log.debug("{}任务执行完毕: {} ms", String.join(module, taskName), Duration.between(start, now()).toMillis());
-            MongodbDao.update(TASK_RECORD, searchQuery,
+            Instant end = now();
+            log.debug("{}任务执行完毕: {} ms", String.join(module, taskName), Duration.between(start, end).toMillis());
+            BilibiliDao.update(TASK_RECORD, searchQuery,
                     new BasicDBObject()
                             .append("$set", new BasicDBObject()
                                     .append("taskStatus", endStatus)
-                                    .append("endTime", now())));
+                                    .append("endTime", end)));
         });
     }
 
-
-    public void router(String module, String taskName, List<Object> params) {
+    private void router(String module, String taskName, List<Object> params) {
         switch (module) {
             case "crawler":
                 routerCrawler(taskName, params);
@@ -92,10 +91,10 @@ public class BilibiliTaskManager {
         }
     }
 
-    public void routerCrawler(String taskName, List<Object> params) {
+    private void routerCrawler(String taskName, List<Object> params) {
         switch (taskName) {
             case "search":
-                bilibiliCrawler.search((Integer) params.get(0), (Integer) params.get(1));
+                bilibiliCrawler.search((Integer) params.get(0), (Integer) params.get(1), (Integer) params.get(2), (Integer) params.get(3));
                 break;
             default:
         }
@@ -115,11 +114,11 @@ public class BilibiliTaskManager {
 
     public static void main(String[] a) {
         BilibiliTaskManager taskManager = new BilibiliTaskManager();
-//        taskManager.execute("crawler", "search", Arrays.asList(2017, 7));
+        taskManager.execute("crawler", "search", Arrays.asList(17, 2017, 11, 14));
 //        taskManager.execute("crawler", "search", Arrays.asList(2017, 8));
-        taskManager.execute("analysis", "tagsplit", Arrays.asList(2017, 7));
-        taskManager.execute("analysis", "tagsplit", Arrays.asList(2017, 8));
-        taskManager.execute("analysis", "categorydata", Arrays.asList(2017, 7));
-        taskManager.execute("analysis", "categorydata", Arrays.asList(2017, 8));
+//        taskManager.execute("analysis", "tagsplit", Arrays.asList(2017, 7));
+//        taskManager.execute("analysis", "tagsplit", Arrays.asList(2017, 8));
+//        taskManager.execute("analysis", "categorydata", Arrays.asList(2017, 7));
+//        taskManager.execute("analysis", "categorydata", Arrays.asList(2017, 8));
     }
 }

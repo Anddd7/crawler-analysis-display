@@ -13,6 +13,7 @@ import java.time.Instant;
 
 /**
  * @author edliao
+ * 用于mongodb的序列化
  */
 public class MongoCodecProvider implements CodecProvider {
 

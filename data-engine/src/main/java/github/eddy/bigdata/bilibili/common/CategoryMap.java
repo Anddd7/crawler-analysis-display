@@ -1,6 +1,6 @@
 package github.eddy.bigdata.bilibili.common;
 
-import github.eddy.bigdata.core.dao.MongodbDao;
+import github.eddy.bigdata.core.dao.BilibiliDao;
 import github.eddy.common.CollectionTool;
 import lombok.experimental.UtilityClass;
 
@@ -11,6 +11,7 @@ import java.util.Set;
 /**
  * 记录所有类别编号 ,忽略全部类别(投稿量少 但是有投稿 未知原因)
  *
+ * @author edliao
  * @link py-script/bilibili/category.py
  * @apiNote 使用python脚本遍历0-200的编号 抓取投稿数>0的类别编号;同页面的标题栏tid比对 得出类别名称
  */
@@ -111,11 +112,11 @@ public class CategoryMap {
 
     public static void main(String[] a) {
         categoryNames.forEach((integer, s) ->
-                        MongodbDao.insert("category_type",
-                                new CollectionTool.MapBuilder()
-                                        .put("_id", integer)
-                                        .put("cateName", s)
-                                        .build()
-                        ));
+                BilibiliDao.insert("category_type",
+                        new CollectionTool.MapBuilder()
+                                .put("_id", integer)
+                                .put("cateName", s)
+                                .build()
+                ));
     }
 }

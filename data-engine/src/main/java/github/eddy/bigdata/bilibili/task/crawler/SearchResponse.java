@@ -6,10 +6,15 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author edliao
+ * bilibili返回的json报文
+ */
 @Setter
 @Getter
 public class SearchResponse {
     private String json;
+    Integer cateid;
     String exp_list;
     Integer numPages;
     Integer code;

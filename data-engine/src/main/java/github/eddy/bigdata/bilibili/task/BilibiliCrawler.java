@@ -1,50 +1,56 @@
 package github.eddy.bigdata.bilibili.task;
 
-import github.eddy.bigdata.bilibili.common.CategoryMap;
 import github.eddy.bigdata.bilibili.task.crawler.SearchRequest;
-import github.eddy.bigdata.core.dao.MongodbDao;
+import github.eddy.bigdata.bilibili.task.crawler.SearchResponse;
+import github.eddy.bigdata.core.dao.BilibiliDao;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-import static github.eddy.bigdata.bilibili.common.CategoryMap.getCategoryName;
-import static github.eddy.bigdata.bilibili.common.DBTableEnum.source_search;
-import static github.eddy.common.DateTools.getYYYYMM;
+import static github.eddy.bigdata.bilibili.common.DBTableEnum.SOURCE_SEARCH;
+import static github.eddy.common.DateTools.*;
 
+/**
+ * @author edliao
+ * Bilibili数据抓取中心 ,因为数据分析不一定和数据抓取同时进行 ,所以抓取的数据会通过数据库暂存
+ * 同时暂存的数据也可以进行一些展示
+ */
 @Slf4j
 public class BilibiliCrawler {
     /**
-     * 多线程抓取search接口数据
+     * 按年月日抓取单一类别的视频
+     *
+     * @param cateId 视频类别{@link github.eddy.bigdata.bilibili.common.CategoryMap}
+     * @param year
+     * @param month
+     * @param day    如果为空 ,表示抓取某月的视频
      */
-    public void search(int year, int month) {
-        String out = source_search.table(getYYYYMM(year, month));
-        MongodbDao.drop(out);
-
-        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
-        for (Integer cateId : CategoryMap.getCategoryIds()) {
-            fixedThreadPool.execute(() -> {
-                SearchRequest request = new SearchRequest(cateId, year, month);
-                while (request.hasNext()) {
-                    try {
-                        MongodbDao.insert(out, request.next().getResult());
-                    } catch (Exception e) {
-                        log.error("获取数据失败:" + request.getLongURL(), e);
-                    }
-                }
-                log.info("{}的视频已处理完成", getCategoryName(cateId));
-            });
+    public void search(Integer cateId, Integer year, Integer month, Integer day) {
+        String timeFrom = getYYYYMMDD(year, month, day);
+        String timeTo = timeFrom;
+        if (day == null) {
+            String[] timeRange = getDateRangeYYYYMMDD(year, month);
+            timeFrom = timeRange[0];
+            timeTo = timeRange[1];
         }
-        fixedThreadPool.shutdown();
 
-        try {
-            fixedThreadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
-            log.info("{}-{}视频数据已全部插入到{}", year, month, out);
-        } catch (InterruptedException e) {
-            log.error("", e);
+        SearchRequest request = new SearchRequest(cateId, timeFrom, timeTo);
+
+        String collectionName = SOURCE_SEARCH.table(getYYYYMM(year, month));
+        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+        while (request.getHasNext()) {
+            SearchResponse response = request.next();
+            //使用子线程去写入数据库
+            singleThreadExecutor.execute(() ->
+                    response.getResult().forEach(map -> {
+                        map.put("cateid", response.getCateid());
+                        BilibiliDao.insert(collectionName, map);
+                    })
+            );
         }
     }
+
     //https://api.bilibili.com/x/v2/reply?jsonp=jsonp&pn=2&type=1&oid=14237108&sort=0
     //https://api.bilibili.com/archive_rank/getarchiverankbypartion?&type=jsonp&tid=19&pn=2
 }

@@ -7,8 +7,8 @@ import java.util.List;
 import static java.lang.String.join;
 
 public enum DBTableEnum {
-    source_search,
-    analysis_tagcount, analysis_categorydata;
+    SOURCE_SEARCH,
+    ANALYSIS_TAGCOUNT, ANALYSIS_CATEGORYDATA;
 
     public static String TASK_RECORD = "task_record";
 
