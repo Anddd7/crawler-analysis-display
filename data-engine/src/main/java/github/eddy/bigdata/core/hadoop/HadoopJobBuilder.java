@@ -15,6 +15,8 @@ import java.io.IOException;
 import static org.apache.hadoop.mapreduce.Job.getInstance;
 
 /**
+ * Hadoop Job 构造器
+ *
  * @author edliao
  */
 @Slf4j

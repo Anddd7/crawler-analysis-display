@@ -12,8 +12,9 @@ import org.bson.codecs.configuration.CodecRegistry;
 import java.time.Instant;
 
 /**
- * @author edliao
  * 用于mongodb的序列化
+ *
+ * @author edliao
  */
 public class MongoCodecProvider implements CodecProvider {
 

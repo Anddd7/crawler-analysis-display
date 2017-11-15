@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 对LongWritable的封装
+ *
  * @author edliao
  */
 public class LongArrayWritable extends ArrayWritable {

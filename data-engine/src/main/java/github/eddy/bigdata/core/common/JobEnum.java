@@ -1,9 +1,11 @@
 package github.eddy.bigdata.core.common;
 
 /**
- * Created by AnDong on 2017/9/9.
+ * Hadoop Job 类型
+ *
+ * @author edliao
  */
-public enum  JobEnum {
+public enum JobEnum {
     /**
      * hadoop job 4 mongodb
      */

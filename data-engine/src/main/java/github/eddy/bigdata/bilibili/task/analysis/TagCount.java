@@ -12,11 +12,12 @@ import org.bson.BSONObject;
 import java.io.IOException;
 
 /**
- * @author edliao
  * 切分视频的tag并计算tag的出现频率
+ *
+ * @author edliao
  */
 @Slf4j
-public class TagSplit extends AbstractMongoAnalysis {
+public class TagCount extends AbstractMongoAnalysis {
     private static final String SPLITTER = ",";
 
     @Override

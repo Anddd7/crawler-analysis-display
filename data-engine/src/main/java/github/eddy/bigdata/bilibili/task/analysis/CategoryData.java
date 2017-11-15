@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * 计算各分区的数据
+ *
+ * @author edliao
  */
 @Slf4j
 public class CategoryData extends AbstractMongoAnalysis {

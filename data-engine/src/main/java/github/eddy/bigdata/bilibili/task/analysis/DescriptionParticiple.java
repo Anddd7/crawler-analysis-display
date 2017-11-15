@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * 对视频描述的分析 ,使用中文分词包
  */
-public class Description extends AbstractMongoAnalysis{
+public class DescriptionParticiple extends AbstractMongoAnalysis {
 
     @Override
     public void configMapperReducer(HadoopJobBuilder builder) throws IOException {

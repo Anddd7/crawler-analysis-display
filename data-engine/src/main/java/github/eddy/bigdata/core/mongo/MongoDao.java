@@ -1,11 +1,10 @@
-package github.eddy.bigdata.core.dao;
+package github.eddy.bigdata.core.mongo;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
 import github.eddy.bigdata.core.configuration.MongoManager;
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -15,12 +14,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 操作mongodb的集合
+ *
  * @author edliao
+ * @since 11/15/2017
  */
 @Slf4j
-@UtilityClass
-public class BilibiliDao {
-    private final MongoDatabase db = MongoManager.getDatabase("bilibili");
+public class MongoDao {
+    private final MongoDatabase db;
+
+    public MongoDao(String dbName) {
+        db = MongoManager.getDatabase(dbName);
+    }
 
     public MongoCursor<Document> find(String collectionName, Bson filter) {
         FindIterable<Document> findIterable = db.getCollection(collectionName).find(filter);

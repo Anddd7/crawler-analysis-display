@@ -4,17 +4,20 @@ import com.google.common.base.Preconditions;
 import github.eddy.bigdata.core.beans.KnownException;
 import github.eddy.bigdata.core.common.JobEnum;
 import github.eddy.bigdata.core.configuration.MongoManager;
-import github.eddy.bigdata.core.dao.BilibiliDao;
+import github.eddy.bigdata.core.mongo.MongoDao;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 
 /**
+ * 针对Mongo的hadoop分析程序
+ *
  * @author edliao
  */
 @Slf4j
 public abstract class AbstractMongoAnalysis {
+
     /**
      * 自动加载Job配置的方法 ,在里面按顺序注册需要用到的mapper和reducer
      *
@@ -28,6 +31,8 @@ public abstract class AbstractMongoAnalysis {
      */
     public void execute(String collectionName, String in, String out) {
         Preconditions.checkNotNull(in, out);
+        //删除原结果表
+        new MongoDao(collectionName).drop(out);
         try {
             HadoopJobBuilder builder = new HadoopJobBuilder();
             //自动注入mongo+hadoop相关配置

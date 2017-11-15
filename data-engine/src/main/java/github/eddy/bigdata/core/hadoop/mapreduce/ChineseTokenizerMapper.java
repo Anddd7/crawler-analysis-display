@@ -13,8 +13,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 /**
+ * 中文分词Mapper
+ *
  * @author edliao
- * 中文分词
  */
 @Slf4j
 public class ChineseTokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {

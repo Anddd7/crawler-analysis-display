@@ -1,21 +1,21 @@
 package github.eddy.bigdata.bilibili.common;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static java.lang.String.join;
 
+/**
+ * 业务相关MongoDB表名管理
+ *
+ * @author edliao
+ */
 public enum DBTableEnum {
-    SOURCE_SEARCH,
-    ANALYSIS_TAGCOUNT, ANALYSIS_CATEGORYDATA;
-
-    public static String TASK_RECORD = "task_record";
+    //抓取的元数据
+    source_search,
+    //分析结果
+    analysis_tag_count, analysis_category_data,
+    //系统配置
+    sys_task_record, sys_category_type;
 
     public String table(String... suffix) {
-        List<String> list = new ArrayList();
-        list.add(this.name());
-        list.addAll(Arrays.asList(suffix));
-        return join("_", list);
+        return join("_", this.name(), join("_", suffix));
     }
 }
