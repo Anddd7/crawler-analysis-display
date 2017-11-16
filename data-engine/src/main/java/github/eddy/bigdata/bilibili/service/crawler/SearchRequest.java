@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.task.crawler;
+package github.eddy.bigdata.bilibili.service.crawler;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;

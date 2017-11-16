@@ -11,12 +11,13 @@ import io.vertx.ext.web.handler.StaticHandler;
 import java.io.IOException;
 
 /**
- * Vertx 搭建的Http Web服务器
+ * Vertx 搭建的Http服务器
  */
 public class WebServer {
     private final Vertx vertx = Vertx.vertx();
     private final MongoClient mongo = MongoClient.createShared(vertx,
             new JsonObject().put("connection_string", "mongodb://localhost:27017").put("db_name", "bilibili"));
+
 
     public static void main(String[] args) throws IOException {
         WebServer webServer = new WebServer();

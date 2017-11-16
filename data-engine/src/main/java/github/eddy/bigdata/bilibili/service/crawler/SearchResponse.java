@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.task.crawler;
+package github.eddy.bigdata.bilibili.service.crawler;
 
 import lombok.Getter;
 import lombok.Setter;

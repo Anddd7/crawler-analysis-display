@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.task.analysis;
+package github.eddy.bigdata.bilibili.service.analysis;
 
 import github.eddy.bigdata.core.hadoop.AbstractMongoAnalysis;
 import github.eddy.bigdata.core.hadoop.HadoopJobBuilder;

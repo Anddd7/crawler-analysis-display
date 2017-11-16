@@ -1,55 +1,72 @@
-package github.eddy.bigdata.bilibili.task;
+package github.eddy.bigdata.bilibili.service;
 
+import static com.google.common.base.CaseFormat.LOWER_CAMEL;
+import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static github.eddy.bigdata.bilibili.common.DBTableEnum.sys_task_record;
+import static github.eddy.bigdata.bilibili.common.TaskStatusEnum.finished;
 import static github.eddy.bigdata.bilibili.common.TaskStatusEnum.running;
+import static github.eddy.bigdata.bilibili.common.TaskStatusEnum.stop;
 import static java.time.Instant.now;
 
 import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoCursor;
 import github.eddy.bigdata.bilibili.common.TaskStatusEnum;
+import github.eddy.bigdata.bilibili.dao.BilibiliDao;
+import github.eddy.bigdata.bilibili.service.common.TaskParams;
 import github.eddy.bigdata.core.beans.KnownException;
-import github.eddy.bigdata.core.mongo.MongoDao;
-import java.time.Duration;
+import java.lang.reflect.Method;
 import java.time.Instant;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author edliao
  * @since 11/15/2017 模块路由
  */
 @Slf4j
-public abstract class AbstractModule {
+public abstract class AbstractService {
+
+  @Autowired
+  BilibiliDao dao;
 
   private ExecutorService threadPool = Executors.newFixedThreadPool(10);
-  final MongoDao dao = new MongoDao("bilibili");
-
 
   /**
    * 获取模块名
    */
-  public String getModuleName() {
-    String className = this.getClass().getSimpleName().toLowerCase();
-    return className.substring(0, className.length() - 6);
+  private String getServiceName() {
+    String className = this.getClass().getSimpleName();
+    return UPPER_CAMEL.to(LOWER_CAMEL, className.substring(0, className.length() - 7));
   }
 
   /**
    * 执行任务
    */
-  public void execute(String taskName, List<Object> params) {
+  public void execute(String taskName, TaskParams taskParams) {
+    Method method = router(taskName);
+
     BasicDBObject taskModel = new BasicDBObject()
-        .append("module", getModuleName())
+        .append("serviceName", getServiceName())
         .append("taskName", taskName)
-        .append("params", params);
+        .append("params", taskParams.toMap());
 
     taskStart(taskModel);
     threadPool.execute(() -> {
-      router(taskName, params);
-      taskStart(taskModel);
+      TaskStatusEnum endStatus = finished;
+      try {
+        method.invoke(this, taskParams);
+      } catch (Exception e) {
+        endStatus = stop;
+        log.error("", e);
+        throw new KnownException("任务" + taskName + "执行失败", e);
+      } finally {
+        taskEnd(taskModel, endStatus);
+        log.debug("{}任务执行完毕", JSON.toJSONString(taskModel.toMap()));
+      }
     });
   }
 
@@ -82,12 +99,18 @@ public abstract class AbstractModule {
     dao.update(sys_task_record.name(), taskModel,
         new BasicDBObject().append("$set",
             new BasicDBObject().append("taskStatus", endStatus).append("endTime", end)));
-    log.debug("{}任务执行完毕", JSON.toJSONString(taskModel.toMap()),
-        Duration.between((Instant) taskModel.get("startTime"), end).toMillis());
   }
 
   /**
    * 任务子路由
    */
-  abstract void router(String taskName, List<Object> params);
+  private Method router(String taskName) {
+    Class clazz = this.getClass();
+    try {
+      return clazz.getMethod(taskName, TaskParams.class);
+    } catch (NoSuchMethodException e) {
+      log.error("", e);
+      throw new KnownException("任务" + taskName + "不存在", e);
+    }
+  }
 }

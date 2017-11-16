@@ -1,4 +1,4 @@
-package github.eddy.bigdata.bilibili.task.analysis;
+package github.eddy.bigdata.bilibili.service.analysis;
 
 import com.mongodb.hadoop.io.BSONWritable;
 import github.eddy.bigdata.core.hadoop.AbstractMongoAnalysis;
