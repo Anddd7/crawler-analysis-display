@@ -11,17 +11,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * @author edliao Bilibili数据抓取中心 ,因为数据分析不一定和数据抓取同时进行 ,所以抓取的数据会通过数据库暂存 同时暂存的数据也可以进行一些展示
+ * @author edliao
+ *
+ * Bilibili数据抓取中心 ,因为数据分析不一定和数据抓取同时进行 ,所以抓取的数据会通过数据库暂存 同时暂存的数据也可以进行一些展示.
+ * 以较细的粒度抓取数据,在taskManager中进行自主调用
  */
 @Slf4j
 @Service
 public class CrawlerService extends AbstractService {
 
+  /**
+   * 通过search api抓取视频数据
+   */
   public void search(TaskParams taskParams) {
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-    String time = taskParams.getYYYYMMDD();
+    String time = taskParams.getDayDate();
     String collectionName = source_search
-        .table(taskParams.getCateId().toString(), taskParams.getYYYYMM());
+        .table(taskParams.getCateId(), taskParams.getMonthDate());
 
     SearchRequest request = new SearchRequest(taskParams.getCateId(), time, time);
     while (request.getHasNext()) {

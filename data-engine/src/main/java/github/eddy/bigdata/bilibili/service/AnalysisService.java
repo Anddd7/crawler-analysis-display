@@ -17,19 +17,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class AnalysisService extends AbstractService {
 
+  /**
+   * 对指定月份的指定类别进行tag分析
+   */
   public void tagCount(TaskParams taskParams) {
-    String yyyyMM = taskParams.getYYYYMM();
-    new TagCount()
-        .execute(dao.getDbName(),
-            source_search.table(taskParams.getCateId().toString(), yyyyMM),
-            analysis_tag_count.table(taskParams.getCateId().toString(), yyyyMM));
+    new TagCount().execute(dao.getDbName(),
+        source_search.table(taskParams.getCateId(), taskParams.getMonthDate()),
+        analysis_tag_count.table(taskParams.getCateId(), taskParams.getMonthDate()));
   }
 
+  /**
+   * 对指定月份指定类别的播放量汇总
+   */
   public void categoryData(TaskParams taskParams) {
-    String yyyyMM = taskParams.getYYYYMM();
     new CategoryData()
         .execute(dao.getDbName(),
-            source_search.table(taskParams.getCateId().toString(), yyyyMM),
-            analysis_category_data.table(taskParams.getCateId().toString(), yyyyMM));
+            source_search.table(taskParams.getCateId(), taskParams.getMonthDate()),
+            analysis_category_data.table(taskParams.getCateId(), taskParams.getMonthDate()));
   }
 }

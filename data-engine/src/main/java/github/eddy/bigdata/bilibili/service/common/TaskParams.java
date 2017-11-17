@@ -30,14 +30,18 @@ public class TaskParams {
   Integer month;
   Integer day;
 
+  String dayDate;
+  String monthDate;
+
   Map innerMap = null;
 
-  public String getYYYYMMDD() {
-    return DateTools.getYYYYMMDD(year, month, day);
+
+  public String getDayDate() {
+    return dayDate == null ? DateTools.getYYYYMMDD(year, month, day) : dayDate;
   }
 
-  public String getYYYYMM() {
-    return DateTools.getYYYYMM(year, month);
+  public String getMonthDate() {
+    return monthDate == null ? dayDate.substring(0, dayDate.length() - 2) : monthDate;
   }
 
   public Map toMap() {

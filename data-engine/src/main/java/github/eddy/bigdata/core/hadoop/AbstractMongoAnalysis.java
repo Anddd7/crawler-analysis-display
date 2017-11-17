@@ -6,7 +6,6 @@ import github.eddy.bigdata.core.common.JobEnum;
 import github.eddy.bigdata.core.configuration.MongoManager;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -16,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Slf4j
 public abstract class AbstractMongoAnalysis {
-
-  @Autowired
-  MongoManager mongoManager;
 
   /**
    * 自动加载Job配置的方法 ,在里面按顺序注册需要用到的mapper和reducer
@@ -33,8 +29,6 @@ public abstract class AbstractMongoAnalysis {
    */
   public void execute(String dbName, String in, String out) {
     Preconditions.checkNotNull(in, out);
-    //删除原结果表
-    mongoManager.getDatabase(dbName).getCollection(out).drop();
     try {
       HadoopJobBuilder builder = new HadoopJobBuilder();
       //自动注入mongo+hadoop相关配置

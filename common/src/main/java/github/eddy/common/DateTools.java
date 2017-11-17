@@ -31,4 +31,13 @@ public class DateTools {
   public static String getYYYYDD() {
     return yyyyMM.format(now());
   }
+
+
+  public static String cron(){
+    return null;
+  }
+
+  public static void main(String[] args) {
+
+  }
 }

@@ -8,6 +8,7 @@ import github.eddy.bigdata.core.configuration.MongoManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
@@ -62,5 +63,19 @@ public abstract class MongoDao {
 
   public UpdateResult update(String collectionName, Bson filter, Bson data) {
     return db.getCollection(collectionName).updateOne(filter, data);
+  }
+
+  /**
+   * 查询符合条件的collection names
+   */
+  public List<String> filterCollectionNames(Predicate<String> predicate) {
+    List<String> result = new ArrayList<>();
+    db.listCollectionNames().iterator()
+        .forEachRemaining(s -> {
+          if (predicate.test(s)) {
+            result.add(s);
+          }
+        });
+    return result;
   }
 }
