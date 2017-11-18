@@ -1,30 +1,17 @@
 package github.eddy.common;
 
-import java.util.function.Supplier;
+import java.util.function.BiPredicate;
 
+/**
+ * @author edliao 用于比较对象的扩展工具
+ */
 public class CompareTool {
 
   /**
-   * 仿Optional.orElse ,当 o1==null 时才会调用supplier获取o2
+   * 根据条件比较对象 ,true返回第一个 ,false返回第二个
    */
-  public static <T> T getOrElse(T o1, Supplier<T> supplier) {
-    if (o1 != null) {
-      return o1;
-    }
-    return supplier.get();
+  public static <T> T choose(BiPredicate<T, T> predicate, T o1, T o2) {
+    return predicate.test(o1, o2) ? o1 : o2;
   }
 
-  public static <T> T equalOrElse(T o1, T o2, Supplier<T> supplier) {
-    if (o1.equals(o2)) {
-      return o1;
-    }
-    return supplier.get();
-  }
-
-  public static <T> T notEqualOrElse(T o1, T o2, Supplier<T> supplier) {
-    if (!o1.equals(o2)) {
-      return o1;
-    }
-    return supplier.get();
-  }
 }

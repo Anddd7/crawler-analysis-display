@@ -6,22 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author edliao on 2017/7/7.
- * @description JDBC工具类
+ * @author edliao on 2017/7/7. JDBC工具类
  */
 public class JDBCTool {
 
-    private JDBCTool() {
-    }
+  private JDBCTool() {
+  }
 
-    /**
-     * 获取Table的字段
-     */
-    public static List<String> getColumnNames(ResultSetMetaData metaData) throws SQLException {
-        List<String> columns = new ArrayList<>();
-        for (int i = 0; i < metaData.getColumnCount(); i++) {
-            columns.add(metaData.getColumnName(i));
-        }
-        return columns;
+  /**
+   * 获取Table的字段
+   *
+   * @param metaData from sql
+   */
+  public static List<String> getColumnNames(ResultSetMetaData metaData) throws SQLException {
+    List<String> columns = new ArrayList<>();
+    for (int i = 0; i < metaData.getColumnCount(); i++) {
+      columns.add(metaData.getColumnName(i));
     }
+    return columns;
+  }
 }

@@ -22,12 +22,18 @@ public class CollectionTool {
   }
 
   /**
-   * 返回List 数组第一个符合条件的元素 ,没有则返回Optional.empty()
+   * @see CollectionTool#getFirst(List, Predicate)
    */
   public static <T> Optional<T> getFirst(T[] objs, Predicate<T> predicate) {
     return getFirst(Arrays.asList(objs), predicate);
   }
 
+  /**
+   * 返回List 数组第一个符合条件的元素 ,没有则返回Optional.empty()
+   *
+   * @param objs 待筛选数组
+   * @param predicate 条件
+   */
   public static <T> Optional<T> getFirst(List<T> objs, Predicate<T> predicate) {
     for (T obj : objs) {
       if (predicate.test(obj)) {
@@ -39,17 +45,25 @@ public class CollectionTool {
 
   /**
    * 对数组第一个符合条件的元素执行回调
+   *
+   * @param objs,predicate {@link CollectionTool#getFirst(Object[], Predicate)}
+   * @param consumer 回调函数
    */
   public static <T> void dealFirst(T[] objs, Predicate<T> predicate, Consumer<T> consumer) {
     getFirst(objs, predicate).ifPresent(consumer);
   }
 
+  /**
+   * @see CollectionTool#dealFirst(Object[], Predicate, Consumer)
+   */
   public static <T> void dealFirst(List<T> objs, Predicate<T> predicate, Consumer<T> consumer) {
     getFirst(objs, predicate).ifPresent(consumer);
   }
 
   /**
    * 数组判空
+   *
+   * @param objs 待判断数组
    */
   public static Boolean isEmpty(Object[] objs) {
     return objs == null || objs.length == 0;
@@ -57,6 +71,9 @@ public class CollectionTool {
 
   /**
    * 获取Map中第一个符合要求的value值
+   *
+   * @param map 待筛选Map
+   * @param predicate 条件
    */
   public static <K, V> Optional<V> getFirst(Map<K, V> map, Predicate<K> predicate) {
     for (Map.Entry<K, V> entry : map.entrySet()) {
@@ -69,18 +86,28 @@ public class CollectionTool {
 
   /**
    * 处理Map中第一个符合要求的value值
+   *
+   * @param map,predicate {@link CollectionTool#getFirst(Map, Predicate)}
+   * @param consumer 回调函数
    */
   public static <K, V> void dealFirst(Map<K, V> map, Predicate<K> predicate, Consumer<V> consumer) {
     getFirst(map, predicate).ifPresent(consumer);
   }
 
   /**
-   * 同时操作2个数组
+   * @see CollectionTool#merge(Object[], Object[], BiConsumer)
    */
   public static <L, R> void merge(L[] left, R[] right, BiConsumer<L, R> biConsumer) {
     merge(Arrays.asList(left), Arrays.asList(right), biConsumer);
   }
 
+  /**
+   * 对2个数组相同位置的元素进行归并 ,不会超过较小的数组的长度
+   *
+   * @param left 左
+   * @param right 右
+   * @param biConsumer 回调
+   */
   public static <L, R> void merge(List<L> left, List<R> right, BiConsumer<L, R> biConsumer) {
     int count = left.size() < right.size() ? left.size() : right.size();
     for (int i = 0; i < count; i++) {
@@ -89,7 +116,10 @@ public class CollectionTool {
   }
 
   /**
-   * 针对非字符串类型的类进行join
+   * 针对非字符串类型的对象进行join
+   *
+   * @param ch 分隔符
+   * @param objs 对象
    */
   public static String join(CharSequence ch, Object... objs) {
     StringBuilder sb = new StringBuilder();
@@ -103,12 +133,18 @@ public class CollectionTool {
   }
 
   /**
-   * 把数组变成Map
+   * @see CollectionTool#formatArray2Map(String[], String[])
    */
   public static Map<String, String> formatArray2Map(String[] titles, String[] datas) {
     return formatArray2Map(Arrays.asList(titles), Arrays.asList(datas));
   }
 
+  /**
+   * 把数组变成Map
+   *
+   * @param titles 字段名
+   * @param datas 数据值
+   */
   public static Map<String, String> formatArray2Map(List<String> titles, List<String> datas) {
     Map<String, String> map = new HashMap<>();
     for (int i = 0; i < (titles.size() < datas.size() ? titles.size() : datas.size()); i++) {
@@ -117,20 +153,49 @@ public class CollectionTool {
     return map;
   }
 
+  /**
+   * 功能同 {@link java.util.stream.Stream#anyMatch(Predicate)} ,stream是函数式调用 ,某些情况下直接返回true false会更方便
+   *
+   * @param objs 待选项
+   * @param predicate 条件
+   */
+  public static <T> Boolean anyMatch(T[] objs, Predicate<T> predicate) {
+    for (T obj : objs) {
+      if (predicate.test(obj)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * MapBuilder
+   */
   public static class MapBuilder {
 
-    Map map = new HashMap();
+    Map map;
+
+    public MapBuilder() {
+      this.map = new HashMap();
+    }
+
+    public MapBuilder(Map map) {
+      this.map = map;
+    }
+
+    public static MapBuilder of(Map map) {
+      return new MapBuilder(map);
+    }
 
     public MapBuilder put(Object key, Object val) {
       map.put(key, val);
       return this;
     }
 
-    public MapBuilder putSubMap(Object key, Consumer<MapBuilder> consumer) {
+    public MapBuilder put(Object key, Consumer<MapBuilder> consumer) {
       MapBuilder subBuilder = new MapBuilder();
       consumer.accept(subBuilder);
-      map.put(key, subBuilder.build());
-      return this;
+      return put(key, subBuilder.build());
     }
 
     public Map build() {

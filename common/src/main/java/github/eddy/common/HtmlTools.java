@@ -1,10 +1,13 @@
 package github.eddy.common;
 
-import lombok.experimental.UtilityClass;
-
-@UtilityClass
+/**
+ * @author edliao 处理Html标签
+ */
 public class HtmlTools {
 
+  /**
+   * 除去html标签 ,只保留content
+   */
   public static String removeHtmlTags(String string) {
     boolean ignore = false;
     StringBuilder sb = new StringBuilder();
@@ -25,9 +28,5 @@ public class HtmlTools {
         .replaceAll("\n", " ")
         .replaceAll("\\s+", " ")
         .trim();
-  }
-
-  public static String getStringAfter(String string, String prefix) {
-    return string.substring(prefix.length()).trim();
   }
 }

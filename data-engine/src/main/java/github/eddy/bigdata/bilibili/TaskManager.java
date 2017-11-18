@@ -3,6 +3,7 @@ package github.eddy.bigdata.bilibili;
 
 import github.eddy.bigdata.bilibili.service.AbstractService;
 import github.eddy.bigdata.bilibili.service.common.TaskParams;
+import github.eddy.common.DateTools.DateBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -45,6 +46,8 @@ public class TaskManager {
    */
   @Scheduled(cron = "0 0 3 * * ? ")
   public void crawlerYesterday() {
+    execute("crawler", "search",
+        new TaskParams().setDayDate(DateBuilder.ofYesterday().formatY4M2D2()));
   }
 
   /**
@@ -75,8 +78,6 @@ public class TaskManager {
    */
   @Scheduled(cron = "0 0 4 15 * ? *")
   public void analysisLastMonthTagCount() {
-
   }
-
 
 }

@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -28,10 +29,8 @@ public class SearchTest {
 
   @Test
   public void test2() {
-    int i = 0;
-
-    System.out.println(++i);
-    System.out.println(++i);
-    System.out.println(++i);
+    BigDecimal bg = BigDecimal.ONE;
+    System.out.println(bg.add(BigDecimal.ONE));
+    System.out.println(bg.add(BigDecimal.ONE));
   }
 }
