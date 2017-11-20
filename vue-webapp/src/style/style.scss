@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+}
+
+.colorful-icon {
+  width: 42px;
+  height: 42px;
+}
+
+.header {
+  background-color: darkcyan;
+  display: flex;
+  .logo {
+    margin: 0 0 5px 0;
+  }
+}
+
+.mainView {
+  margin: 5px;
+  padding: 10px;
+  border-color: gray;
+  border-style: dashed;
+}
+
+.articleList {
+  .icon {
+    font-size: 25px;
+    color: cornflowerblue;
+  }
+}
+
+.content {
+  .floatBtn {
+    position: fixed;
+    position: fixed;
+    right: 30px;
+    top: 50%;
+  }
+  .tags {
+    font-weight: bold;
+  }
+  img {
+    max-width: 100%;
+  }
+  .replies li {
+    padding: 10px;
+    margin: 20px 0;
+    display: block;
+    border-color: gray;
+    border-width: 1px;
+    border-style: dashed;
+    .el-row {
+      border-bottom: 1px solid gray;
+    }
+  }
+}

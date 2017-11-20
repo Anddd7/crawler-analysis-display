@@ -26,7 +26,6 @@
 package org.wltea.analyzer.sample;
 
 import java.io.IOException;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;

@@ -1,7 +1,8 @@
 package github.eddy.bigdata.bilibili.service.common;
 
 
-import github.eddy.common.DateTools;
+import static github.eddy.common.DateTools.DateBuilder.of;
+
 import github.eddy.common.ReflectTool;
 import java.util.Map;
 import lombok.Getter;
@@ -33,11 +34,13 @@ public class TaskParams {
 
 
   public String getDayDate() {
-    return dayDate == null ? DateTools.getYYYYMMDD(year, month, day) : dayDate;
+    return dayDate == null ?
+        setDayDate(of(year, month, day).formatY4M2D2()).getDayDate() : dayDate;
   }
 
   public String getMonthDate() {
-    return monthDate == null ? dayDate.substring(0, dayDate.length() - 2) : monthDate;
+    return monthDate == null ?
+        setMonthDate(getDayDate().substring(0, dayDate.length() - 2)).getMonthDate() : monthDate;
   }
 
   public Map toMap() {
