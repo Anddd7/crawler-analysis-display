@@ -1,21 +1,25 @@
-package github.eddy.bigdata.routers;
+package github.eddy.bigdata.services;
 
 import static io.vertx.ext.sync.Sync.awaitResult;
 
+import co.paralleluniverse.fibers.Suspendable;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
+import io.vertx.ext.sync.Sync;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.redis.RedisClient;
 import io.vertx.redis.RedisOptions;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author edliao
  * @since 11/16/2017 TODO
  */
+@Slf4j
 public class BilibiliRouterHandler extends AbstractRouterHandler {
 
   public BilibiliRouterHandler(Vertx vertx, Router router) {
@@ -33,26 +37,25 @@ public class BilibiliRouterHandler extends AbstractRouterHandler {
 
   @Override
   void mappingRouterHandler(Router router) {
-    router.get("/api/mongodb/list").handler(this::listMongoCollections);
+    router.get("/api/mongodb/list").handler(Sync.fiberHandler(this::listMongoCollections));
     router.get("/api/mongodb/get/:collectionName").handler(this::getMongoCollection);
   }
 
   private MongoClient mongo;
   private RedisClient redis;
 
+  @Suspendable
   private void listMongoCollections(RoutingContext ctx) {
     mongo.getCollections(event -> {
           Map<String, Long> map = new HashMap<>();
           for (String s : event.result()) {
-            /**
-             * TODO 异步失败 ,需要研究Quasar的用法
-             */
             Long count = awaitResult(h -> mongo.count(s, new JsonObject(), h));
             map.put(s, count);
           }
           responseAsJson(ctx, map);
         }
     );
+    log.info("使用sync标记handler后方法仍旧异步 ,使用awaitResult开启同步等待");
   }
 
   private void getMongoCollection(RoutingContext ctx) {

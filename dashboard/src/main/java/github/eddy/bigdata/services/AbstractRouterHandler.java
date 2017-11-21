@@ -1,4 +1,4 @@
-package github.eddy.bigdata.routers;
+package github.eddy.bigdata.services;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

@@ -29,6 +29,8 @@
       <version>${cglib.v}</version>
     </dependency>
 
+    <!--use jar from mongo hadoop driver-->
+    <!--
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>mongo-java-driver</artifactId>
@@ -45,7 +47,7 @@
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-common</artifactId>
       <version>${hadoop.v}</version>
-    </dependency>
+    </dependency>-->
 
     <dependency>
       <groupId>com.janeluo</groupId>
@@ -71,7 +73,7 @@
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>1.5.6.RELEASE</version>
+        <version>${spring-boot.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

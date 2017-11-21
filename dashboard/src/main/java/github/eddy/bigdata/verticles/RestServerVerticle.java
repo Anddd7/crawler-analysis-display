@@ -1,32 +1,29 @@
-package github.eddy.bigdata;
+package github.eddy.bigdata.verticles;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
-import github.eddy.bigdata.routers.AbstractRouterHandler;
-import github.eddy.bigdata.routers.BilibiliRouterHandler;
+import github.eddy.bigdata.services.AbstractRouterHandler;
+import github.eddy.bigdata.services.BilibiliRouterHandler;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author edliao Vertx 搭建的Http服务器
+ * @author edliao
+ * @since 11/21/2017 本应用向外提供http服务的verticle
  */
 @Slf4j
-public class WebServer {
+public class RestServerVerticle extends AbstractVerticle {
 
-  private final Vertx vertx = Vertx.vertx();
   Map<String, AbstractRouterHandler> routerHandlers;
 
-  public static void main(String[] args) throws IOException {
-    WebServer webServer = new WebServer();
-    webServer.start();
-  }
-
-  public void start() {
+  @Override
+  public void start(Future<Void> startFuture) throws Exception {
     Router router = Router.router(vertx);
     try {
       initRouterHandlers(router, BilibiliRouterHandler.class);
@@ -35,6 +32,7 @@ public class WebServer {
       System.exit(0);
     }
     vertx.createHttpServer().requestHandler(router::accept).listen(9999);
+    startFuture.complete();
   }
 
   private <T extends AbstractRouterHandler> void initRouterHandlers(Router router,
