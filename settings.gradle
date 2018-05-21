@@ -1,0 +1,5 @@
+rootProject.name = 'crawler-analysis-display'
+
+include 'crawler-bilibili:search-api'
+include 'application-commons'
+

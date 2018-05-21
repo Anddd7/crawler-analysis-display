@@ -1,0 +1,14 @@
+apply plugin: 'idea'
+idea.project.vcs = 'Git'
+
+allprojects {
+    group = 'com.github.anddd7'
+    version = rootVersion
+}
+
+subprojects {
+    repositories {
+        mavenLocal()
+        maven { url = 'http://repo.maven.apache.org/maven2' }
+    }
+}

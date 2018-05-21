@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: Crawler 4 BILIBILI - Search Service
+    description:
+  jackson:
+    default-property-inclusion: non_empty
+
+server:
+  port: 10031
+  servlet:
+    context-path: /api
+
+swagger:
+  enabled: true
+  protocol: http
+
+api:
+  version: v1
+
+info:
+  app:
+    name:  Crawler 4 BILIBILI - Search Service
+    description:
+     protocol: http
+  version: 1.0.0
+  contact:
+    author: Anddd7
+    email: liaoad_space@sina.com
