@@ -1,0 +1,15 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url = 'http://repo.maven.apache.org/maven2' }
+}
+
+dependencies {
+    compileOnly "com.google.guava:guava:${guavaVersion}"
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    testCompile("junit:junit:${junitVersion}")
+}
