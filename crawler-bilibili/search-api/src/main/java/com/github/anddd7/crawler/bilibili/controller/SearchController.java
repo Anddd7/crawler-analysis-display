@@ -1,6 +1,6 @@
 package com.github.anddd7.crawler.bilibili.controller;
 
-import com.github.anddd7.boot.exception.NotSupportedException;
+import com.github.anddd7.boot.exception.ResourceNotFoundException;
 import com.github.anddd7.boot.utils.constant.Constants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchController {
 
   @GetMapping("/today")
-  public ResponseEntity<String> getToday() {
-    return new NotSupportedException().toResponse();
+  public ResponseEntity getToday() {
+    throw new ResourceNotFoundException("Not implement");
   }
 
 }

@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @JsonInclude(NON_EMPTY)
-public class ApiErrors {
+class ApiErrors {
 
   private List<ApiError> errors;
 }

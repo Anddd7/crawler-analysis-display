@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @JsonInclude(NON_EMPTY)
-public class ApiError {
+class ApiError {
 
   private String status;
   private String code;
