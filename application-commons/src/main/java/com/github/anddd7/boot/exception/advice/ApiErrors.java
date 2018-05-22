@@ -1,4 +1,4 @@
-package com.github.anddd7.crawler.bilibili.exception.advice;
+package com.github.anddd7.boot.exception.advice;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
@@ -11,5 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonInclude(NON_EMPTY)
 public class ApiErrors {
-    private List<ApiError> errors;
+
+  private List<ApiError> errors;
 }

@@ -1,4 +1,4 @@
-package com.github.anddd7.crawler.bilibili.exception;
+package com.github.anddd7.boot.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 

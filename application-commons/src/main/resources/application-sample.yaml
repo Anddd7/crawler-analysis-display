@@ -1,5 +1,5 @@
 server:
-  port: 10031
+  port: 8080
   servlet:
     context-path: /api
 
@@ -7,8 +7,8 @@ api:
   version: v1
 
 rest:
-  connectTimeout: 5000
-  readTimeout: 5000
+  connectTimeout: 1000
+  readTimeout: 1000
 
 swagger:
   enabled: true
@@ -16,8 +16,8 @@ swagger:
 
 info:
   app:
-    name: Crawler 4 BILIBILI - Search Service
-    description: MicroService - Crawler 4 BILIBILI - Search Service
+    name: Common Utils
+    description: Common configs and utils for Micro Services
     protocol: http
   version: 1.0.0
   contact:
