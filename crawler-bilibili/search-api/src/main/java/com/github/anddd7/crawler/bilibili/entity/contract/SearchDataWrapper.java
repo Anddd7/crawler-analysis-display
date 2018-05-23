@@ -2,9 +2,6 @@ package com.github.anddd7.crawler.bilibili.entity.contract;
 
 import lombok.Data;
 
-/**
- * TODO ignore and format field
- */
 @Data
 public class SearchDataWrapper {
 

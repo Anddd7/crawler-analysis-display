@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- */
 @RestController
-@RequestMapping(value = "/${api.version}/repository", produces = Constants.CONTENT_TYPE)
+@RequestMapping(value = "/${api.version}/category", produces = Constants.CONTENT_TYPE)
 public class CategoryController {
 
   private final CategoryRepository categoryRepository;
