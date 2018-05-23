@@ -1,13 +1,3 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        maven { url = 'http://repo.maven.apache.org/maven2' }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
-    }
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
@@ -20,14 +10,24 @@ subprojects {
         compile project(":application-commons")
 
         compile "com.google.guava:guava:${guavaVersion}"
-        compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
         compile("io.springfox:springfox-swagger2:${swaggerVersion}")
         compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
 
         compile 'org.springframework.boot:spring-boot-starter-web'
         compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
         runtime('org.springframework.boot:spring-boot-devtools')
         runtime('com.h2database:h2')
+
+        compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
         testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
+}
+
+hello {
+    doLast { task ->
+        println("Micro Services - Crawler Bilibili Group")
     }
 }

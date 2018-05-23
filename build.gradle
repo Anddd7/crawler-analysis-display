@@ -1,14 +1,21 @@
-apply plugin: 'idea'
-idea.project.vcs = 'Git'
-
-allprojects {
-    group = 'com.github.anddd7'
-    version = rootVersion
+plugins {
+    id 'org.springframework.boot' version "2.0.2.RELEASE" apply false
 }
 
-subprojects {
+allprojects {
+    apply plugin: 'idea'
+
+    group = 'com.github.anddd7'
+    version = rootVersion
+
     repositories {
         mavenLocal()
-        maven { url = 'http://repo.maven.apache.org/maven2' }
+        mavenCentral()
+    }
+
+    task hello {
+        doLast { task ->
+            println("I'm $task.project.name")
+        }
     }
 }

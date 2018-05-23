@@ -1,7 +1,9 @@
 package com.github.anddd7.boot.utils.constant;
 
 import java.time.format.DateTimeFormatter;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class Constants {
 
   public static final String CONTENT_TYPE = "application/json";
