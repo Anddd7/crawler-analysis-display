@@ -8,7 +8,9 @@ public class Constants {
 
   public static final String CONTENT_TYPE = "application/json";
 
-  public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+  public static final DateTimeFormatter DATE_NO_SEPARATOR = DateTimeFormatter
       .ofPattern("yyyyMMdd");
 
+  public static final DateTimeFormatter DATE_TIME = DateTimeFormatter
+      .ofPattern("yyyy-MM-dd HH:mm:ss");
 }

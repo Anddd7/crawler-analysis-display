@@ -1,14 +1,13 @@
 package com.github.anddd7.crawler.bilibili.client;
 
+import com.github.anddd7.crawler.bilibili.client.response.SearchDataWrapper;
+import com.github.anddd7.crawler.bilibili.controller.command.SearchByCategoryCommand;
 import com.github.anddd7.crawler.bilibili.utils.constant.CopyRight;
 import com.github.anddd7.crawler.bilibili.utils.constant.Order;
-import com.github.anddd7.crawler.bilibili.controller.command.SearchByCategoryCommand;
-import com.github.anddd7.crawler.bilibili.entity.contract.SearchDataWrapper;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,7 +33,7 @@ public class SearchClient {
     this.restTemplate = restTemplate;
   }
 
-  public ResponseEntity<SearchDataWrapper> searchByCategory(SearchByCategoryCommand command) {
+  public SearchDataWrapper searchByCategory(SearchByCategoryCommand command) {
     String queryParameters = Joiner.on("&")
         .withKeyValueSeparator("=")
         .join(ImmutableMap.builder()
@@ -51,6 +50,6 @@ public class SearchClient {
             .put("time_to", command.getToDate())
             .build());
     URI uri = URI.create(String.format("%s?%s", BASE_URL, queryParameters));
-    return restTemplate.getForEntity(uri, SearchDataWrapper.class);
+    return restTemplate.getForObject(uri, SearchDataWrapper.class);
   }
 }

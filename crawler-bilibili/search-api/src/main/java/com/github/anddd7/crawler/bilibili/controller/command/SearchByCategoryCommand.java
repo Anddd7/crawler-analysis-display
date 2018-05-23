@@ -19,10 +19,10 @@ public class SearchByCategoryCommand {
   private DateRangeCommand dateRange;
 
   public String getFromDate() {
-    return dateRange.getFromDate().format(Constants.DATE_TIME_FORMATTER);
+    return dateRange.getFromDate().format(Constants.DATE_NO_SEPARATOR);
   }
 
   public String getToDate() {
-    return dateRange.getToDate().format(Constants.DATE_TIME_FORMATTER);
+    return dateRange.getToDate().format(Constants.DATE_NO_SEPARATOR);
   }
 }
