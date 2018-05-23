@@ -1,4 +1,4 @@
-package com.github.anddd7.crawler.bilibili.constant;
+package com.github.anddd7.crawler.bilibili.utils.constant;
 
 /**
  * 搜索结果排序方式

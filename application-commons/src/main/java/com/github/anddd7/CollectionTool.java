@@ -18,10 +18,10 @@ import lombok.experimental.UtilityClass;
 public class CollectionTool {
 
   /**
-   * @see CollectionTool#getFirst(List, Predicate)
+   * @see CollectionTool#findFirst(List, Predicate)
    */
-  public static <T> Optional<T> getFirst(T[] objs, Predicate<T> predicate) {
-    return getFirst(Arrays.asList(objs), predicate);
+  public static <T> Optional<T> findFirst(T[] objs, Predicate<T> predicate) {
+    return findFirst(Arrays.asList(objs), predicate);
   }
 
   /**
@@ -30,7 +30,7 @@ public class CollectionTool {
    * @param objs 待筛选数组
    * @param predicate 条件
    */
-  public static <T> Optional<T> getFirst(List<T> objs, Predicate<T> predicate) {
+  public static <T> Optional<T> findFirst(List<T> objs, Predicate<T> predicate) {
     for (T obj : objs) {
       if (predicate.test(obj)) {
         return Optional.ofNullable(obj);
@@ -42,18 +42,18 @@ public class CollectionTool {
   /**
    * 对数组第一个符合条件的元素执行回调
    *
-   * @param objs,predicate {@link CollectionTool#getFirst(Object[], Predicate)}
+   * @param objs,predicate {@link CollectionTool#findFirst(Object[], Predicate)}
    * @param consumer 回调函数
    */
   public static <T> void dealFirst(T[] objs, Predicate<T> predicate, Consumer<T> consumer) {
-    getFirst(objs, predicate).ifPresent(consumer);
+    findFirst(objs, predicate).ifPresent(consumer);
   }
 
   /**
    * @see CollectionTool#dealFirst(Object[], Predicate, Consumer)
    */
   public static <T> void dealFirst(List<T> objs, Predicate<T> predicate, Consumer<T> consumer) {
-    getFirst(objs, predicate).ifPresent(consumer);
+    findFirst(objs, predicate).ifPresent(consumer);
   }
 
   /**
@@ -71,7 +71,7 @@ public class CollectionTool {
    * @param map 待筛选Map
    * @param predicate 条件
    */
-  public <K, V> Optional<V> getFirst(Map<K, V> map, Predicate<K> predicate) {
+  public <K, V> Optional<V> findFirst(Map<K, V> map, Predicate<K> predicate) {
     for (Map.Entry<K, V> entry : map.entrySet()) {
       if (predicate.test(entry.getKey())) {
         return Optional.ofNullable(entry.getValue());
@@ -83,11 +83,11 @@ public class CollectionTool {
   /**
    * 处理Map中第一个符合要求的value值
    *
-   * @param map,predicate {@link CollectionTool#getFirst(Map, Predicate)}
+   * @param map,predicate {@link CollectionTool#findFirst(Map, Predicate)}
    * @param consumer 回调函数
    */
   public <K, V> void dealFirst(Map<K, V> map, Predicate<K> predicate, Consumer<V> consumer) {
-    getFirst(map, predicate).ifPresent(consumer);
+    findFirst(map, predicate).ifPresent(consumer);
   }
 
   /**

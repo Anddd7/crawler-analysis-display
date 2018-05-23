@@ -13,12 +13,12 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compileOnly "com.google.guava:guava:${GuavaVersion}"
-    compileOnly("org.projectlombok:lombok:${LombokVersion}")
+    compile "com.google.guava:guava:${GuavaVersion}"
+    compile("org.projectlombok:lombok:${LombokVersion}")
 
-    compileOnly("io.springfox:springfox-swagger2:${SwaggerVersion}")
+    compile("io.springfox:springfox-swagger2:${SwaggerVersion}")
 
-    compileOnly "org.springframework.boot:spring-boot-starter-web:${SpringBootVersion}"
-    compileOnly("org.springframework.boot:spring-boot-starter-data-jpa:${SpringBootVersion}")
-    compileOnly("org.springframework.boot:spring-boot-starter-test:${SpringBootVersion}")
+    compile "org.springframework.boot:spring-boot-starter-web:${SpringBootVersion}"
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${SpringBootVersion}")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${SpringBootVersion}")
 }

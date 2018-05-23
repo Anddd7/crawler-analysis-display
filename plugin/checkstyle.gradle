@@ -1,0 +1,15 @@
+apply plugin: 'checkstyle'
+
+ext {
+    checkstyleConfigDir = file("${rootProject.projectDir}/config/checkstyle")
+    checkstyleMainFile = file("${checkstyleConfigDir}/checkstyle-main.xml")
+    checkstyleTestFile = file("${checkstyleConfigDir}/checkstyle-test.xml")
+}
+
+checkstyle {
+    configProperties.checkstyleConfigDir = checkstyleConfigDir
+    configFile = checkstyleTestFile
+    checkstyleMain.configFile = checkstyleMainFile
+
+    toolVersion = 8.2
+}

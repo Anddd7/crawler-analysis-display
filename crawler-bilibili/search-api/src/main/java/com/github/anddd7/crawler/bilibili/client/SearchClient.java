@@ -1,7 +1,7 @@
 package com.github.anddd7.crawler.bilibili.client;
 
-import com.github.anddd7.crawler.bilibili.constant.CopyRight;
-import com.github.anddd7.crawler.bilibili.constant.Order;
+import com.github.anddd7.crawler.bilibili.utils.constant.CopyRight;
+import com.github.anddd7.crawler.bilibili.utils.constant.Order;
 import com.github.anddd7.crawler.bilibili.controller.command.SearchByCategoryCommand;
 import com.github.anddd7.crawler.bilibili.entity.contract.SearchDataWrapper;
 import com.google.common.base.Joiner;
