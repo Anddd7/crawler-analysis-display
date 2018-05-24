@@ -1,5 +1,0 @@
-hello {
-    doLast { task ->
-        println("Service Implement...")
-    }
-}

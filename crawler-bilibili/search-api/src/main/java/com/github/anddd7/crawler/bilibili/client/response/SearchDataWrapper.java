@@ -2,9 +2,11 @@ package com.github.anddd7.crawler.bilibili.client.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class SearchDataWrapper {
 
   private List<VideoData> result;

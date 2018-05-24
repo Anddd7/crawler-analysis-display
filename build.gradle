@@ -1,17 +1,16 @@
+// find plugin
 buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${SpringBootVersion}")
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "4.7"
-}
-
+// common config
 allprojects {
     group = 'com.github.anddd7'
     version = rootVersion
@@ -19,11 +18,58 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        jcenter()
+    }
+}
+
+apply plugin: 'jacoco'
+
+// execute jacoco in multi projects
+task jacocoTestReport(type: JacocoReport) {
+    sourceDirectories = files()
+    classDirectories = files()
+    executionData = files()
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = false
     }
 
-    task hello {
-        doLast { task ->
-            println("I'm $task.project.name")
-        }
+    // Work-around to allow us to build list of executionData files in doFirst
+    onlyIf = {
+        true
     }
+
+    /*
+     * Builds list of source dirs, class dirs, and executionData files
+     * when task is run, not at script evaluation time
+     */
+    doFirst {
+        subprojects.findAll { subproject ->
+            subproject.pluginManager.hasPlugin('java')
+        }.each { subproject ->
+            // add all source file
+            additionalSourceDirs files((Set<File>) subproject.sourceSets.main.allJava.srcDirs)
+            // add all class file
+            additionalClassDirs((FileCollection) subproject.sourceSets.main.output)
+            // scan files if have jacoco plugin
+            if (subproject.pluginManager.hasPlugin('jacoco')) {
+                executionData subproject.tasks.jacocoTestReport.executionData
+            }
+        }
+
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
+    }
+}
+
+// relate task into build
+task build {
+    dependsOn tasks.jacocoTestReport
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "4.7"
 }

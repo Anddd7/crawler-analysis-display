@@ -49,7 +49,7 @@ public class SearchClient {
             .put("time_from", command.getFromDate())
             .put("time_to", command.getToDate())
             .build());
-    URI uri = URI.create(String.format("%s?%s", BASE_URL, queryParameters));
-    return restTemplate.getForObject(uri, SearchDataWrapper.class);
+    String url = String.format("%s?%s", BASE_URL, queryParameters);
+    return restTemplate.getForObject(url, SearchDataWrapper.class);
   }
 }
