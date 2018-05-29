@@ -1,5 +1,8 @@
 rootProject.name = 'crawler-analysis-display'
 
-include 'crawler-bilibili:search-api'
-include 'application-commons'
+//include 'application-commons'
+//include 'crawler-bilibili:search-api'
+//include 'analysis-bilibili'
 
+
+//project(':search-api').projectDir = "$rootDir/crawler-bilibili/search-api" as File

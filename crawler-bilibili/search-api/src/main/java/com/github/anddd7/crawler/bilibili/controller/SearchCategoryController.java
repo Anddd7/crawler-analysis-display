@@ -1,8 +1,8 @@
 package com.github.anddd7.crawler.bilibili.controller;
 
 import com.github.anddd7.boot.utils.constant.Constants;
-import com.github.anddd7.crawler.bilibili.controller.command.DateRangeCommand;
-import com.github.anddd7.crawler.bilibili.controller.command.SearchByCategoryCommand;
+import com.github.anddd7.crawler.bilibili.entity.command.DateRangeCommand;
+import com.github.anddd7.crawler.bilibili.entity.command.SearchByCategoryCommand;
 import com.github.anddd7.crawler.bilibili.entity.PageContainer;
 import com.github.anddd7.crawler.bilibili.entity.VideoRecord;
 import com.github.anddd7.crawler.bilibili.service.SearchService;

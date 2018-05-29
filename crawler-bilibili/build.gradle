@@ -1,20 +1,8 @@
 subprojects {
-    apply plugin: 'java'
-    apply plugin: 'idea'
+    apply from: rootProject.file('plugin/idea-common.gradle')
+    apply from: rootProject.file('plugin/jacoco-common.gradle')
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply from: rootProject.file('plugin/jacoco-common.gradle')
-
-    idea {
-        module {
-            inheritOutputDirs = false
-            outputDir = compileJava.destinationDir
-            testOutputDir = compileTestJava.destinationDir
-        }
-    }
-
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
 
     dependencies {
         compile project(":application-commons")
@@ -33,9 +21,5 @@ subprojects {
         compileOnly("org.projectlombok:lombok:${LombokVersion}")
 
         testCompile('org.springframework.boot:spring-boot-starter-test')
-    }
-
-    sourceSets {
-        // customizations
     }
 }

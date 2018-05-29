@@ -1,7 +1,10 @@
 package com.github.anddd7.crawler.bilibili.client.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.anddd7.crawler.bilibili.entity.PageContainer;
+import com.github.anddd7.crawler.bilibili.entity.VideoRecord;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
 
@@ -28,4 +31,18 @@ public class SearchDataWrapper {
   private String numPages;
   private String msg;
   private String egg_hit;
+
+  public PageContainer<VideoRecord> mappingToPageContainer() {
+    PageContainer pageContainer = PageContainer.<VideoRecord>builder()
+        .pageNumber(Integer.valueOf(this.getPage()))
+        .pageSize(Integer.valueOf(this.getPagesize()))
+        .currentElements(this.getResult().size())
+        .totalPages(Integer.valueOf(this.getNumPages()))
+        .totalElements(Integer.valueOf(this.getNumResults()))
+        .hasNext(this.getPage().equals(this.getNumPages()))
+        .elements(
+            this.getResult().stream().map(VideoData::mappingToVideoRecord).collect(Collectors.toList()))
+        .build();
+    return pageContainer;
+  }
 }

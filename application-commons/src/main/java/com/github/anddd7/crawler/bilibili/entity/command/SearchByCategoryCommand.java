@@ -1,4 +1,4 @@
-package com.github.anddd7.crawler.bilibili.controller.command;
+package com.github.anddd7.crawler.bilibili.entity.command;
 
 import com.github.anddd7.boot.utils.constant.Constants;
 import lombok.AllArgsConstructor;

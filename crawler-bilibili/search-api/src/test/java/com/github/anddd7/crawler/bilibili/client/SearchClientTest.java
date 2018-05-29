@@ -5,8 +5,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.github.anddd7.crawler.bilibili.client.response.SearchDataWrapper;
-import com.github.anddd7.crawler.bilibili.controller.command.DateRangeCommand;
-import com.github.anddd7.crawler.bilibili.controller.command.SearchByCategoryCommand;
+import com.github.anddd7.crawler.bilibili.entity.command.DateRangeCommand;
+import com.github.anddd7.crawler.bilibili.entity.command.SearchByCategoryCommand;
 import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;

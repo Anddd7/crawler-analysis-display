@@ -73,3 +73,9 @@ task build {
 task wrapper(type: Wrapper) {
     gradleVersion = "4.7"
 }
+
+task clean {
+    doLast {
+        file('./build').deleteDir()
+    }
+}

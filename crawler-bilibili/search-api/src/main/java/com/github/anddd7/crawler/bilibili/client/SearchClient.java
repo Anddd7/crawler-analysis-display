@@ -1,12 +1,12 @@
 package com.github.anddd7.crawler.bilibili.client;
 
+import com.github.anddd7.boot.properties.RemoteServerProperties;
 import com.github.anddd7.crawler.bilibili.client.response.SearchDataWrapper;
-import com.github.anddd7.crawler.bilibili.controller.command.SearchByCategoryCommand;
-import com.github.anddd7.crawler.bilibili.utils.constant.CopyRight;
-import com.github.anddd7.crawler.bilibili.utils.constant.Order;
+import com.github.anddd7.crawler.bilibili.constant.CopyRight;
+import com.github.anddd7.crawler.bilibili.constant.Order;
+import com.github.anddd7.crawler.bilibili.entity.command.SearchByCategoryCommand;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
-import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,17 +20,19 @@ public class SearchClient {
   /**
    * 固定参数
    */
-  private static final String BASE_URL = "https://s.search.bilibili.com/cate/search";
   private static final String MAIN_VERSION = "v3";
   private static final String SEARCH_TYPE = "video";
   private static final String VIEW_TYPE = "hot_rank";
   private static final String PIC_SIZE = "160x100";
 
   private final RestTemplate restTemplate;
+  private final RemoteServerProperties remoteServerProperties;
 
   @Autowired
-  public SearchClient(final RestTemplate restTemplate) {
+  public SearchClient(final RestTemplate restTemplate,
+      final RemoteServerProperties remoteServerProperties) {
     this.restTemplate = restTemplate;
+    this.remoteServerProperties = remoteServerProperties;
   }
 
   public SearchDataWrapper searchByCategory(SearchByCategoryCommand command) {
@@ -49,7 +51,9 @@ public class SearchClient {
             .put("time_from", command.getFromDate())
             .put("time_to", command.getToDate())
             .build());
-    String url = String.format("%s?%s", BASE_URL, queryParameters);
+    String url = String.format("%s?%s", remoteServerProperties.getURI(), queryParameters);
     return restTemplate.getForObject(url, SearchDataWrapper.class);
   }
+
+
 }

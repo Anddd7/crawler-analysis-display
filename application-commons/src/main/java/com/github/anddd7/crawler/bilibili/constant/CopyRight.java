@@ -1,4 +1,4 @@
-package com.github.anddd7.crawler.bilibili.utils.constant;
+package com.github.anddd7.crawler.bilibili.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

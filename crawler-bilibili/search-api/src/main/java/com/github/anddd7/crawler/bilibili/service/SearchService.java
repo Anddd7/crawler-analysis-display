@@ -2,9 +2,9 @@ package com.github.anddd7.crawler.bilibili.service;
 
 import com.github.anddd7.crawler.bilibili.client.SearchClient;
 import com.github.anddd7.crawler.bilibili.client.response.SearchDataWrapper;
-import com.github.anddd7.crawler.bilibili.controller.command.SearchByCategoryCommand;
 import com.github.anddd7.crawler.bilibili.entity.PageContainer;
 import com.github.anddd7.crawler.bilibili.entity.VideoRecord;
+import com.github.anddd7.crawler.bilibili.entity.command.SearchByCategoryCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +24,6 @@ public class SearchService {
   }
 
   private PageContainer<VideoRecord> packageVideoRecord(SearchDataWrapper searchDataWrapper) {
-    return PageContainer.buildFrom(searchDataWrapper);
+    return searchDataWrapper.mappingToPageContainer();
   }
 }

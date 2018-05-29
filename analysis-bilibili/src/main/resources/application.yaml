@@ -1,5 +1,5 @@
 server:
-  port: 10031
+  port: 10000
   servlet:
     context-path: /api
 
@@ -7,8 +7,8 @@ api:
   version: v1
 
 remote:
-  baseURL: https://s.search.bilibili.com
-  contextURL: /cate/search
+  baseURL: http://localhost:10030
+  contextURL: /v1/api
 
 rest:
   connectTimeout: 5000
@@ -20,8 +20,8 @@ swagger:
 
 info:
   app:
-    name: Crawler 4 BILIBILI - Search Service
-    description: MicroService - Crawler 4 BILIBILI - Search Service
+    name: Analysis 4 BILIBILI - Analysis Service
+    description: MicroService - Analysis 4 BILIBILI - Analysis Service
     protocol: http
   version: 1.0.0
   contact:

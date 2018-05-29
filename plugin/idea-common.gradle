@@ -1,0 +1,13 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

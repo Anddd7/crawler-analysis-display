@@ -1,4 +1,4 @@
-package com.github.anddd7.crawler.bilibili.controller.command;
+package com.github.anddd7.crawler.bilibili.entity.command;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
