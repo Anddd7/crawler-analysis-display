@@ -1,4 +1,4 @@
-package com.github.anddd7;
+package com.github.anddd7.util;
 
 import java.util.Optional;
 import org.junit.Assert;

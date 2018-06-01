@@ -1,8 +1,7 @@
-apply from: rootProject.file('plugin/feign-client.gradle')
+apply from: rootProject.file('plugin/spring-cloud-project.gradle')
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-    compile project(":service-common")
     compile project(":bilibili-common")
 }
 

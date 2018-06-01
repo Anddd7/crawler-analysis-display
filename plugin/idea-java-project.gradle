@@ -1,0 +1,26 @@
+/**
+ *  Java项目基础配置
+ */
+
+apply plugin: 'idea'
+apply plugin: 'java'
+
+// idea 编译路径同步
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+    }
+}
+
+// 统一JDK8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// 工具
+dependencies {
+    compile "com.google.guava:guava:${GuavaVersion}"
+    compile("org.projectlombok:lombok:${LombokVersion}")
+    testCompile("junit:junit:${JunitVersion}")
+}

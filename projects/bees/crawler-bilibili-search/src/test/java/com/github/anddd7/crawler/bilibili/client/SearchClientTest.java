@@ -15,9 +15,8 @@ import org.springframework.web.client.RestTemplate;
 
 public class SearchClientTest {
 
-
-  private final RemoteServerProperties remoteServerProperties = new RemoteServerProperties(
-      "http//test", "/api");
+  private final RemoteServerProperties remoteServerProperties =
+      new RemoteServerProperties("http://test", "/api");
   private RestTemplate restTemplate;
   private SearchClient searchClient;
 
@@ -40,7 +39,8 @@ public class SearchClientTest {
                 .build()
         )
         .build();
-    String expectedUrl = "https://s.search.bilibili.com/cate/search?"
+
+    final String expectedUrl = "http://test/api?"
         + "main_ver=v3&"
         + "search_type=video&"
         + "view_type=hot_rank&"

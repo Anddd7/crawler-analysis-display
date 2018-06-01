@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: services-gateway-zuul
+
+    server:
+  port: 10000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9999/eureka
+
+
+
