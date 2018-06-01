@@ -19,11 +19,14 @@ allprojects {
         mavenLocal()
         mavenCentral()
         jcenter()
+        maven {
+            url = 'https://repo.spring.io/libs-milestone'
+        }
     }
 }
 
+/*
 apply plugin: 'jacoco'
-
 // execute jacoco in multi projects
 task jacocoTestReport(type: JacocoReport) {
     sourceDirectories = files()
@@ -41,10 +44,12 @@ task jacocoTestReport(type: JacocoReport) {
         true
     }
 
-    /*
+    */
+/*
      * Builds list of source dirs, class dirs, and executionData files
      * when task is run, not at script evaluation time
-     */
+     *//*
+
     doFirst {
         subprojects.findAll { subproject ->
             subproject.pluginManager.hasPlugin('java')
@@ -78,4 +83,4 @@ task clean {
     doLast {
         file('./build').deleteDir()
     }
-}
+}*/

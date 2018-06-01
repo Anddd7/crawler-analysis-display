@@ -1,0 +1,7 @@
+server:
+  port: 10040
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9999/eureka

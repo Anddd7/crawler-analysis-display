@@ -1,0 +1,7 @@
+apply from: rootProject.file('plugin/idea-java-common.gradle')
+
+dependencies {
+    compile project(":util-common")
+    compile "com.google.guava:guava:${GuavaVersion}"
+    compile("org.projectlombok:lombok:${LombokVersion}")
+}

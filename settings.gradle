@@ -1,8 +1,21 @@
-rootProject.name = 'crawler-analysis-display'
+rootProject.name = 'crawler-analysis-registry'
 
-//include 'application-commons'
-//include 'crawler-bilibili:search-api'
-//include 'analysis-bilibili'
+// commons
+include 'service-common'
+project(':service-common').projectDir = "$rootDir/projects/flowers/service-common" as File
+include 'bilibili-common'
+project(':bilibili-common').projectDir = "$rootDir/projects/flowers/bilibili-common" as File
+include 'util-common'
+project(':util-common').projectDir = "$rootDir/projects/flowers/util-common" as File
 
+// apis
+include 'crawler-bilibili-search'
+project(':crawler-bilibili-search').projectDir = "$rootDir/projects/bees/crawler-bilibili-search" as File
+include 'analysis-bilibili'
+project(':analysis-bilibili').projectDir = "$rootDir/projects/bees/analysis-bilibili" as File
 
-//project(':search-api').projectDir = "$rootDir/crawler-bilibili/search-api" as File
+// server
+include 'service-registry'
+project(':service-registry').projectDir = "$rootDir/projects/beehive/service-registry" as File
+include 'service-gateway'
+project(':service-gateway').projectDir = "$rootDir/projects/beehive/service-gateway" as File

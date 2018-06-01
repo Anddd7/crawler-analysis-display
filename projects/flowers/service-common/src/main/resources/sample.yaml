@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+api:
+  version: v1
+
+rest:
+  connectTimeout: 1000
+  readTimeout: 1000
+
+swagger:
+  enabled: true
+  protocol: http
+
+info:
+  app:
+    name: Common Utils
+    description: Common configs and factory for Micro Services
+    protocol: http
+  version: 1.0.0
+  contact:
+    author: Anddd7
+    email: liaoad_space@sina.com
+    url: https://github.com/Anddd7
