@@ -30,14 +30,13 @@ public class SwaggerDocketFactory {
   private static final String HEADER = "header";
   private static final String STRING = "string";
 
-  public static Docket createDocket(
-      String basePackage, String groupName, ApiInfo apiInfo, String protocol,
+  public static Docket createDocket(String groupName, ApiInfo apiInfo, String protocol,
       Class... ignoreParameters) {
     TypeResolver typeResolver = new TypeResolver();
     return new Docket(DocumentationType.SWAGGER_2)
         .groupName(groupName)
         .select()
-        .apis(RequestHandlerSelectors.basePackage(basePackage))
+        .apis(RequestHandlerSelectors.any())
         .paths(PathSelectors.any())
         .build()
         .apiInfo(apiInfo)

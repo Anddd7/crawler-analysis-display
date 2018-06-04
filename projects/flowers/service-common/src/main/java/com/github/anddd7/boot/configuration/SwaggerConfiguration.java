@@ -2,25 +2,32 @@ package com.github.anddd7.boot.configuration;
 
 import com.github.anddd7.boot.factory.SwaggerDocketFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+
+/**
+ * swagger注解配置, 通过配置文件管理参数
+ */
 @Configuration
+@EnableSwagger2
+@ConditionalOnProperty({"swagger.enabled"})
 public class SwaggerConfiguration {
 
-  private static final String CONTROLLER_PACKAGE = "com.github.anddd7";
-
-  @Value("${info.version}")
+  @Value("${api.version}")
   private String version;
 
-  @Value("${info.app.name}")
+  @Value("${spring.application.name}")
   private String name;
 
-  @Value("${info.app.description}")
+  @Value("${spring.application.description}")
   private String description;
 
   @Value("${info.contact.author}")
@@ -32,15 +39,16 @@ public class SwaggerConfiguration {
   @Value("${info.contact.email}")
   private String email;
 
-  @Value("${info.app.protocol:https}")
+  @Value("${swagger.protocol:https}")
   private String protocol;
 
   @Bean
+  @ConditionalOnMissingBean
   public Docket createDocket() {
-    return SwaggerDocketFactory.createDocket(CONTROLLER_PACKAGE, name, apiInfo(), protocol);
+    return SwaggerDocketFactory.createDocket(name, metadata(), protocol);
   }
 
-  private ApiInfo apiInfo() {
+  private ApiInfo metadata() {
     Contact contact = new Contact(author, url, email);
     return new ApiInfoBuilder()
         .title(name)

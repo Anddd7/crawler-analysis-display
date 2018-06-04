@@ -14,13 +14,18 @@ swagger:
   enabled: true
   protocol: http
 
-info:
-  app:
-    name: Common Utils
+spring:
+  application:
+    name: service-common
     description: Common configs and factory for Micro Services
-    protocol: http
-  version: 1.0.0
+
+info:
   contact:
     author: Anddd7
     email: liaoad_space@sina.com
     url: https://github.com/Anddd7
+
+response:
+  validation: false
+  errors:
+    hide-detail: true
