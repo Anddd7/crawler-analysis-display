@@ -1,32 +1,21 @@
+# application
 spring:
   application:
     name: bilibili-search-api
+    description: MicroService - Crawler 4 BILIBILI - Search Service
 
-server:
-  servlet:
-    context-path: /api
-
-api:
-  version: v1
-
-remote:
-  baseURL: https://s.search.bilibili.com
-  contextURL: /cate/search
-
+# rest
 rest:
   connectTimeout: 5000
   readTimeout: 5000
 
+# swagger toggle
 swagger:
   enabled: true
   protocol: http
 
+# actuator
 info:
-  app:
-    name: Crawler 4 BILIBILI - Search Service
-    description: MicroService - Crawler 4 BILIBILI - Search Service
-    protocol: http
-  version: 1.0.0
   contact:
     author: Anddd7
     email: liaoad_space@sina.com

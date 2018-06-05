@@ -1,14 +1,17 @@
+# application
 spring:
   application:
     name: services-gateway-zuul
+    description: Services Gateway, powered by zuul
 
-    server:
+# server
+server:
   port: 10000
 
+# eureka client
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:9999/eureka
-
 
 

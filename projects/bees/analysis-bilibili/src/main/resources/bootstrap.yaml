@@ -1,28 +1,21 @@
+# application
 spring:
   application:
     name: bilibili-analysis-api
+    description: MicroService - Analysis 4 BILIBILI - Analysis Service
 
-server:
-  servlet:
-    context-path: /api
-
-api:
-  version: v1
-
+# rest
 rest:
   connectTimeout: 5000
   readTimeout: 5000
 
+# swagger toggle
 swagger:
   enabled: true
   protocol: http
 
+# actuator
 info:
-  app:
-    name: Analysis 4 BILIBILI - Analysis Service
-    description: MicroService - Analysis 4 BILIBILI - Analysis Service
-    protocol: http
-  version: 1.0.0
   contact:
     author: Anddd7
     email: liaoad_space@sina.com

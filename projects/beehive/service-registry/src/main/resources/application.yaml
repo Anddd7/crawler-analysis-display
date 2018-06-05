@@ -1,10 +1,14 @@
+# application
 spring:
   application:
     name: services-registry-eureka
+    description: Services Registry, powered by eureka
 
+# server
 server:
   port: 9999
 
+# eureka server
 eureka:
   instance:
     hostname: localhost

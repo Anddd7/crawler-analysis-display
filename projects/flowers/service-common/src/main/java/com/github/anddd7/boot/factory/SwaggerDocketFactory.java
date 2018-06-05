@@ -6,6 +6,7 @@ import static java.util.Collections.singletonList;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 import com.fasterxml.classmate.TypeResolver;
+import io.swagger.annotations.Api;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +37,7 @@ public class SwaggerDocketFactory {
     return new Docket(DocumentationType.SWAGGER_2)
         .groupName(groupName)
         .select()
-        .apis(RequestHandlerSelectors.any())
+        .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
         .paths(PathSelectors.any())
         .build()
         .apiInfo(apiInfo)
@@ -63,7 +64,8 @@ public class SwaggerDocketFactory {
   }
 
   private static Parameter correlationIdParam() {
-    return new ParameterBuilder().name(CORRELATION_ID_NAME)
+    return new ParameterBuilder()
+        .name(CORRELATION_ID_NAME)
         .description(CORRELATION_ID_DESCRIPTION)
         .modelRef(new ModelRef(STRING))
         .parameterType(HEADER)

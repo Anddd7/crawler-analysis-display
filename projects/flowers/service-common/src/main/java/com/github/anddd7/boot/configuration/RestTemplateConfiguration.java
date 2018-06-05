@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestTemplateConfiguration {
 
-  @Value("${rest.connectTimeout:1000}")
+  @Value("${rest.connectTimeout:5000}")
   private Integer connectTimeout;
 
-  @Value("${rest.readTimeout:1000}")
+  @Value("${rest.readTimeout:5000}")
   private Integer readTimeout;
 
   @Primary

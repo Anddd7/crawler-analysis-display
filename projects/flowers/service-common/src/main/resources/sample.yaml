@@ -1,30 +1,40 @@
-server:
-  port: 8080
-  servlet:
-    context-path: /api
-
-api:
-  version: v1
-
-rest:
-  connectTimeout: 1000
-  readTimeout: 1000
-
-swagger:
-  enabled: true
-  protocol: http
-
+# application
 spring:
   application:
     name: service-common
     description: Common configs and factory for Micro Services
 
+# server
+server:
+  servlet:
+    context-path: /api
+
+# swagger config
+swagger:
+  enabled: true
+  protocol: http
+
+# swagger addition
 info:
   contact:
     author: Anddd7
     email: liaoad_space@sina.com
     url: https://github.com/Anddd7
 
+# server
+server:
+  port: 8080
+
+# rest
+rest:
+  connectTimeout: 1000
+  readTimeout: 1000
+
+# api version
+api:
+  version: v1
+
+# response filter
 response:
   validation: false
   errors:
