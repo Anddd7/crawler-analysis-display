@@ -1,11 +1,15 @@
 <configuration>
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      <pattern>%d{HH:mm:ss} [%thread] %-5level %X{Correlation-Id} %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
 
-  <root level="debug">
+  <logger additivity="false" level="DEBUG" name="com.github.anddd7">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+
+  <root level="DEBUG">
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

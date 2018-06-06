@@ -60,6 +60,8 @@ public class GlobalExceptionHandlerAdvice extends ResponseEntityExceptionHandler
   private ResponseEntity<Object> handleErrorResponse(Exception ex, ErrorResponse body,
       HttpStatus status,
       WebRequest request) {
+    log.error("", ex);
+
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     return handleExceptionInternal(

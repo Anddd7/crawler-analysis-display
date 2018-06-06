@@ -15,7 +15,7 @@ import lombok.experimental.UtilityClass;
  * 集合相关
  */
 @UtilityClass
-public class CollectionTool {
+public final class CollectionTool {
 
   /**
    * @see CollectionTool#findFirst(List, Predicate)

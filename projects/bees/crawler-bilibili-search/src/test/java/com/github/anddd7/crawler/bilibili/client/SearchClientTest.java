@@ -18,12 +18,12 @@ public class SearchClientTest {
   private final RemoteServerProperties remoteServerProperties =
       new RemoteServerProperties("http://test", "/api");
   private RestTemplate restTemplate;
-  private SearchClient searchClient;
+  private Search1Client searchClient;
 
   @Before
   public void setUp() {
     restTemplate = mock(RestTemplate.class);
-    searchClient = new SearchClient(restTemplate, remoteServerProperties);
+    searchClient = new Search1Client(restTemplate, remoteServerProperties);
   }
 
   @Test

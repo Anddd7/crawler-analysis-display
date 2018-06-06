@@ -2,7 +2,6 @@ package com.github.anddd7.boot.factory;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 import com.fasterxml.classmate.TypeResolver;
@@ -45,7 +44,8 @@ public class SwaggerDocketFactory {
         .ignoredParameterTypes(addPrincipalToIgnoredParameters(ignoreParameters))
         .directModelSubstitute(Collection.class, List.class)
         .alternateTypeRules(createAlternateTypeRule(typeResolver))
-        .globalOperationParameters(singletonList(correlationIdParam()))
+        //TODO Correlation Configuration
+//        .globalOperationParameters()
         .protocols(newHashSet(protocol));
   }
 

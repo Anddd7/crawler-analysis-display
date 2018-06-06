@@ -1,6 +1,6 @@
 package com.github.anddd7.crawler.bilibili.service;
 
-import com.github.anddd7.crawler.bilibili.client.SearchClient;
+import com.github.anddd7.crawler.bilibili.client.Search1Client;
 import com.github.anddd7.crawler.bilibili.client.response.SearchDataWrapper;
 import com.github.anddd7.model.bilibili.entity.PageContainer;
 import com.github.anddd7.model.bilibili.entity.VideoRecord;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SearchService {
 
-  private final SearchClient searchClient;
+  private final Search1Client searchClient;
 
   @Autowired
-  public SearchService(final SearchClient searchClient) {
+  public SearchService(final Search1Client searchClient) {
     this.searchClient = searchClient;
   }
 
