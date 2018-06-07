@@ -19,7 +19,11 @@ import org.springframework.http.client.ClientHttpResponse;
 
 /**
  * 为RestTemplate调用增加Correlation, 并打印调用日志
+ *
+ * @deprecated 修改为适配Feign Client的拦截器
+ * TODO
  */
+@Deprecated
 @Slf4j
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 

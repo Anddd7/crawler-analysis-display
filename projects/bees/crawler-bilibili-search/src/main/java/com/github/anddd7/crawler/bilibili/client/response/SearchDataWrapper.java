@@ -3,7 +3,9 @@ package com.github.anddd7.crawler.bilibili.client.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.anddd7.model.bilibili.entity.PageContainer;
 import com.github.anddd7.model.bilibili.entity.VideoRecord;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
@@ -13,35 +15,38 @@ import lombok.Data;
 public class SearchDataWrapper {
 
   private List<VideoData> result;
-  private String pagesize;
+  private int pagesize;
   private String seid;
-  private String page;
+  private int page;
   /**
    * 请求类型, 本接口固定是search
    */
   @JsonIgnore
   private String rqt_type;
-  private String numResults;
+  private int numResults;
   private String code;
   /**
    * 性能指标, 暂不需要
    */
   @JsonIgnore
   private CostTime cost_time;
-  private String numPages;
+  private int numPages;
   private String msg;
   private String egg_hit;
 
   public PageContainer<VideoRecord> mappingToPageContainer() {
+    if (Objects.isNull(result)) {
+      result = Collections.emptyList();
+    }
     return PageContainer.<VideoRecord>builder()
-        .pageNumber(Integer.valueOf(this.getPage()))
-        .pageSize(Integer.valueOf(this.getPagesize()))
-        .currentElements(this.getResult().size())
-        .totalPages(Integer.valueOf(this.getNumPages()))
-        .totalElements(Integer.valueOf(this.getNumResults()))
-        .hasNext(this.getPage().equals(this.getNumPages()))
+        .pageNumber(page)
+        .pageSize(pagesize)
+        .currentElements(result.size())
+        .totalPages(numPages)
+        .totalElements(numResults)
+        .hasNext(page < numPages)
         .elements(
-            this.getResult().stream()
+            result.stream()
                 .map(VideoData::mappingToVideoRecord)
                 .collect(Collectors.toList()))
         .build();

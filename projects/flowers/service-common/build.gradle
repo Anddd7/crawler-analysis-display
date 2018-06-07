@@ -1,1 +1,1 @@
-apply from: rootProject.file('plugin/spring-cloud-project.gradle')
+apply from: rootProject.file('plugin/feign-client.gradle')

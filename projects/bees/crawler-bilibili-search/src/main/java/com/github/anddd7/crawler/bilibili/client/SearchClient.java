@@ -1,22 +1,25 @@
 package com.github.anddd7.crawler.bilibili.client;
 
 import com.github.anddd7.crawler.bilibili.client.response.SearchDataWrapper;
-import feign.Param;
-import feign.RequestLine;
+import com.github.anddd7.crawler.bilibili.configuration.SearchClientConfiguration;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@FeignClient(name = "bilibili-search", url = "${remote.baseURL}", configuration = SearchClientConfiguration.class)
 public interface SearchClient {
 
-  @RequestLine("GET")
+  @GetMapping("${remote.contextURL}")
   SearchDataWrapper search(
-      @Param("main_ver") String mainVersion,
-      @Param("search_type") String searchType,
-      @Param("view_type") String viewType,
-      @Param("pic_size") String pictureSize,
-      @Param("order") String order,
-      @Param("copy_right") int copyRight,
-      @Param("pagesize") int pageSize,
-      @Param("page") int pageNumber,
-      @Param("cate_id") String categoryId,
-      @Param("time_from") String dateFrom,
-      @Param("time_to") String dateTo);
+      @RequestParam("main_ver") String mainVersion,
+      @RequestParam("search_type") String searchType,
+      @RequestParam("view_type") String viewType,
+      @RequestParam("pic_size") String pictureSize,
+      @RequestParam("order") String order,
+      @RequestParam("copy_right") int copyRight,
+      @RequestParam("pagesize") int pageSize,
+      @RequestParam("page") int pageNumber,
+      @RequestParam("cate_id") String categoryId,
+      @RequestParam("time_from") String dateFrom,
+      @RequestParam("time_to") String dateTo);
 }
