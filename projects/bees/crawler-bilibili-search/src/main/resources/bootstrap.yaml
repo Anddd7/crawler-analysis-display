@@ -4,11 +4,6 @@ spring:
     name: bilibili-search-api
     description: MicroService - Crawler 4 BILIBILI - Search Service
 
-# rest
-rest:
-  connectTimeout: 5000
-  readTimeout: 5000
-
 # swagger toggle
 swagger:
   enabled: true

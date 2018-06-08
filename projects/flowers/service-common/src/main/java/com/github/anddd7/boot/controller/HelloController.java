@@ -2,14 +2,16 @@ package com.github.anddd7.boot.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 默认Controller, 测试用
+ * 默认测试用Controller
  */
 @Api
 @RestController
+@Profile({"default", "dev"})
 public class HelloController {
 
   @Value("${server.port}")

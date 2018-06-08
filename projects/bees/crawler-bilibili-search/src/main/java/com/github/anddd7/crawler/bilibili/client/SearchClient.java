@@ -1,14 +1,16 @@
 package com.github.anddd7.crawler.bilibili.client;
 
 import com.github.anddd7.crawler.bilibili.client.response.SearchDataWrapper;
-import com.github.anddd7.crawler.bilibili.configuration.SearchClientConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "bilibili-search", url = "${remote.baseURL}", configuration = SearchClientConfiguration.class)
+@FeignClient(name = "bilibili-search", url = "${remote.baseURL}")
 public interface SearchClient {
 
+  /**
+   * Bilibili视频按时间排列
+   */
   @GetMapping("${remote.contextURL}")
   SearchDataWrapper search(
       @RequestParam("main_ver") String mainVersion,

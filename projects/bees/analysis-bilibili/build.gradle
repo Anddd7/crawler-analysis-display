@@ -5,4 +5,3 @@ dependencies {
     compile project(":service-common")
     compile project(":bilibili-common")
 }
-

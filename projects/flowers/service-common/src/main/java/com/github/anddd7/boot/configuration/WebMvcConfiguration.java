@@ -10,6 +10,7 @@ import com.github.anddd7.boot.logging.RequestLoggingFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -41,7 +42,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
   }
 
   @Bean
-  public RequestLoggingFilter requestLoggingFilter() {
+  public OncePerRequestFilter requestLoggingFilter() {
     return new RequestLoggingFilter();
   }
 }

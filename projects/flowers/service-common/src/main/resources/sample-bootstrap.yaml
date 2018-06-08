@@ -1,8 +1,8 @@
 # application
 spring:
   application:
-    name: bilibili-analysis-api
-    description: MicroService - Analysis 4 BILIBILI - Analysis Service
+    name: service-common
+    description: Common configs and factory for Micro Services
 
 # swagger toggle
 swagger:

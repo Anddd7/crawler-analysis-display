@@ -22,7 +22,15 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:9999/eureka
 
-# remote client addition
+# feign
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+# addition
 remote:
   baseURL: https://s.search.bilibili.com
   contextURL: /cate/search

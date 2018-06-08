@@ -1,0 +1,4 @@
+# api
+api:
+  prefix: /uat-api
+  version: v1

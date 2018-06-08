@@ -1,119 +1,58 @@
 package com.github.anddd7.boot.logging;
 
+import static com.github.anddd7.boot.logging.LoggingFormatter.logRequest;
+import static com.github.anddd7.boot.logging.LoggingFormatter.logResponse;
+import static com.github.anddd7.boot.logging.LoggingFormatter.wrapRequest;
+import static com.github.anddd7.boot.logging.LoggingFormatter.wrapResponse;
+
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.web.filter.AbstractRequestLoggingFilter;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
+/**
+ * 参考Spring的日志实现
+ *
+ * @see CommonsRequestLoggingFilter
+ * @see AbstractRequestLoggingFilter
+ */
 @Slf4j
 public class RequestLoggingFilter extends OncePerRequestFilter {
 
-  private static final List<MediaType> VISIBLE_TYPES = Arrays.asList(
-      MediaType.valueOf("text/*"),
-      MediaType.APPLICATION_FORM_URLENCODED,
-      MediaType.APPLICATION_JSON,
-      MediaType.APPLICATION_XML,
-      MediaType.valueOf("application/*+json"),
-      MediaType.valueOf("application/*+xml"),
-      MediaType.MULTIPART_FORM_DATA
+  private static final List<String> IGNORE_PATH = Arrays.asList(
+      " /swagger-ui.html",
+      "/swagger-resources",
+      "/v2/api-docs"
   );
-
-  private static void logRequestHeader(ContentCachingRequestWrapper request, String prefix) {
-    val queryString = request.getQueryString();
-    if (queryString == null) {
-      log.info("{} {} {}", prefix, request.getMethod(), request.getRequestURI());
-    } else {
-      log.info("{} {} {}?{}", prefix, request.getMethod(), request.getRequestURI(), queryString);
-    }
-    Collections.list(request.getHeaderNames())
-        .forEach(headerName ->
-            Collections.list(request.getHeaders(headerName))
-                .forEach(headerValue -> log.info("{} {}: {}", prefix, headerName, headerValue))
-        );
-  }
-
-  private static void logRequestBody(ContentCachingRequestWrapper request, String prefix) {
-    val content = request.getContentAsByteArray();
-    if (content.length > 0) {
-      logContent(content, request.getContentType(), request.getCharacterEncoding(), prefix);
-    }
-  }
-
-  private static void logResponse(ContentCachingResponseWrapper response, String prefix) {
-    val status = response.getStatus();
-    log.info("{} {} {}", prefix, status, HttpStatus.valueOf(status).getReasonPhrase());
-    response.getHeaderNames()
-        .forEach(headerName -> response.getHeaders(headerName)
-            .forEach(headerValue -> log.info("{} {}: {}", prefix, headerName, headerValue))
-        );
-    log.info("{}", prefix);
-    val content = response.getContentAsByteArray();
-    if (content.length > 0) {
-      logContent(content, response.getContentType(), response.getCharacterEncoding(), prefix);
-    }
-  }
-
-  private static void logContent(byte[] content, String contentType, String contentEncoding,
-      String prefix) {
-    val mediaType = MediaType.valueOf(contentType);
-    val visible = VISIBLE_TYPES.stream().anyMatch(visibleType -> visibleType.includes(mediaType));
-    if (visible) {
-      try {
-        val contentString = new String(content, contentEncoding);
-        Stream.of(contentString.split("\r\n|\r|\n"))
-            .forEach(line -> log.info("{} {}", prefix, line));
-      } catch (UnsupportedEncodingException e) {
-        log.info("{} [{} bytes content]", prefix, content.length);
-      }
-    } else {
-      log.info("{} [{} bytes content]", prefix, content.length);
-    }
-  }
-
-  private static ContentCachingRequestWrapper wrapRequest(HttpServletRequest request) {
-    if (request instanceof ContentCachingRequestWrapper) {
-      return (ContentCachingRequestWrapper) request;
-    } else {
-      return new ContentCachingRequestWrapper(request);
-    }
-  }
-
-  private static ContentCachingResponseWrapper wrapResponse(HttpServletResponse response) {
-    if (response instanceof ContentCachingResponseWrapper) {
-      return (ContentCachingResponseWrapper) response;
-    } else {
-      return new ContentCachingResponseWrapper(response);
-    }
-  }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    if (isAsyncDispatch(request)) {
+    if (isAsyncDispatch(request) || shouldLog(request)) {
       filterChain.doFilter(request, response);
     } else {
       doFilterWrapped(wrapRequest(request), wrapResponse(response), filterChain);
     }
   }
 
+  private boolean shouldLog(HttpServletRequest request) {
+    return IGNORE_PATH.stream().noneMatch(path -> request.getRequestURI().startsWith(path));
+  }
+
   private void doFilterWrapped(ContentCachingRequestWrapper request,
       ContentCachingResponseWrapper response, FilterChain filterChain)
-      throws ServletException, IOException {
+      throws IOException, ServletException {
     try {
-      beforeRequest(request, response);
+      beforeRequest(request);
       filterChain.doFilter(request, response);
     } finally {
       afterRequest(request, response);
@@ -121,18 +60,16 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
     }
   }
 
-  private void beforeRequest(ContentCachingRequestWrapper request,
-      ContentCachingResponseWrapper response) {
+  private void beforeRequest(ContentCachingRequestWrapper request) {
     if (log.isInfoEnabled()) {
-      logRequestHeader(request, request.getRemoteAddr() + "|>");
+      logRequest(log, request);
     }
   }
 
   private void afterRequest(ContentCachingRequestWrapper request,
       ContentCachingResponseWrapper response) {
     if (log.isInfoEnabled()) {
-      logRequestBody(request, request.getRemoteAddr() + "|>");
-      logResponse(response, request.getRemoteAddr() + "|<");
+      logResponse(log, request, response);
     }
   }
 }

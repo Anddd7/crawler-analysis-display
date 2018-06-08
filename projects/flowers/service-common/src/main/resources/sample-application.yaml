@@ -1,0 +1,55 @@
+# server
+server:
+  port: 8080
+
+# api
+api:
+  prefix: api
+  version: v1
+
+# response filter
+response:
+  validation: false #是否对返回参数进行Valid校验
+  errors:
+    hide-detail: true #是否显示完整的错误信息
+
+# eureka server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false #配置中心本身不需要注册
+    fetchRegistry: false  #标识是注册中心
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka #建立注册中心地址
+
+# eureka client
+eureka:
+  instance:
+    homePageUrl: /swagger-ui.html #页面设置
+    healthCheckUrlPath: /actuator/health
+    statusPageUrlPath: /actuator/info
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9999/eureka #server地址
+
+# feign
+feign:
+  client:
+    config:
+      default: #全局设置
+        connectTimeout: 5000
+        readTimeout: 5000
+      feign-client-name: #根据注解中name进行匹配
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
+        errorDecoder: com.example.SimpleErrorDecoder
+        retryer: com.example.SimpleRetryer
+        requestInterceptors:
+          - com.example.FooRequestInterceptor
+          - com.example.BarRequestInterceptor
+        decode404: false
+        encoder: com.example.SimpleEncoder
+        decoder: com.example.SimpleDecoder
+        contract: com.example.SimpleContract

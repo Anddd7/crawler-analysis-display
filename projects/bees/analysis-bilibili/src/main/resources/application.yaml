@@ -21,3 +21,11 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:9999/eureka
+
+# feign
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000

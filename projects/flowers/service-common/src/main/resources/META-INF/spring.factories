@@ -1,8 +1,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.github.anddd7.boot.properties.RemoteServerProperties,\
 com.github.anddd7.boot.controller.GlobalExceptionHandlerAdvice,\
 com.github.anddd7.boot.controller.ResponseBodyValidatorAdvice,\
 com.github.anddd7.boot.controller.HelloController,\
+com.github.anddd7.boot.configuration.FeignConfiguration,\
 com.github.anddd7.boot.configuration.SwaggerConfiguration,\
 com.github.anddd7.boot.configuration.JacksonConfiguration,\
 com.github.anddd7.boot.configuration.WebMvcConfiguration
