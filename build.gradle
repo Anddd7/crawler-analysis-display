@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${SpringBootVersion}")
+        classpath "com.palantir.gradle.docker:gradle-docker:${GradleDockerVersion}"
     }
 }
 
@@ -22,6 +23,16 @@ allprojects {
         maven {
             url = 'https://repo.spring.io/libs-milestone'
         }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "4.7"
+}
+
+task clean {
+    doLast {
+        file('./build').deleteDir()
     }
 }
 
@@ -74,13 +85,4 @@ task jacocoTestReport(type: JacocoReport) {
 task build {
     dependsOn tasks.jacocoTestReport
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = "4.7"
-}
-
-task clean {
-    doLast {
-        file('./build').deleteDir()
-    }
-}*/
+*/
