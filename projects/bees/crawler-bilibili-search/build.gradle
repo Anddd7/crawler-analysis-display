@@ -1,5 +1,6 @@
 apply from: rootProject.file('plugin/feign-client.gradle')
 apply plugin: 'org.springframework.boot'
+apply from: rootProject.file('plugin/docker.gradle')
 
 dependencies {
     compile project(":service-common")

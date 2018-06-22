@@ -5,8 +5,8 @@ spring:
     description: Services Registry, powered by eureka
 
 # server
-server:
-  port: 9999
+#server:
+#  port: 9999
 
 # eureka server
 eureka:

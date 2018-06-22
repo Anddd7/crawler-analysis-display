@@ -1,7 +1,9 @@
-apply from: rootProject.file('plugin/eureka-client.gradle')
+apply from: rootProject.file('plugin/spring-cloud-project.gradle')
 
 // 依赖
 dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
     compile 'io.github.openfeign:feign-gson'
 }

@@ -1,6 +1,16 @@
 ## 数据 - 抓取 分析 展示 平台
 
-
+### 20180614
+* 微服务基础组件
+  * conditional + feature toggle + auto configuration
+  * 配置/组件 重构
+  * controller日志
+  * correlation id + feign, 微服务日志记录
+  * profile
+   
+* DevOps 
+  * 本机 Jenkins CI
+  * Docker集成
 
 ### 20180601
 * 使用`SpringCloud`构建了整个项目

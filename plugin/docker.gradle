@@ -1,8 +1,38 @@
+import java.util.logging.Level
+
 apply plugin: 'com.palantir.docker'
 
 docker {
-    name = "${project.group}/${project.name}:latest"
+    name = "docker/${project.name}:latest"
     dockerfile = file('src/main/docker/Dockerfile')
     files bootJar.archivePath
     buildArgs([JAR_FILE: "${bootJar.archiveName}"])
 }
+
+// TODO kill container
+// TODO rm container
+
+def removeDockerImages(String name) {
+    try {
+        exec {
+            executable "docker"
+            args 'image', 'rm', name
+        }
+    } catch (Exception e) {
+        logger.info(e.getMessage())
+    }
+}
+
+// TODO build image
+// TODO run image
+
+task createDocker(dependsOn: 'dockerPrepare') {
+    File dockerFile = project.file('docker/Dockerfile')
+    File jarFile = project.file("docker/${bootJar.archiveName}")
+    def name = "docker/${project.name}:latest"
+
+    doLast {
+        removeDockerImages(name)
+    }
+}
+
