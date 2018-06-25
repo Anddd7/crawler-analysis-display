@@ -1,5 +1,18 @@
 ## 数据 - 抓取 分析 展示 平台
 
+### 20180622
+* gradle的docker插件有不可控性, 使用部分功能和命令行进行定制
+  * gradle 编译
+  * 下线已有container/删除已有container和images
+  * build新的images/上线新的container
+  
+* 统一配置:
+  * 所有应用在内部使用8080端口
+  * 建立内部网络进行容器间互联
+  * 仅对外开放 registry 和 gateway
+  
+对开发/测试环境来说, 可以在编写完代码后在本地一键启动一整套服务, 并已经相互连接
+
 ### 20180614
 * 微服务基础组件
   * conditional + feature toggle + auto configuration

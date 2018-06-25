@@ -3,36 +3,75 @@ import java.util.logging.Level
 apply plugin: 'com.palantir.docker'
 
 docker {
-    name = "docker/${project.name}:latest"
+    name = "${project.name}/${project.name}:latest"
     dockerfile = file('src/main/docker/Dockerfile')
     files bootJar.archivePath
     buildArgs([JAR_FILE: "${bootJar.archiveName}"])
 }
 
-// TODO kill container
-// TODO rm container
-
-def removeDockerImages(String name) {
+def removeDockerContainer(alias) {
     try {
         exec {
             executable "docker"
-            args 'image', 'rm', name
+            args 'rm', '-f', '-v', alias
         }
     } catch (Exception e) {
         logger.info(e.getMessage())
     }
 }
 
-// TODO build image
-// TODO run image
+def removeDockerImages(tag) {
+    try {
+        exec {
+            executable "docker"
+            args 'rmi', tag
+        }
+    } catch (Exception e) {
+        logger.info(e.getMessage())
+    }
+}
+
+def buildDockerImages(tag, buildPath, jarFile) {
+    try {
+        exec {
+            executable "cd ${buildPath}"
+            executable "docker"
+            args 'build', '-t', tag, '--build-arg', "JAR_FILE=${jarFile}", buildPath
+        }
+    } catch (Exception e) {
+        logger.info(e.getMessage())
+    }
+}
+
+def runDockerImages(alias, tag) {
+    try {
+        exec {
+            executable "docker"
+            args 'run', '--name', alias, '--network', 'crawler-analysis-registry' tag
+        }
+    } catch (Exception e) {
+        logger.info(e.getMessage())
+    }
+}
+
+def printPath() {
+    exec {
+        executable "pwd"
+        args ''
+    }
+}
 
 task createDocker(dependsOn: 'dockerPrepare') {
-    File dockerFile = project.file('docker/Dockerfile')
-    File jarFile = project.file("docker/${bootJar.archiveName}")
-    def name = "docker/${project.name}:latest"
+    String buildPath = project.getBuildDir().getPath() + '/docker'
+    String jarFile = bootJar.archiveName
+    String alias = "${project.group}/${project.name}"
+    String tag = "${alias}:latest"
 
     doLast {
-        removeDockerImages(name)
+        removeDockerContainer(alias)
+        removeDockerImages(tag)
+        buildDockerImages(tag, buildPath, jarFile)
+//        runDockerImages(alias, tag)
     }
 }
 
