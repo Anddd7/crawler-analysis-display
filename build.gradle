@@ -35,3 +35,27 @@ task clean {
         file('./build').deleteDir()
     }
 }
+
+String composeFile = rootProject.projectDir.getPath() + "/projects/docker-compose.yml"
+task removeDockerCompose() {
+    doLast {
+        dockerCompose(composeFile, 'kill')
+        dockerCompose(composeFile, 'rm', '-f')
+    }
+}
+task runDockerCompose() {
+    doLast {
+        dockerCompose(composeFile, 'up', '-d')
+    }
+}
+
+def dockerCompose(String composeFile, String... command) {
+    List<String> lineArgs = new ArrayList<>()
+    lineArgs.add('-f')
+    lineArgs.add(composeFile)
+    Collections.addAll(lineArgs, command)
+    exec {
+        executable "docker-compose"
+        args lineArgs.toArray(new String[0])
+    }
+}

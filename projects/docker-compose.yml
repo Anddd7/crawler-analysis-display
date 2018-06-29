@@ -1,0 +1,25 @@
+version: "3"
+services:
+  service-registry:
+    container_name: service-registry
+    image: com.github.anddd7/service-registry:latest
+    ports:
+      - "9999:9999"
+    expose:
+      - 9999
+
+  crawler-bilibili-search:
+    container_name: crawler-bilibili-search
+    image: com.github.anddd7/crawler-bilibili-search:latest
+    ports:
+      - "10031:10031"
+    expose:
+      - 10031
+
+  analysis-bilibili:
+    container_name: analysis-bilibili
+    image: com.github.anddd7/analysis-bilibili:latest
+    ports:
+      - "10040:10040"
+    expose:
+      - 10040
