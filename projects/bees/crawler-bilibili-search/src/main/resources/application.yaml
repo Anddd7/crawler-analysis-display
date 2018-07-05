@@ -2,15 +2,15 @@
 server:
   port: 10031
 
-# api
-api:
-  prefix: api
-  version: v1
-
 # response filter
 response:
   errors:
     hide-detail: false
+
+# api
+api:
+  prefix: api
+  version: v1
 
 # eureka client
 eureka:
