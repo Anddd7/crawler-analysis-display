@@ -15,7 +15,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 @UtilityClass
-public class LoggingFormatter {
+class LoggingFormatter {
 
   private static final List<MediaType> VISIBLE_TYPES = Arrays.asList(
       MediaType.valueOf("text/*"),

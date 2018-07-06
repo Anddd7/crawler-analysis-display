@@ -20,7 +20,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 /**
- * 参考Spring的日志实现
+ * 参考Spring的日志实现, 过滤了一些不必要的路径
  *
  * @see CommonsRequestLoggingFilter
  * @see AbstractRequestLoggingFilter
@@ -29,7 +29,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 public class RequestLoggingFilter extends OncePerRequestFilter {
 
   private static final List<String> IGNORE_PATH = Arrays.asList(
-      " /swagger-ui.html",
+      "/swagger-ui.html",
       "/swagger-resources",
       "/v2/api-docs"
   );

@@ -1,0 +1,9 @@
+# eureka client
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://service-registry:9999/eureka
+
+# authorization feature
+authorization:
+  accessToken: true

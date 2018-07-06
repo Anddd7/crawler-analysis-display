@@ -1,7 +1,7 @@
 package com.github.anddd7.boot.interceptor;
 
-import static com.github.anddd7.boot.scope.CorrelationContext.CORRELATION_ID_HEADER;
-import static com.github.anddd7.boot.scope.CorrelationContext.SESSION_ID_HEADER;
+import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_CORRELATION_ID;
+import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_SESSION_ID;
 
 import com.github.anddd7.boot.scope.CorrelationContextHolder;
 import java.util.Collections;
@@ -28,16 +28,16 @@ public class CorrelationInterceptor extends HandlerInterceptorAdapter {
       Object handler) {
     HttpHeaders headers = mappingHeaders(request);
 
-    String correlationId = headers.getFirst(CORRELATION_ID_HEADER);
+    String correlationId = headers.getFirst(HEADER_CORRELATION_ID);
     if (Strings.isBlank(correlationId)) {
       correlationId = UUID.randomUUID().toString();
-      headers.put(CORRELATION_ID_HEADER, Collections.singletonList(correlationId));
+      headers.put(HEADER_CORRELATION_ID, Collections.singletonList(correlationId));
     }
-    MDC.put(CORRELATION_ID_HEADER, correlationId);
+    MDC.put(HEADER_CORRELATION_ID, correlationId);
 
-    String sessionId = headers.getFirst(SESSION_ID_HEADER);
+    String sessionId = headers.getFirst(HEADER_SESSION_ID);
     if (Strings.isNotBlank(sessionId)) {
-      MDC.put(SESSION_ID_HEADER, sessionId);
+      MDC.put(HEADER_SESSION_ID, sessionId);
     }
 
     CorrelationContextHolder.get()

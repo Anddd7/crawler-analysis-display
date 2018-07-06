@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * Correlation Tracking message
+ */
 @Getter
 @Setter
 @Accessors(chain = true)
@@ -13,8 +16,9 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class CorrelationContext {
 
-  public static final String CORRELATION_ID_HEADER = "Correlation-Id";
-  public static final String SESSION_ID_HEADER = "Session-Id";
+  public static final String HEADER_CORRELATION_ID = "Correlation-Id".toLowerCase();
+  public static final String HEADER_SESSION_ID = "Session-Id".toLowerCase();
+
   private String correlationId;
   private String sessionId;
 }

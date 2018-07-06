@@ -36,6 +36,7 @@ task clean {
     }
 }
 
+// docker-compose shell
 String composeFile = rootProject.projectDir.getPath() + "/projects/docker-compose.yml"
 task removeDockerCompose() {
     doFirst {
