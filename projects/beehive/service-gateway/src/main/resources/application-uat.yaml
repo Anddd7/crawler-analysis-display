@@ -6,4 +6,4 @@ eureka:
 
 # authorization feature
 authorization:
-  accessToken: true
+  accessToken: false

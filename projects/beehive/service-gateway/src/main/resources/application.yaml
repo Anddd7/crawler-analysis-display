@@ -8,7 +8,6 @@ eureka:
 #    homePageUrl: /swagger-ui.html
 #    healthCheckUrlPath: /actuator/health
 #    statusPageUrlPath: /actuator/info
-    preferIpAddress: true
   client:
     serviceUrl:
       defaultZone: http://localhost:9999/eureka
@@ -16,6 +15,6 @@ eureka:
 # zuul config
 zuul:
   routes:
-    bilibili-anaylysis:
-      path: /bilibili-anaylysis/**
-      serviceId: bilibili-anaylysis-api
+    bilibili-analysis:
+      path: /bilibili-analysis/**
+      serviceId: bilibili-analysis-api
