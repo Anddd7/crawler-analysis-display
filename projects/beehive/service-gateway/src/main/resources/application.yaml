@@ -1,17 +1,21 @@
-# application
-spring:
-  application:
-    name: services-gateway-zuul
-    description: Services Gateway, powered by zuul
-
 # server
 server:
   port: 10000
 
 # eureka client
 eureka:
+  instance:
+#    homePageUrl: /swagger-ui.html
+#    healthCheckUrlPath: /actuator/health
+#    statusPageUrlPath: /actuator/info
+    preferIpAddress: true
   client:
     serviceUrl:
       defaultZone: http://localhost:9999/eureka
 
-
+# zuul config
+zuul:
+  routes:
+    bilibili-anaylysis:
+      path: /bilibili-anaylysis/**
+      serviceId: bilibili-anaylysis-api

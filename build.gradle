@@ -38,11 +38,12 @@ task clean {
 
 String composeFile = rootProject.projectDir.getPath() + "/projects/docker-compose.yml"
 task removeDockerCompose() {
-    doLast {
+    doFirst {
         dockerCompose(composeFile, 'kill')
         dockerCompose(composeFile, 'rm', '-f')
     }
 }
+
 task runDockerCompose() {
     doLast {
         dockerCompose(composeFile, 'up', '-d')

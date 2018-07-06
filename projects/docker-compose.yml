@@ -8,25 +8,20 @@ services:
       - "9999:9999"
     expose:
       - 9999
-
+  service-gateway:
+    container_name: service-gateway
+    image: com.github.anddd7/service-gateway:latest
+    ports:
+      - "10000:10000"
+    expose:
+      - 10000
   crawler-bilibili-search:
     container_name: crawler-bilibili-search
     image: com.github.anddd7/crawler-bilibili-search:latest
-    # hide port after add gateway
-    ports:
-      - "10031:10031"
-    expose:
-      - 10031
     links:
       - service-registry:service-registry
-
   analysis-bilibili:
     container_name: analysis-bilibili
     image: com.github.anddd7/analysis-bilibili:latest
-    # hide port after add gateway
-    ports:
-      - "10040:10040"
-    expose:
-      - 10040
     links:
       - service-registry:service-registry

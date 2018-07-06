@@ -1,7 +1,9 @@
 apply from: rootProject.file('plugin/spring-cloud-project.gradle')
 apply plugin: 'org.springframework.boot'
+apply from: rootProject.file('plugin/docker.gradle')
 
 dependencies {
-    compile project(":bilibili-common")
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    compile("org.springframework.cloud:spring-cloud-starter-netflix-zuul")
 }
 

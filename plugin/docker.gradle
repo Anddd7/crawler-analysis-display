@@ -1,5 +1,3 @@
-import java.util.logging.Level
-
 apply plugin: 'com.palantir.docker'
 
 docker {
@@ -45,29 +43,23 @@ def buildDockerImages(tag, buildPath, jarFile) {
 }
 
 def runDockerImages(composeFile) {
-    // TODO
+    // replaced by docker compose
 }
 
+task rebuildDockerImages() {
+    dependsOn 'bootJar'
+    dependsOn 'dockerPrepare'
 
-task cleanDockerImages() {
-    String containerName = "${project.name}"
-    String alias = "${project.group}/${containerName}"
-    String tag = "${alias}:latest"
-
-    doLast {
-        removeDockerContainer(containerName)
-        removeDockerImages(tag)
-    }
-}
-
-task buildDockerImages(dependsOn: 'dockerPrepare') {
     String buildPath = project.buildDir.getPath() + '/docker'
     String jarFile = bootJar.archiveName
     String containerName = "${project.name}"
     String alias = "${project.group}/${containerName}"
     String tag = "${alias}:latest"
 
-    doLast {
+    doFirst {
+        removeDockerContainer(containerName)
+        removeDockerImages(tag)
         buildDockerImages(tag, buildPath, jarFile)
     }
 }
+

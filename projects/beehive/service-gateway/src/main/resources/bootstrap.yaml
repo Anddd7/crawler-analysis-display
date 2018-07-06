@@ -1,0 +1,12 @@
+# application
+spring:
+  application:
+    name: services-gateway-zuul
+    description: Services Gateway, powered by zuul
+
+# actuator
+info:
+  contact:
+    author: Anddd7
+    email: liaoad_space@sina.com
+    url: https://github.com/Anddd7
