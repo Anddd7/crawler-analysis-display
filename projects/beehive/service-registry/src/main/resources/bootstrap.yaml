@@ -1,0 +1,12 @@
+# application
+spring:
+  application:
+    name: services-registry-eureka
+    description: Services Registry, powered by eureka
+
+# actuator
+info:
+  contact:
+    author: Anddd7
+    email: liaoad_space@sina.com
+    url: https://github.com/Anddd7

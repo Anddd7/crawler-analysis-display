@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import org.slf4j.Logger;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -46,7 +45,7 @@ class LoggingFormatter {
   }
 
   static void logRequest(Logger log, ContentCachingRequestWrapper request) {
-    String prefix = request.getRemoteAddr() + "|>";
+    String prefix = String.format("[%s]", request.getRemoteAddr());
 
     logRequestURI(log, prefix, request);
     logRequestHeader(log, prefix, request);
@@ -57,9 +56,10 @@ class LoggingFormatter {
       ContentCachingRequestWrapper request) {
     val queryString = request.getQueryString();
     if (queryString == null) {
-      log.info("{} {} {}", prefix, request.getMethod(), request.getRequestURI());
+      log.info("{} ---> {} {}", prefix, request.getMethod(), request.getRequestURI());
     } else {
-      log.info("{} {} {}?{}", prefix, request.getMethod(), request.getRequestURI(), queryString);
+      log.info("{} ---> {} {}?{}", prefix, request.getMethod(), request.getRequestURI(),
+          queryString);
     }
   }
 
@@ -78,33 +78,42 @@ class LoggingFormatter {
     if (content.length > 0) {
       logContent(log, prefix, content, request.getContentType(), request.getCharacterEncoding());
     }
+    log.info("{} ---> END {} ({}-byte body)",
+        prefix,
+        request.getScheme().toUpperCase(),
+        content.length);
   }
 
   static void logResponse(Logger log, ContentCachingRequestWrapper request,
-      ContentCachingResponseWrapper response) {
-    String prefix = request.getRemoteAddr() + "|<";
+      ContentCachingResponseWrapper response, long costTime) {
+    String prefix = String.format("[%s]", request.getRemoteAddr());
 
-    logResponseHeader(log, prefix, response);
-    logResponseBody(log, prefix, response);
+    logResponseHeader(log, prefix, request, response, costTime);
+    logResponseBody(log, prefix, request, response);
   }
 
   private static void logResponseHeader(Logger log, String prefix,
-      ContentCachingResponseWrapper response) {
+      ContentCachingRequestWrapper request, ContentCachingResponseWrapper response, long costTime) {
+
     val status = response.getStatus();
-    log.info("{} {} {}", prefix, status, HttpStatus.valueOf(status).getReasonPhrase());
+
+    log.info("{} <--- {} {} ({}ms)", prefix, request.getProtocol(), status, costTime);
     response.getHeaderNames()
         .forEach(headerName -> response.getHeaders(headerName)
             .forEach(headerValue -> log.info("{} {}: {}", prefix, headerName, headerValue))
         );
-    log.info("{}", prefix);
   }
 
   private static void logResponseBody(Logger log, String prefix,
-      ContentCachingResponseWrapper response) {
+      ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) {
     val content = response.getContentAsByteArray();
     if (content.length > 0) {
       logContent(log, prefix, content, response.getContentType(), response.getCharacterEncoding());
     }
+    log.info("{} <--- END {} ({}-byte body)",
+        prefix,
+        request.getScheme().toUpperCase(),
+        content.length);
   }
 
   private static void logContent(Logger log, String prefix, byte[] content, String contentType,
@@ -114,13 +123,11 @@ class LoggingFormatter {
     if (visible) {
       try {
         for (String line : new String(content, contentEncoding).split(LINE_END_REGEX)) {
-          log.info("{} {}", prefix, line);
+          log.info("{} Body: {}", prefix, line);
         }
       } catch (UnsupportedEncodingException e) {
-        log.info("{} [{} bytes content]", prefix, content.length);
+        log.info("{}", prefix);
       }
-    } else {
-      log.info("{} [{} bytes content]", prefix, content.length);
     }
   }
 }

@@ -16,8 +16,8 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class CorrelationContext {
 
-  public static final String HEADER_CORRELATION_ID = "Correlation-Id".toLowerCase();
-  public static final String HEADER_SESSION_ID = "Session-Id".toLowerCase();
+  public static final String HEADER_CORRELATION_ID = "Correlation-Id";
+  public static final String HEADER_SESSION_ID = "Session-Id";
 
   private String correlationId;
   private String sessionId;

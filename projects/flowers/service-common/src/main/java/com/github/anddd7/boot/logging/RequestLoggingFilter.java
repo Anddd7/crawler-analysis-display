@@ -31,45 +31,43 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
   private static final List<String> IGNORE_PATH = Arrays.asList(
       "/swagger-ui.html",
       "/swagger-resources",
-      "/v2/api-docs"
+      "/v2/api-docs",
+      "/webjars/springfox-swagger-ui"
   );
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     if (isAsyncDispatch(request) || shouldLog(request)) {
-      filterChain.doFilter(request, response);
-    } else {
       doFilterWrapped(wrapRequest(request), wrapResponse(response), filterChain);
+    } else {
+      filterChain.doFilter(request, response);
     }
   }
 
   private boolean shouldLog(HttpServletRequest request) {
-    return IGNORE_PATH.stream().noneMatch(path -> request.getRequestURI().startsWith(path));
+    return IGNORE_PATH.stream().noneMatch(request.getRequestURI()::startsWith);
   }
 
   private void doFilterWrapped(ContentCachingRequestWrapper request,
       ContentCachingResponseWrapper response, FilterChain filterChain)
       throws IOException, ServletException {
+    long startTime = System.currentTimeMillis();
     try {
       beforeRequest(request);
       filterChain.doFilter(request, response);
     } finally {
-      afterRequest(request, response);
+      afterRequest(request, response, System.currentTimeMillis() - startTime);
       response.copyBodyToResponse();
     }
   }
 
   private void beforeRequest(ContentCachingRequestWrapper request) {
-    if (log.isInfoEnabled()) {
-      logRequest(log, request);
-    }
+    logRequest(log, request);
   }
 
   private void afterRequest(ContentCachingRequestWrapper request,
-      ContentCachingResponseWrapper response) {
-    if (log.isInfoEnabled()) {
-      logResponse(log, request, response);
-    }
+      ContentCachingResponseWrapper response, long costTime) {
+    logResponse(log, request, response, costTime);
   }
 }
