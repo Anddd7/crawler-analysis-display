@@ -5,14 +5,13 @@ import static org.springframework.http.HttpMethod.OPTIONS;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 
-import com.github.anddd7.boot.interceptor.CorrelationInterceptor;
+import com.github.anddd7.boot.interceptor.CorrelationFilter;
 import com.github.anddd7.boot.logging.RequestLoggingFilter;
+import javax.servlet.Filter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -25,15 +24,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     ALLOWED_METHODS = new String[]{GET.name(), PUT.name(), POST.name(), OPTIONS.name()};
   }
 
-  private CorrelationInterceptor correlationInterceptor() {
-    return new CorrelationInterceptor();
-  }
-
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(correlationInterceptor());
-  }
-
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry
@@ -42,7 +32,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
   }
 
   @Bean
-  public OncePerRequestFilter requestLoggingFilter() {
+  public Filter correlationFilter() {
+    return new CorrelationFilter();
+  }
+
+  @Bean
+  public Filter requestLoggingFilter() {
     return new RequestLoggingFilter();
   }
 }

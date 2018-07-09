@@ -1,6 +1,8 @@
 package com.github.anddd7.boot.configuration;
 
 import com.github.anddd7.boot.factory.SwaggerDocketFactory;
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,26 +23,30 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnProperty({"swagger.enabled"})
 public class SwaggerConfiguration {
 
+  private static final List<String> IGNORE_PATH = Arrays.asList(
+      "/swagger-ui.html",
+      "/swagger-resources",
+      "/v2/api-docs",
+      "/webjars/springfox-swagger-ui"
+  );
   @Value("${api.version}")
   private String version;
-
   @Value("${spring.application.name}")
   private String name;
-
   @Value("${spring.application.description}")
   private String description;
-
   @Value("${info.contact.author}")
   private String author;
-
   @Value("${info.contact.url}")
   private String url;
-
   @Value("${info.contact.email}")
   private String email;
-
   @Value("${swagger.protocol:https}")
   private String protocol;
+
+  public static boolean ignoreURI(String uri) {
+    return IGNORE_PATH.stream().anyMatch(uri::startsWith);
+  }
 
   @Bean
   @ConditionalOnMissingBean

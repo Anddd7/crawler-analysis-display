@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class CostTime {
+
   private String total;
   private String as_request;
   private String as_request_format;

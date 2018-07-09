@@ -10,12 +10,10 @@ eureka:
 
 # zuul config
 zuul:
-  host:
-    connect-timeout-millis: 10000   # starting the connection
-    socket-timeout-millis: 5000     # monitor the continuous incoming data flow
-    max-total-connections: 1000
-    max-per-route-connections: 100
   routes:
     bilibili-analysis:
       path: /bilibili-analysis/**
       serviceId: bilibili-analysis-api
+
+ribbon:
+  ReadTimeout: 60000

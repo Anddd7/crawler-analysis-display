@@ -1,13 +1,12 @@
 package com.github.anddd7.boot.logging;
 
+import static com.github.anddd7.boot.configuration.SwaggerConfiguration.ignoreURI;
 import static com.github.anddd7.boot.logging.LoggingFormatter.logRequest;
 import static com.github.anddd7.boot.logging.LoggingFormatter.logResponse;
 import static com.github.anddd7.boot.logging.LoggingFormatter.wrapRequest;
 import static com.github.anddd7.boot.logging.LoggingFormatter.wrapResponse;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,25 +27,14 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 @Slf4j
 public class RequestLoggingFilter extends OncePerRequestFilter {
 
-  private static final List<String> IGNORE_PATH = Arrays.asList(
-      "/swagger-ui.html",
-      "/swagger-resources",
-      "/v2/api-docs",
-      "/webjars/springfox-swagger-ui"
-  );
-
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
-    if (isAsyncDispatch(request) || shouldLog(request)) {
-      doFilterWrapped(wrapRequest(request), wrapResponse(response), filterChain);
-    } else {
+    if (ignoreURI(request.getRequestURI())) {
       filterChain.doFilter(request, response);
+    } else {
+      doFilterWrapped(wrapRequest(request), wrapResponse(response), filterChain);
     }
-  }
-
-  private boolean shouldLog(HttpServletRequest request) {
-    return IGNORE_PATH.stream().noneMatch(request.getRequestURI()::startsWith);
   }
 
   private void doFilterWrapped(ContentCachingRequestWrapper request,
