@@ -17,6 +17,8 @@ import lombok.experimental.Accessors;
 public class CorrelationContext {
 
   public static final String HEADER_CORRELATION_ID = "Correlation-Id";
+  public static final String HEADER_CORRELATION_ID_DESCRIPTION = "The correlation id in the request chain";
+
   public static final String HEADER_SESSION_ID = "Session-Id";
 
   private String correlationId;

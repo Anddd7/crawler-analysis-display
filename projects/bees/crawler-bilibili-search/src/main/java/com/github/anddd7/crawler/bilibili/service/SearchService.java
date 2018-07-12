@@ -30,19 +30,6 @@ public class SearchService {
 
   public PageContainer<VideoRecord> searchByCategory(SearchByCategoryCommand command) {
     return searchClient.search(
-//        ImmutableMap.<String, Object>builder()
-//            .put("main_ver", MAIN_VERSION)
-//            .put("search_type", SEARCH_TYPE)
-//            .put("view_type", VIEW_TYPE)
-//            .put("pic_size", PIC_SIZE)
-//            .put("order", Order.click.name())
-//            .put("copy_right", CopyRight.ALL.getCode())
-//            .put("pagesize", command.getPageSize())
-//            .put("page", command.getPageNumber())
-//            .put("cate_id", command.getCategoryId())
-//            .put("time_from", command.getFromDate())
-//            .put("time_to", command.getToDate())
-//            .build()
         MAIN_VERSION,
         SEARCH_TYPE,
         VIEW_TYPE,
@@ -60,5 +47,4 @@ public class SearchService {
   private PageContainer<VideoRecord> packageVideoRecord(SearchDataWrapper searchDataWrapper) {
     return searchDataWrapper.mappingToPageContainer();
   }
-
 }

@@ -7,6 +7,16 @@ dependencyManagement {
         mavenBom "org.springframework.boot:spring-boot-starter-parent:${SpringBootVersion}"
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${SpringCloudVersion}"
     }
+    dependencies {
+        ["com.fasterxml.jackson.core"    : ["jackson-databind", "jackson-core"],
+         "com.fasterxml.jackson.datatype": ["jackson-datatype-jdk8", "jackson-datatype-jsr310"],
+         "com.fasterxml.jackson.module"  : ["jackson-module-parameter-names"]
+        ].forEach { groupName, artifacts ->
+            dependencySet(group: groupName, version: "${JacksonVersion}") {
+                artifacts.forEach { artifact -> entry artifact }
+            }
+        }
+    }
 }
 
 // 依赖

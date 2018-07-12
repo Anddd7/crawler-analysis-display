@@ -1,0 +1,135 @@
+categories:
+  - categoryId: 15
+    description: 连载剧集
+  - categoryId: 17
+    description: 单机游戏
+  - categoryId: 19
+    description: Mugen
+  - categoryId: 20
+    description: 宅舞
+  - categoryId: 21
+    description: 日常
+  - categoryId: 22
+    description: 鬼畜调教
+  - categoryId: 24
+    description: MAD·AMV
+  - categoryId: 25
+    description: MMD·3D
+  - categoryId: 26
+    description: 音MAD
+  - categoryId: 27
+    description: 综合
+  - categoryId: 28
+    description: 原创音乐
+  - categoryId: 29
+    description: 三次元音乐
+  - categoryId: 30
+    description: VOCALOID·UTAU
+  - categoryId: 31
+    description: 翻唱
+  - categoryId: 32
+    description: 完结动画
+  - categoryId: 33
+    description: 连载动画
+  - categoryId: 34
+    description: 完结剧集
+  - categoryId: 37
+    description: 纪录片
+  - categoryId: 39
+    description: 演讲•公开课
+  - categoryId: 47
+    description: 短片·手书·配音
+  - categoryId: 51
+    description: 资讯
+  - categoryId: 54
+    description: OP/ED/OST
+  - categoryId: 59
+    description: 演奏
+  - categoryId: 65
+    description: 网络游戏
+  - categoryId: 71
+    description: 综艺
+  - categoryId: 75
+    description: 动物圈
+  - categoryId: 76
+    description: 美食圈
+  - categoryId: 82
+    description: 电影相关
+  - categoryId: 83
+    description: 其他国家
+  - categoryId: 85
+    description: 短片
+  - categoryId: 86
+    description: 特摄
+  - categoryId: 95
+    description: 数码
+  - categoryId: 96
+    description: 星海
+  - categoryId: 98
+    description: 机械
+  - categoryId: 121
+    description: GMV
+  - categoryId: 122
+    description: 野生技术协会
+  - categoryId: 124
+    description: 趣味科普人文
+  - categoryId: 126
+    description: 人力VOCALOID
+  - categoryId: 127
+    description: 教程演示
+  - categoryId: 128
+    description: 电视剧相关
+  - categoryId: 130
+    description: 音乐选集
+  - categoryId: 131
+    description: Korea相关
+  - categoryId: 136
+    description: 音游
+  - categoryId: 137
+    description: 明星
+  - categoryId: 138
+    description: 搞笑
+  - categoryId: 145
+    description: 欧美电影
+  - categoryId: 146
+    description: 日本电影
+  - categoryId: 147
+    description: 国产电影
+  - categoryId: 152
+    description: 官方延伸
+  - categoryId: 153
+    description: 国产动画
+  - categoryId: 154
+    description: 三次元舞蹈
+  - categoryId: 156
+    description: 舞蹈教程
+  - categoryId: 157
+    description: 美妆
+  - categoryId: 158
+    description: 服饰
+  - categoryId: 159
+    description: 资讯
+  - categoryId: 161
+    description: 手工
+  - categoryId: 162
+    description: 绘画
+  - categoryId: 163
+    description: 运动
+  - categoryId: 164
+    description: 健身
+  - categoryId: 165
+    description: 广告
+  - categoryId: 168
+    description: 国产原创相关
+  - categoryId: 169
+    description: 布袋戏
+  - categoryId: 170
+    description: 资讯
+  - categoryId: 171
+    description: 电子竞技
+  - categoryId: 172
+    description: 手机游戏
+  - categoryId: 173
+    description: 桌游棋牌
+  - categoryId: 174
+    description: 其他

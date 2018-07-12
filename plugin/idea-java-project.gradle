@@ -20,7 +20,6 @@ targetCompatibility = 1.8
 
 // 工具
 dependencies {
-    compile "com.google.guava:guava:${GuavaVersion}"
     compile("org.projectlombok:lombok:${LombokVersion}")
     testCompile("junit:junit:${JunitVersion}")
 }

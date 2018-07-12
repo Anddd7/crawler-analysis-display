@@ -1,5 +1,7 @@
 package com.github.anddd7.boot.factory;
 
+import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_CORRELATION_ID;
+import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_CORRELATION_ID_DESCRIPTION;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Arrays.asList;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
@@ -9,6 +11,7 @@ import io.swagger.annotations.Api;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import springfox.documentation.builders.ParameterBuilder;
@@ -25,13 +28,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 @UtilityClass
 public class SwaggerDocketFactory {
 
-  private static final String CORRELATION_ID_NAME = "Correlation-ID";
-  private static final String CORRELATION_ID_DESCRIPTION = "The correlation id for the request";
-  private static final String HEADER = "header";
-  private static final String STRING = "string";
-
-  public static Docket createDocket(String groupName, ApiInfo apiInfo, String protocol,
-      Class... ignoreParameters) {
+  public static Docket createDocket(String groupName, ApiInfo apiInfo,
+      String protocol, Class... ignoreParameters) {
     TypeResolver typeResolver = new TypeResolver();
     return new Docket(DocumentationType.SWAGGER_2)
         .groupName(groupName)
@@ -44,8 +42,7 @@ public class SwaggerDocketFactory {
         .ignoredParameterTypes(addPrincipalToIgnoredParameters(ignoreParameters))
         .directModelSubstitute(Collection.class, List.class)
         .alternateTypeRules(createAlternateTypeRule(typeResolver))
-        //TODO Correlation Configuration
-//        .globalOperationParameters()
+        .globalOperationParameters(buildGlobalParams())
         .protocols(newHashSet(protocol));
   }
 
@@ -63,13 +60,13 @@ public class SwaggerDocketFactory {
     return ignoreParametersList.toArray(new Class[0]);
   }
 
-  private static Parameter correlationIdParam() {
-    return new ParameterBuilder()
-        .name(CORRELATION_ID_NAME)
-        .description(CORRELATION_ID_DESCRIPTION)
-        .modelRef(new ModelRef(STRING))
-        .parameterType(HEADER)
+  private static List<Parameter> buildGlobalParams() {
+    return Collections.singletonList(new ParameterBuilder()
+        .name(HEADER_CORRELATION_ID)
+        .description(HEADER_CORRELATION_ID_DESCRIPTION)
+        .modelRef(new ModelRef("string"))
+        .parameterType("header")
         .required(false)
-        .build();
+        .build());
   }
 }

@@ -1,1 +1,10 @@
 apply from: rootProject.file('plugin/idea-java-project.gradle')
+
+
+dependencies {
+    compile "com.google.guava:guava:${GuavaVersion}"
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:${JacksonVersion}")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${JacksonVersion}")
+    compile("com.fasterxml.jackson.module:jackson-module-parameter-names:${JacksonVersion}")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${JacksonVersion}")
+}
