@@ -1,14 +1,24 @@
 version: "2"
 
 services:
+
   service-registry:
+    build:
+      context: beehive/service-registry
+      args:
+        - version=0.0.1
     container_name: service-registry
     image: com.github.anddd7/service-registry:latest
     ports:
       - "9999:9999"
     expose:
       - 9999
+
   service-gateway:
+    build:
+      context: beehive/service-gateway
+      args:
+        - version=0.0.1
     container_name: service-gateway
     image: com.github.anddd7/service-gateway:latest
     ports:
@@ -17,12 +27,22 @@ services:
       - 10000
     links:
       - service-registry:service-registry
+
   crawler-bilibili-search:
+    build:
+      context: bees/crawler-bilibili-search
+      args:
+        - version=0.0.1
     container_name: crawler-bilibili-search
     image: com.github.anddd7/crawler-bilibili-search:latest
     links:
       - service-registry:service-registry
+
   analysis-bilibili:
+    build:
+      context: bees/analysis-bilibili
+      args:
+        - version=0.0.1
     container_name: analysis-bilibili
     image: com.github.anddd7/analysis-bilibili:latest
     links:
