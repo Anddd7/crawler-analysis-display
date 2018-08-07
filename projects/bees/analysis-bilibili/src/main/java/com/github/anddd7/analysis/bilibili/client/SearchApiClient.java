@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * 对 search api 的调用
  */
-@FeignClient(value = "bilibili-search-api", path = "/api/${api.version}")
+@FeignClient(value = "bilibili-search", path = "/${api.prefix}/${api.version}")
 public interface SearchApiClient {
 
+  /**
+   * CategoryController
+   */
   @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   ResponseEntity<List<Category>> getCategories();
 }

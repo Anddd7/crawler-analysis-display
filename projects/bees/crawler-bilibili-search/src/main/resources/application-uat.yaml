@@ -1,4 +1,11 @@
+# eureka
 eureka:
   client:
     serviceUrl:
       defaultZone: http://service-registry:9999/eureka
+
+# mongodb
+spring:
+  data:
+    mongodb:
+      uri: mongodb//mongodb:27017/bilibili

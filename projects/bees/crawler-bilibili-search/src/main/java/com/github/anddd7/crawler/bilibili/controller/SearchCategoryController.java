@@ -29,7 +29,7 @@ public class SearchCategoryController {
 
   @GetMapping("/{categoryId}/today")
   public ResponseEntity<PageContainer<VideoRecord>> getToday(
-      @PathVariable("categoryId") String categoryId,
+      @PathVariable("categoryId") int categoryId,
       @RequestParam(name = "pageSize", defaultValue = "25") int pageSize,
       @RequestParam(name = "pageNumber", defaultValue = "1") int pageNumber) {
     SearchByCategoryCommand command = SearchByCategoryCommand.builder()
@@ -38,6 +38,6 @@ public class SearchCategoryController {
         .pageNumber(pageNumber)
         .dateRange(DateRangeCommand.today())
         .build();
-    return ResponseEntity.ok(searchService.searchByCategory(command));
+    return ResponseEntity.ok(searchService.getTodayVideosByCategory(command));
   }
 }

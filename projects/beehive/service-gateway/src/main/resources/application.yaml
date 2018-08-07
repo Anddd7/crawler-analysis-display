@@ -12,8 +12,8 @@ eureka:
 zuul:
   routes:
     bilibili-analysis:
-      path: /bilibili-analysis/**
-      serviceId: bilibili-analysis-api
+      path: /bilibili/**
+      serviceId: bilibili-dashboard
 
 ribbon:
   ReadTimeout: 60000

@@ -1,7 +1,7 @@
 version: "2"
 
 services:
-
+  # managers
   service-registry:
     build:
       context: beehive/service-registry
@@ -28,6 +28,7 @@ services:
     links:
       - service-registry:service-registry
 
+  # components bilibili
   crawler-bilibili-search:
     build:
       context: bees/crawler-bilibili-search
@@ -37,6 +38,7 @@ services:
     image: com.github.anddd7/crawler-bilibili-search:latest
     links:
       - service-registry:service-registry
+      - mongodb:mongodb
 
   analysis-bilibili:
     build:
@@ -47,3 +49,28 @@ services:
     image: com.github.anddd7/analysis-bilibili:latest
     links:
       - service-registry:service-registry
+      - mongodb:mongodb
+
+  dashboard-bilibili:
+    build:
+      context: bees/dashboard-bilibili
+      args:
+        - version=0.0.1
+    container_name: dashboard-bilibili
+    image: com.github.anddd7/dashboard-bilibili:latest
+    links:
+      - service-registry:service-registry
+      - mongodb:mongodb
+
+    # dbs
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/logs
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/logs # --quiet

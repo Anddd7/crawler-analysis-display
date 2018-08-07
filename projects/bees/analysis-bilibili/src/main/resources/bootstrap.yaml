@@ -1,7 +1,7 @@
 # application
 spring:
   application:
-    name: bilibili-analysis-api
+    name: analysis-bilibili
     description: MicroService - Analysis 4 BILIBILI - Analysis Service
 
 # swagger toggle

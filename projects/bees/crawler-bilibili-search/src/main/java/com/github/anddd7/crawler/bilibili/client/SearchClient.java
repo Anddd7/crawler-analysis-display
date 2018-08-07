@@ -5,13 +5,13 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "bilibili-search", url = "${remote.baseURL}")
+@FeignClient(name = "bilibili-get", url = "https://s.get.bilibili.com")
 public interface SearchClient {
 
   /**
    * Bilibili视频按时间排列
    */
-  @GetMapping("${remote.contextURL}")
+  @GetMapping("/cate/search")
   SearchDataWrapper search(
       @RequestParam("main_ver") String mainVersion,
       @RequestParam("search_type") String searchType,
@@ -21,7 +21,7 @@ public interface SearchClient {
       @RequestParam("copy_right") int copyRight,
       @RequestParam("pagesize") int pageSize,
       @RequestParam("page") int pageNumber,
-      @RequestParam("cate_id") String categoryId,
+      @RequestParam("cate_id") int categoryId,
       @RequestParam("time_from") String dateFrom,
       @RequestParam("time_to") String dateTo);
 }

@@ -2,17 +2,15 @@ package com.github.anddd7.model.bilibili.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
 
-  private Integer categoryId;
+  private int categoryId;
   private String description;
 }

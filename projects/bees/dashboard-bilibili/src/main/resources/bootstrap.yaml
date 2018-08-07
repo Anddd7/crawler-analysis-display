@@ -1,8 +1,8 @@
 # application
 spring:
   application:
-    name: crawler-bilibili-get
-    description: MicroService - Crawler 4 BILIBILI - Search Service
+    name: dashboard-bilibili
+    description: MicroService - Dashboard 4 BILIBILI
 
 # swagger toggle
 swagger:

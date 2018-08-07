@@ -13,6 +13,8 @@ include 'crawler-bilibili-search'
 project(':crawler-bilibili-search').projectDir = "$rootDir/projects/bees/crawler-bilibili-search" as File
 include 'analysis-bilibili'
 project(':analysis-bilibili').projectDir = "$rootDir/projects/bees/analysis-bilibili" as File
+include 'dashboard-bilibili'
+project(':dashboard-bilibili').projectDir = "$rootDir/projects/bees/dashboard-bilibili" as File
 
 // server
 include 'service-registry'

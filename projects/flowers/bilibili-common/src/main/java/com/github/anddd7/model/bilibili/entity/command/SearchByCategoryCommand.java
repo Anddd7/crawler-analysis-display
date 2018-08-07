@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SearchByCategoryCommand {
 
-  private String categoryId;
+  private int categoryId;
   private int pageSize;
   private int pageNumber;
   private DateRangeCommand dateRange;

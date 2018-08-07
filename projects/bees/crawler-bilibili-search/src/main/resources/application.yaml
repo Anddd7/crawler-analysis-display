@@ -1,6 +1,6 @@
 # server
 server:
-  port: 10031
+  port: 10042
 
 # response filter
 response:
@@ -30,7 +30,8 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
 
-# addition
-remote:
-  baseURL: https://s.search.bilibili.com
-  contextURL: /cate/search
+# mongodb
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/bilibili

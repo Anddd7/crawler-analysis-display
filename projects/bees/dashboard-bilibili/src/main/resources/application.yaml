@@ -1,6 +1,6 @@
 # server
 server:
-  port: 10043
+  port: 10040
 
 # api
 api:
