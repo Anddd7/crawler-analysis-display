@@ -29,3 +29,12 @@ feign:
       default:
         connectTimeout: 5000
         readTimeout: 5000
+
+# mongodb & redis
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/bilibili
+  redis:
+    host: localhost
+    port: 6379

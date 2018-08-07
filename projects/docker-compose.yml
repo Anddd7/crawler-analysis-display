@@ -50,6 +50,7 @@ services:
     links:
       - service-registry:service-registry
       - mongodb:mongodb
+      - redis:redis
 
   dashboard-bilibili:
     build:
@@ -62,7 +63,7 @@ services:
       - service-registry:service-registry
       - mongodb:mongodb
 
-    # dbs
+  # dbs
   mongodb:
     image: mongo:latest
     container_name: "mongodb"
@@ -70,7 +71,15 @@ services:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/logs
     volumes:
-      - ./data/db:/data/db
+      - mongo-db:/data/db
     ports:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/logs # --quiet
+
+  redis:
+    image: redis:latest
+    container_name: "redis"
+    volumes:
+      - redis-db:/data
+    ports:
+      - 6379:6379

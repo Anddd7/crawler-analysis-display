@@ -1,6 +1,5 @@
 package com.github.anddd7.model.bilibili.domain;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "published_data")
 public class PublishedData {
 
-  private String batchId;
-  private LocalDateTime recordTime;
+  private String recordTime;
   private int categoryId;
   private String categoryName;
   private int publishedVideos;

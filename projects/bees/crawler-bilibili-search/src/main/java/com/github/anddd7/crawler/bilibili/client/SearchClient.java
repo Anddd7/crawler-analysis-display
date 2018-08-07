@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "bilibili-get", url = "https://s.get.bilibili.com")
+@FeignClient(name = "bilibili-get", url = "https://s.search.bilibili.com")
 public interface SearchClient {
 
   /**

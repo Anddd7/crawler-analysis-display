@@ -2,5 +2,6 @@ apply from: rootProject.file('plugin/feign-client.gradle')
 
 dependencies {
     compile project(":util-common")
-    compileOnly "org.springframework.data:spring-data-mongodb:${MongoDBVersion}"
+    compileOnly("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compileOnly("org.springframework.boot:spring-boot-starter-data-redis")
 }

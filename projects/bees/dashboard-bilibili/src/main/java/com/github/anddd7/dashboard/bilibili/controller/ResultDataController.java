@@ -1,6 +1,6 @@
-package com.github.anddd7.analysis.bilibili.controller;
+package com.github.anddd7.dashboard.bilibili.controller;
 
-import com.github.anddd7.analysis.bilibili.service.CategoryAnalysisService;
+import com.github.anddd7.dashboard.bilibili.client.AnalysisApiClient;
 import com.github.anddd7.model.bilibili.entity.PublishedRecord;
 import io.swagger.annotations.Api;
 import java.util.List;
@@ -13,20 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api
 @RestController
-@RequestMapping(value = "/${api.prefix}/${api.version}/analysis", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class AnalysisController {
+@RequestMapping(value = "/${api.prefix}/${api.version}/result", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ResultDataController {
 
-  private final CategoryAnalysisService categoryAnalysisService;
+  private AnalysisApiClient analysisApiClient;
 
   @Autowired
-  public AnalysisController(
-      CategoryAnalysisService categoryAnalysisService) {
-    this.categoryAnalysisService = categoryAnalysisService;
+  public ResultDataController(
+      AnalysisApiClient analysisApiClient) {
+    this.analysisApiClient = analysisApiClient;
   }
-
 
   @GetMapping("/published")
   public ResponseEntity<List<PublishedRecord>> getTop10OfPublishedData() {
-    return ResponseEntity.ok(categoryAnalysisService.getTop10OfPublishedData());
+    return ResponseEntity.ok(analysisApiClient.getTop10OfPublishedData());
   }
 }

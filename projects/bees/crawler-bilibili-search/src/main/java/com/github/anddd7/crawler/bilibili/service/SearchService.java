@@ -146,7 +146,7 @@ public class SearchService {
         .categoryId(category.getCategoryId())
         .categoryName(category.getDescription())
         .publishedVideos(wrapper.getNumResults())
-        .recordTime(recordTime)
+        .recordTime(recordTime.format(DateTool.DATE_TIME_IGNORE_SEC))
         .build();
   }
 }

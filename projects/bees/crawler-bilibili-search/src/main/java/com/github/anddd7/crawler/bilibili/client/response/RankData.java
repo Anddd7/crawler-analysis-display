@@ -1,10 +1,8 @@
 package com.github.anddd7.crawler.bilibili.client.response;
 
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "rank-data")
 public class RankData {
 
   private String aid;

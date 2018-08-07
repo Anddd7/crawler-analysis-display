@@ -1,7 +1,7 @@
 # application
 spring:
   application:
-    name: crawler-bilibili-get
+    name: crawler-bilibili-search
     description: MicroService - Crawler 4 BILIBILI - Search Service
 
 # swagger toggle

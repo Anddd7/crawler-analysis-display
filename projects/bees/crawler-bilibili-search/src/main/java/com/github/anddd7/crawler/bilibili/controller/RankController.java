@@ -1,11 +1,9 @@
 package com.github.anddd7.crawler.bilibili.controller;
 
-import com.github.anddd7.crawler.bilibili.client.response.RankData;
 import com.github.anddd7.crawler.bilibili.service.RankService;
-import com.github.anddd7.model.bilibili.entity.Category;
+import com.github.anddd7.model.bilibili.entity.RankVideoRecord;
 import io.swagger.annotations.Api;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +29,9 @@ public class RankController {
    * --------------
    */
 
-  @GetMapping("/today")
-  public ResponseEntity<Map<Category, List<RankData>>> getToday() {
-    return ResponseEntity.ok(rankService.getTodayRankBoard());
+  @GetMapping
+  public ResponseEntity<List<List<RankVideoRecord>>> getRankBoard(int day) {
+    return ResponseEntity.ok(rankService.getRankBoard(day));
   }
 
   /**

@@ -4,4 +4,7 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     compile project(":service-common")
     compile project(":bilibili-common")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.springframework.boot:spring-boot-starter-data-redis")
+    compile 'redis.clients:jedis'
 }
