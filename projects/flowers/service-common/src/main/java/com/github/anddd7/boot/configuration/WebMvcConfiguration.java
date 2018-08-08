@@ -18,11 +18,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ConditionalOnWebApplication
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
-  private static final String[] ALLOWED_METHODS;
-
-  static {
-    ALLOWED_METHODS = new String[]{GET.name(), PUT.name(), POST.name(), OPTIONS.name()};
-  }
+  private static final String[] ALLOWED_METHODS =
+      new String[]{GET.name(), PUT.name(), POST.name(), OPTIONS.name()};
 
   @Override
   public void addCorsMappings(CorsRegistry registry) {

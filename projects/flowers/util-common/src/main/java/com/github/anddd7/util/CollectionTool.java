@@ -61,7 +61,7 @@ public final class CollectionTool {
    *
    * @param objs 待判断数组
    */
-  public Boolean isEmpty(Object[] objs) {
+  public static Boolean isEmpty(Object[] objs) {
     return objs == null || objs.length == 0;
   }
 
@@ -71,7 +71,7 @@ public final class CollectionTool {
    * @param map 待筛选Map
    * @param predicate 条件
    */
-  public <K, V> Optional<V> findFirst(Map<K, V> map, Predicate<K> predicate) {
+  public static <K, V> Optional<V> findFirst(Map<K, V> map, Predicate<K> predicate) {
     for (Map.Entry<K, V> entry : map.entrySet()) {
       if (predicate.test(entry.getKey())) {
         return Optional.ofNullable(entry.getValue());
@@ -86,14 +86,14 @@ public final class CollectionTool {
    * @param map,predicate {@link CollectionTool#findFirst(Map, Predicate)}
    * @param consumer 回调函数
    */
-  public <K, V> void dealFirst(Map<K, V> map, Predicate<K> predicate, Consumer<V> consumer) {
+  public static <K, V> void dealFirst(Map<K, V> map, Predicate<K> predicate, Consumer<V> consumer) {
     findFirst(map, predicate).ifPresent(consumer);
   }
 
   /**
    * @see CollectionTool#merge(Object[], Object[], BiConsumer)
    */
-  public <L, R> void merge(L[] left, R[] right, BiConsumer<L, R> biConsumer) {
+  public static <L, R> void merge(L[] left, R[] right, BiConsumer<L, R> biConsumer) {
     merge(Arrays.asList(left), Arrays.asList(right), biConsumer);
   }
 
@@ -104,7 +104,7 @@ public final class CollectionTool {
    * @param right 右
    * @param biConsumer 回调
    */
-  public <L, R> void merge(List<L> left, List<R> right, BiConsumer<L, R> biConsumer) {
+  public static <L, R> void merge(List<L> left, List<R> right, BiConsumer<L, R> biConsumer) {
     int count = left.size() < right.size() ? left.size() : right.size();
     for (int i = 0; i < count; i++) {
       biConsumer.accept(left.get(i), right.get(i));
@@ -117,7 +117,7 @@ public final class CollectionTool {
    * @param ch 分隔符
    * @param objs 对象
    */
-  public String join(CharSequence ch, Object... objs) {
+  public static String join(CharSequence ch, Object... objs) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < objs.length; i++) {
       if (i > 0) {
@@ -131,7 +131,7 @@ public final class CollectionTool {
   /**
    * @see CollectionTool#formatArray2Map(String[], String[])
    */
-  public Map<String, String> formatArray2Map(String[] titles, String[] datas) {
+  public static Map<String, String> formatArray2Map(String[] titles, String[] datas) {
     return formatArray2Map(Arrays.asList(titles), Arrays.asList(datas));
   }
 
@@ -141,7 +141,7 @@ public final class CollectionTool {
    * @param titles 字段名
    * @param datas 数据值
    */
-  public Map<String, String> formatArray2Map(List<String> titles, List<String> datas) {
+  public static Map<String, String> formatArray2Map(List<String> titles, List<String> datas) {
     Map<String, String> map = new HashMap<>();
     for (int i = 0; i < (titles.size() < datas.size() ? titles.size() : datas.size()); i++) {
       map.put(titles.get(i), datas.get(i));
@@ -155,7 +155,7 @@ public final class CollectionTool {
    * @param objs 待选项
    * @param predicate 条件
    */
-  public <T> Boolean anyMatch(T[] objs, Predicate<T> predicate) {
+  public static <T> Boolean anyMatch(T[] objs, Predicate<T> predicate) {
     for (T obj : objs) {
       if (predicate.test(obj)) {
         return true;

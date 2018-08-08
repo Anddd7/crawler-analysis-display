@@ -29,6 +29,7 @@ public class SwaggerConfiguration {
       "/v2/api-docs",
       "/webjars/springfox-swagger-ui"
   );
+
   @Value("${api.version}")
   private String version;
   @Value("${spring.application.name}")

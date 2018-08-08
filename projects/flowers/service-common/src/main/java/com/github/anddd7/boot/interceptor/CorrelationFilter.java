@@ -2,11 +2,11 @@ package com.github.anddd7.boot.interceptor;
 
 import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_CORRELATION_ID;
 import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_SESSION_ID;
-import static com.github.anddd7.util.builder.FunctionalString.of;
+import static com.github.anddd7.util.builder.OptionalString.of;
 
 import com.github.anddd7.boot.configuration.SwaggerConfiguration;
 import com.github.anddd7.boot.scope.CorrelationContextHolder;
-import com.github.anddd7.util.builder.FunctionalString;
+import com.github.anddd7.util.builder.OptionalString;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.UUID;
@@ -56,12 +56,12 @@ public class CorrelationFilter extends OncePerRequestFilter {
       throws IOException, ServletException {
 
     HttpHeaders requestHeaders = mappingHeaders(request);
-    FunctionalString correlationId = of(requestHeaders.getFirst(HEADER_CORRELATION_ID))
-        .or(UUID.randomUUID()::toString);
-    FunctionalString sessionId = of(requestHeaders.getFirst(HEADER_SESSION_ID));
+    OptionalString correlationId = of(requestHeaders.getFirst(HEADER_CORRELATION_ID))
+        .orElse(UUID.randomUUID()::toString);
+    OptionalString sessionId = of(requestHeaders.getFirst(HEADER_SESSION_ID));
 
-    correlationId.then(id -> MDC.put(HEADER_CORRELATION_ID, id));
-    sessionId.then(id -> MDC.put(HEADER_SESSION_ID, id));
+    correlationId.ifNotBlank(id -> MDC.put(HEADER_CORRELATION_ID, id));
+    sessionId.ifNotBlank(id -> MDC.put(HEADER_SESSION_ID, id));
 
     CorrelationContextHolder.get()
         .setCorrelationId(correlationId.toString())

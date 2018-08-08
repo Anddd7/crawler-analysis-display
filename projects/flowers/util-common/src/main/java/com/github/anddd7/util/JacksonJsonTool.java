@@ -12,7 +12,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class JacksonJsonTool {
+public final class JacksonJsonTool {
 
   private static final ObjectMapper MAPPER = buildMapper();
   private static final ObjectMapper DEBUG_MAPPER = buildDebugMapper();
