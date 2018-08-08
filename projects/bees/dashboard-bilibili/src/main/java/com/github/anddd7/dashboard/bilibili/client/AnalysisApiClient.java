@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface AnalysisApiClient {
 
   @GetMapping("/analysis/published")
-  List<PublishedRecord> getTop10OfPublishedData();
+  List<PublishedRecord> getCalculatedPublishedRecord();
 }
 

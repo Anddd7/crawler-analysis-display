@@ -26,7 +26,7 @@ public class AnalysisController {
 
 
   @GetMapping("/published")
-  public ResponseEntity<List<PublishedRecord>> getTop10OfPublishedData() {
-    return ResponseEntity.ok(categoryAnalysisService.getTop10OfPublishedData());
+  public ResponseEntity<List<PublishedRecord>> getCalculatedPublishedRecord() {
+    return ResponseEntity.ok(categoryAnalysisService.getCalculatedPublishedRecord());
   }
 }

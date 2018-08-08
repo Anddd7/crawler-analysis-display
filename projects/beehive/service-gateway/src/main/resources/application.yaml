@@ -11,7 +11,7 @@ eureka:
 # zuul config
 zuul:
   routes:
-    bilibili-analysis:
+    bilibili-dashboard:
       path: /bilibili/**
       serviceId: bilibili-dashboard
 

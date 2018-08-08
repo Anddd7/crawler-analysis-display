@@ -2,6 +2,7 @@ package com.github.anddd7.dashboard.bilibili.controller;
 
 import com.github.anddd7.dashboard.bilibili.client.AnalysisApiClient;
 import com.github.anddd7.model.bilibili.entity.PublishedRecord;
+import com.github.anddd7.model.bilibili.entity.Top10OfPublishedData;
 import io.swagger.annotations.Api;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ public class ResultDataController {
   }
 
   @GetMapping("/published")
-  public ResponseEntity<List<PublishedRecord>> getTop10OfPublishedData() {
-    return ResponseEntity.ok(analysisApiClient.getTop10OfPublishedData());
+  public ResponseEntity<Top10OfPublishedData> getTop10OfPublishedData() {
+    List<PublishedRecord> sortByCategory = analysisApiClient.getCalculatedPublishedRecord();
+    return ResponseEntity.ok(new Top10OfPublishedData(sortByCategory));
   }
 }

@@ -25,7 +25,7 @@ public class CategoryAnalysisService {
     this.publishedDataRepository = publishedDataRepository;
   }
 
-  public List<PublishedRecord> getTop10OfPublishedData() {
+  public List<PublishedRecord> getCalculatedPublishedRecord() {
     LocalDateTime localDateTime = LocalDateTime.now();
     LocalDateTime latestRecordTime = localDateTime.minusMinutes(localDateTime.getMinute() % 5);
 
@@ -41,25 +41,29 @@ public class CategoryAnalysisService {
     List<PublishedRecord> publishedRecords = new ArrayList<>();
     for (int i = 0; i < latestPublishedData.size(); i++) {
       PublishedData latest = latestPublishedData.get(i);
-      PublishedData lastHalfHour = i < lastHalfHourPublishedData.size() ?
-          lastHalfHourPublishedData.get(i) : new PublishedData();
-      PublishedData lastHour = i < lastHourPublishedData.size() ?
-          lastHourPublishedData.get(i) : new PublishedData();
+
+      int lastHalfHourPublished = 0;
+      if (i < lastHalfHourPublishedData.size()) {
+        lastHalfHourPublished =
+            latest.getPublishedVideos() - lastHalfHourPublishedData.get(i).getPublishedVideos();
+      }
+
+      int lastHourPublished = 0;
+      if (i < lastHourPublishedData.size()) {
+        lastHourPublished =
+            latest.getPublishedVideos() - lastHourPublishedData.get(i).getPublishedVideos();
+      }
 
       publishedRecords.add(
           PublishedRecord.builder()
               .categoryId(latest.getCategoryId())
               .categoryName(latest.getCategoryName())
               .publishedVideos(latest.getPublishedVideos())
-              .newVideosLastHalfHour(
-                  latest.getPublishedVideos() - lastHalfHour.getPublishedVideos())
-              .newVideosLastHour(
-                  latest.getPublishedVideos() - lastHour.getPublishedVideos())
+              .newVideosLastHalfHour(lastHalfHourPublished)
+              .newVideosLastHour(lastHourPublished)
               .build()
       );
     }
     return publishedRecords;
   }
-
-
 }

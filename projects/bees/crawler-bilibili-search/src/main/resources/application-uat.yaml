@@ -8,4 +8,4 @@ eureka:
 spring:
   data:
     mongodb:
-      uri: mongodb//mongodb:27017/bilibili
+      uri: mongodb://mongodb:27017/bilibili

@@ -5,4 +5,5 @@ com.github.anddd7.boot.controller.HelloController,\
 com.github.anddd7.boot.configuration.FeignConfiguration,\
 com.github.anddd7.boot.configuration.SwaggerConfiguration,\
 com.github.anddd7.boot.configuration.JacksonConfiguration,\
-com.github.anddd7.boot.configuration.WebMvcConfiguration
+com.github.anddd7.boot.configuration.WebMvcConfiguration,\
+com.github.anddd7.boot.configuration.RedisConfiguration
