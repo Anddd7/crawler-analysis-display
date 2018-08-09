@@ -57,7 +57,7 @@ public class CorrelationFilter extends OncePerRequestFilter {
 
     HttpHeaders requestHeaders = mappingHeaders(request);
     OptionalString correlationId = of(requestHeaders.getFirst(HEADER_CORRELATION_ID))
-        .orElse(UUID.randomUUID()::toString);
+        .or(UUID.randomUUID()::toString);
     OptionalString sessionId = of(requestHeaders.getFirst(HEADER_SESSION_ID));
 
     correlationId.ifNotBlank(id -> MDC.put(HEADER_CORRELATION_ID, id));

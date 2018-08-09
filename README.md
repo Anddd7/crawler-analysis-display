@@ -1,4 +1,56 @@
 ## 数据 - 抓取 分析 展示 平台
+### 20180809 
+使用redis缓存数据
+- redis提供了原子方法, setIfAbsent/getAndSet, 但只针对 key:value
+- 由于我们从DB中获取数据的操作比较耗时, 我们希望通过check避免这个操作
+- 逻辑
+  - 先检查值是否已缓存, 缓存对象直接返回
+  - 未缓存对象从数据库加载, 并放入缓存
+```javascript
+if(!cache.contains(key)){
+  DB.get(key)
+  cache.set(key)
+}
+return cache.get(key)
+```
+- 出现了明显的check-then-act, 参考ConcurrentHashMap的加锁方式进行锁同步
+- 为了不阻塞已缓存对象, 我们使用double-check-locking
+```javascript
+if(!cache.contains(key)){
+  lock.lock() // 只在cache missed的时候进行同步
+  // 可能有多个线程等待lock, 再次check保证DB获取数据的方法只执行一次
+  if(!cache.contains(key)){     
+    DB.get(key)
+    cache.set(key)
+  }
+  lock.unlock()
+}
+return cache.get(key)
+```
+- 由于所有线程共用一个锁, 当初始化时大量的cache missed
+- 所有的线程都需要去争抢这个"写"锁, 但只有对同一个key的操作才需要同步
+- 参考ConcurrentHashMap的设计方式, 使用多个lock分片区管理同步
+```javascript
+locks = new Lock[16]
+...
+if(!cache.contains(key)){
+  lock = indexOf(key)
+  lock.lock()
+  if(!cache.contains(key)){     
+    DB.get(key)
+    cache.set(key)
+  }
+  lock.unlock()
+}
+return cache.get(key)
+```
+- 最后通过单元测试检查结果: 主要通过返回值/方法执行次数/logging的内容和顺序进行校验
+  - 单线程hit/missed
+  - 多线程hit/missed
+[com.github.anddd7.analysis.bilibili.repository.RedisRepository]() 
+[com.github.anddd7.analysis.bilibili.repository.RedisRepositoryTest]()
+
+
 ### 20180808
 - 你有什么数据
 - 你想知道什么
