@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class Top10OfPublishedData {
+public class Top10OfPublishedRecord {
 
   private final static Comparator<PublishedRecord> BY_TOTAL_PUBLISHED = Comparator
       .comparingInt(PublishedRecord::getPublishedVideos);
@@ -19,7 +19,7 @@ public class Top10OfPublishedData {
   private List<PublishedRecord> sortByLastHalfHourPublished;
   private List<PublishedRecord> sortByLastHourPublished;
 
-  public Top10OfPublishedData(List<PublishedRecord> sortByCategory) {
+  public Top10OfPublishedRecord(List<PublishedRecord> sortByCategory) {
     this.sortByCategory = sortByCategory;
     this.sortByTotalPublished = new ArrayList<>(sortByCategory);
     this.sortByLastHalfHourPublished = new ArrayList<>(sortByCategory);
@@ -29,13 +29,22 @@ public class Top10OfPublishedData {
 
   private void sort() {
     sortByTotalPublished.sort(BY_TOTAL_PUBLISHED);
-    sortByTotalPublished = sortByTotalPublished.subList(0, 10);
+    sortByTotalPublished = sortByTotalPublished.subList(
+        0,
+        Math.min(sortByTotalPublished.size(), 10)
+    );
 
     sortByLastHalfHourPublished.sort(BY_TOTAL_PUBLISHED);
-    sortByLastHalfHourPublished = sortByLastHalfHourPublished.subList(0, 10);
+    sortByLastHalfHourPublished = sortByLastHalfHourPublished.subList(
+        0,
+        Math.min(sortByLastHalfHourPublished.size(), 10)
+    );
 
     sortByLastHourPublished.sort(BY_TOTAL_PUBLISHED);
-    sortByLastHourPublished = sortByLastHourPublished.subList(0, 10);
+    sortByLastHourPublished = sortByLastHourPublished.subList(
+        0,
+        Math.min(sortByLastHourPublished.size(), 10)
+    );
   }
 
 

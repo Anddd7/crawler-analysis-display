@@ -1,5 +1,6 @@
 package com.github.anddd7.analysis.bilibili.repository;
 
+import com.github.anddd7.analysis.bilibili.repository.cache.RedisRepository;
 import com.github.anddd7.analysis.bilibili.repository.dao.PublishedDataDAO;
 import com.github.anddd7.model.bilibili.domain.PublishedData;
 import java.util.List;
@@ -25,7 +26,7 @@ public class PublishedDataRepository {
 
   public List<PublishedData> findByRecordTime(String recordTime) {
     final String key = "bilibili.crawler.publisheddata." + recordTime;
-    return redisRepository.findByKey(
+    return redisRepository.get(
         key,
         () -> {
           List<PublishedData> result = publishedDataDAO

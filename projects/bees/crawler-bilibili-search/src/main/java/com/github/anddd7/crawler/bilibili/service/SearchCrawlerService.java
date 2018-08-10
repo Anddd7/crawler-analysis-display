@@ -42,9 +42,10 @@ public class SearchCrawlerService {
   /**
    * 每5分钟抓取一次当前各类别的视频发布数
    */
-  @Scheduled(cron = "0 0/5 * * * ?")
+  @Scheduled(cron = "0 1/5 * * * ?")
   public void storeCurrentPublishedData() {
-    LocalDateTime recordTime = LocalDateTime.now();
+    LocalDateTime nowTime = LocalDateTime.now();
+    LocalDateTime recordTime = nowTime.minusMinutes(nowTime.getMinute() % 5);
 
     List<Category> categories = categoryRepository.getCategories();
     final CountDownLatch working = new CountDownLatch(categories.size());

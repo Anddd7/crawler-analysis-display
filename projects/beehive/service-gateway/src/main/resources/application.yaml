@@ -13,7 +13,7 @@ zuul:
   routes:
     bilibili-dashboard:
       path: /bilibili/**
-      serviceId: bilibili-dashboard
+      serviceId: dashboard-bilibili
 
 ribbon:
   ReadTimeout: 60000

@@ -1,4 +1,4 @@
-package com.github.anddd7.analysis.bilibili.repository;
+package com.github.anddd7.analysis.bilibili.repository.cache;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +28,12 @@ public class RedisRepository {
     }
   }
 
-  public <T> T findByKey(String key, Supplier<Optional<T>> supplier) {
+  public <T> T replace(String key, T value) {
+    return (T) objectRedisTemplate.opsForValue().getAndSet(key, value);
+  }
+
+
+  public <T> T get(String key, Supplier<Optional<T>> supplier) {
     ValueOperations<String, Object> ops = objectRedisTemplate.opsForValue();
     if (!Optional.ofNullable(objectRedisTemplate.hasKey(key)).orElse(false)) {
       Lock lock = indexOf(key);

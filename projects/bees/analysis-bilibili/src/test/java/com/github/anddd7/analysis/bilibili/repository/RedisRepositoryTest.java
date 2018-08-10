@@ -15,6 +15,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.Appender;
+import com.github.anddd7.analysis.bilibili.repository.cache.RedisRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -80,7 +81,7 @@ public class RedisRepositoryTest {
     when(mockRedisTemplate.opsForValue()).thenReturn(mockOps);
     when(mockOps.get("cached")).thenReturn(expectedCached);
 
-    Object result = redisRepository.findByKey("cached", mockSupplier);
+    Object result = redisRepository.get("cached", mockSupplier);
 
     // result
     verify(mockSupplier, never()).get();
@@ -100,7 +101,7 @@ public class RedisRepositoryTest {
     when(mockOps.get("newed")).thenReturn(expectedNewed);
     when(mockSupplier.get()).thenReturn(Optional.of(expectedNewed));
 
-    Object result = redisRepository.findByKey("newed", mockSupplier);
+    Object result = redisRepository.get("newed", mockSupplier);
 
     // result
     verify(mockSupplier, times(1)).get();
@@ -124,7 +125,7 @@ public class RedisRepositoryTest {
 
     // multi thread call
     for (int i = 0; i < NUM_THREAD; i++) {
-      exec.submit(() -> redisRepository.findByKey("same", mockSupplier));
+      exec.submit(() -> redisRepository.get("same", mockSupplier));
     }
     exec.shutdown();
     while (!exec.awaitTermination(1, TimeUnit.MINUTES)) {
@@ -156,7 +157,7 @@ public class RedisRepositoryTest {
     // multi thread call
     for (int i = 0; i < NUM_THREAD; i++) {
       final int j = i;
-      exec.submit(() -> redisRepository.findByKey("different-" + j, mockSupplier));
+      exec.submit(() -> redisRepository.get("different-" + j, mockSupplier));
     }
     exec.shutdown();
     while (!exec.awaitTermination(1, TimeUnit.MINUTES)) {

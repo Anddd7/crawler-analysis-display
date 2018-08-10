@@ -47,7 +47,7 @@ return cache.get(key)
 - 最后通过单元测试检查结果: 主要通过返回值/方法执行次数/logging的内容和顺序进行校验
   - 单线程hit/missed
   - 多线程hit/missed
-[com.github.anddd7.analysis.bilibili.repository.RedisRepository]() 
+[com.github.anddd7.analysis.bilibili.repository.cache.RedisRepository]() 
 [com.github.anddd7.analysis.bilibili.repository.RedisRepositoryTest]()
 
 
