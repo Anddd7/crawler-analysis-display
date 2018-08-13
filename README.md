@@ -1,4 +1,9 @@
 ## 数据 - 抓取 分析 展示 平台
+
+### 20180813
+- 降序排序
+- 前后端测试
+
 ### 20180809 
 使用redis缓存数据
 - redis提供了原子方法, setIfAbsent/getAndSet, 但只针对 key:value

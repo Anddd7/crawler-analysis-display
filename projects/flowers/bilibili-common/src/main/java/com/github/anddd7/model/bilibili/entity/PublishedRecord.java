@@ -1,5 +1,6 @@
 package com.github.anddd7.model.bilibili.entity;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,6 @@ public class PublishedRecord {
 
   private int newVideosLastHalfHour;
   private int newVideosLastHour;
+
+  private LocalDateTime recordTime;
 }

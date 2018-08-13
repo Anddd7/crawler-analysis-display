@@ -1,5 +1,6 @@
 package com.github.anddd7.model.bilibili.entity;
 
+import com.github.anddd7.util.FunctionTool;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -8,13 +9,14 @@ import lombok.Getter;
 @Getter
 public class Top10OfPublishedRecord {
 
-  private final static Comparator<PublishedRecord> BY_TOTAL_PUBLISHED = Comparator
-      .comparingInt(PublishedRecord::getPublishedVideos);
-  private final static Comparator<PublishedRecord> BY_LAST_HALF_HOUR_PUBLISHED = Comparator
-      .comparingInt(PublishedRecord::getNewVideosLastHalfHour);
-  private final static Comparator<PublishedRecord> BY_LAST_HOUR_PUBLISHED = Comparator
-      .comparingInt(PublishedRecord::getNewVideosLastHour);
-  private final List<PublishedRecord> sortByCategory;
+  private final static Comparator<PublishedRecord> BY_TOTAL_PUBLISHED = FunctionTool
+      .comparingIntDesc(PublishedRecord::getPublishedVideos);
+  private final static Comparator<PublishedRecord> BY_LAST_HALF_HOUR_PUBLISHED = FunctionTool
+      .comparingIntDesc(PublishedRecord::getNewVideosLastHalfHour);
+  private final static Comparator<PublishedRecord> BY_LAST_HOUR_PUBLISHED = FunctionTool
+      .comparingIntDesc(PublishedRecord::getNewVideosLastHour);
+
+  private List<PublishedRecord> sortByCategory;
   private List<PublishedRecord> sortByTotalPublished;
   private List<PublishedRecord> sortByLastHalfHourPublished;
   private List<PublishedRecord> sortByLastHourPublished;
@@ -24,7 +26,7 @@ public class Top10OfPublishedRecord {
     this.sortByTotalPublished = new ArrayList<>(sortByCategory);
     this.sortByLastHalfHourPublished = new ArrayList<>(sortByCategory);
     this.sortByLastHourPublished = new ArrayList<>(sortByCategory);
-    sort();
+    this.sort();
   }
 
   private void sort() {
@@ -46,6 +48,4 @@ public class Top10OfPublishedRecord {
         Math.min(sortByLastHourPublished.size(), 10)
     );
   }
-
-
 }

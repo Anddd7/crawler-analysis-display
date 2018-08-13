@@ -27,7 +27,9 @@ public class CategoryAnalysisService {
 
   public List<PublishedRecord> getCalculatedPublishedRecord() {
     LocalDateTime localDateTime = LocalDateTime.now();
-    LocalDateTime latestRecordTime = localDateTime.minusMinutes(localDateTime.getMinute() % 5);
+    LocalDateTime latestRecordTime = localDateTime.minusMinutes(
+        (localDateTime.getMinute() - 5) % 5
+    );
 
     List<PublishedData> latestPublishedData = publishedDataRepository
         .findByRecordTime(latestRecordTime.format(DateTool.DATE_TIME_IGNORE_SEC));
@@ -61,6 +63,7 @@ public class CategoryAnalysisService {
               .publishedVideos(latest.getPublishedVideos())
               .newVideosLastHalfHour(lastHalfHourPublished)
               .newVideosLastHour(lastHourPublished)
+              .recordTime(latestRecordTime)
               .build()
       );
     }
