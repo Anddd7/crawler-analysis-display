@@ -1,23 +1,22 @@
-tasks.withType(JavaCompile) {
-    options.debug = true
-}
 
-// add plugin
 apply plugin: 'jacoco'
 
-// Must be after sourceSets closure
-jacocoTestReport {
-    dependsOn tasks.test
-
-    //noinspection GroovyAssignabilityCheck
-    sourceSets sourceSets.main
-    reports {
-        html.enabled = true
-        xml.enabled = true
-        csv.enabled = false
-    }
+jacoco {
+    toolVersion = '0.8.2'
 }
 
-// relate task with root task
-tasks.check.dependsOn tasks.jacocoTestReport
-rootProject.tasks.jacocoTestReport.dependsOn tasks.test
+def excludes = [
+        '**/entity/**',
+        '**/properties/**',
+        '**/exception/**',
+        '**/configuration/**',
+        '**/*AppConfig'
+]
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: excludes)
+        })
+    }
+}

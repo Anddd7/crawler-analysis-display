@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${SpringBootVersion}")
         classpath "com.palantir.gradle.docker:gradle-docker:${GradleDockerVersion}"
+        classpath("com.palantir:jacoco-coverage:${JacocoCoverageVersion}")
     }
 }
 
@@ -24,16 +25,17 @@ allprojects {
             url = 'https://repo.spring.io/libs-milestone'
         }
     }
+
+    apply from: rootProject.file('plugin/idea-java-project.gradle')
+    apply from: rootProject.file('plugin/jacoco-task.gradle')
 }
+
+apply plugin: 'com.palantir.jacoco-full-report'
+apply plugin: 'com.palantir.jacoco-coverage'
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = "4.7"
-}
-
-task clean {
-    doLast {
-        file('./build').deleteDir()
-    }
 }
 
 // docker-compose shell
@@ -67,3 +69,4 @@ def dockerCompose(String composeFile, String... command) {
         args lineArgs.toArray(new String[0])
     }
 }
+
