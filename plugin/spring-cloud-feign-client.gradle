@@ -1,4 +1,4 @@
-apply from: rootProject.file('plugin/spring-cloud-project.gradle')
+apply from: rootProject.file('plugin/spring-cloud-client.gradle')
 
 // 依赖
 dependencies {
