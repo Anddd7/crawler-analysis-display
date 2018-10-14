@@ -1,5 +1,3 @@
-apply from: rootProject.file('plugin/idea-java-project.gradle')
-
 dependencies {
     compile project(":util-common")
     compileOnly "org.springframework.data:spring-data-mongodb:${MongoDBVersion}"

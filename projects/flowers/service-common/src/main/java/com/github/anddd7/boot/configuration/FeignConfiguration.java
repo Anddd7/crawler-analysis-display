@@ -1,8 +1,6 @@
 package com.github.anddd7.boot.configuration;
 
-import com.github.anddd7.boot.interceptor.FeignInterceptor;
 import feign.Logger.Level;
-import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.openfeign.FeignClientProperties;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
@@ -22,11 +20,5 @@ public class FeignConfiguration {
   @ConditionalOnMissingBean
   Level feignLoggerLevel() {
     return Level.FULL;
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  RequestInterceptor feignRequestInterceptor() {
-    return new FeignInterceptor();
   }
 }
