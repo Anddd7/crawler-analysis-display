@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${SpringBootVersion}")
-        classpath "com.palantir.gradle.docker:gradle-docker:${GradleDockerVersion}"
         classpath("com.palantir:jacoco-coverage:${JacocoCoverageVersion}")
     }
 }
@@ -51,40 +50,6 @@ allprojects {
 apply plugin: 'com.palantir.jacoco-full-report'
 apply plugin: 'com.palantir.jacoco-coverage'
 
-
 task wrapper(type: Wrapper) {
     gradleVersion = "4.7"
 }
-
-// docker-compose shell
-String composeFile = rootProject.projectDir.getPath() + "/projects/docker-compose.yml"
-task removeComposeContainer() {
-    doFirst {
-        dockerCompose(composeFile, 'kill')
-        dockerCompose(composeFile, 'rm', '-f')
-    }
-}
-
-task buildComposeImages() {
-    doFirst {
-        dockerCompose(composeFile, 'build')
-    }
-}
-
-task runDockerCompose() {
-    doLast {
-        dockerCompose(composeFile, 'up', '-d')
-    }
-}
-
-def dockerCompose(String composeFile, String... command) {
-    List<String> lineArgs = new ArrayList<>()
-    lineArgs.add('-f')
-    lineArgs.add(composeFile)
-    Collections.addAll(lineArgs, command)
-    exec {
-        executable "docker-compose"
-        args lineArgs.toArray(new String[0])
-    }
-}
-
