@@ -26,8 +26,26 @@ allprojects {
         }
     }
 
-    apply from: rootProject.file('plugin/idea-java-project.gradle')
-    apply from: rootProject.file('plugin/jacoco-task.gradle')
+    apply plugin: 'idea'
+    apply plugin: 'java'
+
+    idea {
+        module {
+            inheritOutputDirs = false
+            outputDir = compileJava.destinationDir
+            testOutputDir = compileTestJava.destinationDir
+        }
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencies {
+        compile("org.projectlombok:lombok:${LombokVersion}")
+        testCompile("junit:junit:${JunitVersion}")
+    }
+
+    apply from: rootProject.file('plugin/code-static-check.gradle')
 }
 
 apply plugin: 'com.palantir.jacoco-full-report'
