@@ -1,5 +1,15 @@
 ## 数据 - 抓取 分析 展示 平台
 
+### 20181014
+- clear up
+- for [hacktoberfest](https://hacktoberfest.digitalocean.com/)
+
+Plan:
+- Add `sleuth+zipkin` to track linked services
+- Add `ELK (in docker)` to collection logs
+- Refactor `logging & utils`
+
+
 ### 20180813
 - 降序排序
 - 前后端测试

@@ -1,7 +1,5 @@
 package com.github.anddd7.boot.factory;
 
-import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_CORRELATION_ID;
-import static com.github.anddd7.boot.scope.CorrelationContext.HEADER_CORRELATION_ID_DESCRIPTION;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Arrays.asList;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
@@ -11,17 +9,13 @@ import io.swagger.annotations.Api;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.AlternateTypeRule;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -42,7 +36,7 @@ public class SwaggerDocketFactory {
         .ignoredParameterTypes(addPrincipalToIgnoredParameters(ignoreParameters))
         .directModelSubstitute(Collection.class, List.class)
         .alternateTypeRules(createAlternateTypeRule(typeResolver))
-        .globalOperationParameters(buildGlobalParams())
+//        .globalOperationParameters(buildGlobalParams())
         .protocols(newHashSet(protocol));
   }
 
@@ -58,15 +52,5 @@ public class SwaggerDocketFactory {
     ignoreParametersList.add(Principal.class);
     ignoreParametersList.addAll(asList(ignoreParameters));
     return ignoreParametersList.toArray(new Class[0]);
-  }
-
-  private static List<Parameter> buildGlobalParams() {
-    return Collections.singletonList(new ParameterBuilder()
-        .name(HEADER_CORRELATION_ID)
-        .description(HEADER_CORRELATION_ID_DESCRIPTION)
-        .modelRef(new ModelRef("string"))
-        .parameterType("header")
-        .required(false)
-        .build());
   }
 }
